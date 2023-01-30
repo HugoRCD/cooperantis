@@ -1,0 +1,59 @@
+generator client {
+  provider      = "prisma-client-js"
+  binaryTargets = ["native", "darwin-arm64"]
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model EmailVerification {
+  id        Int      @id @default(autoincrement())
+  token     String   @unique
+  userId    Int
+  createdAt DateTime @default(now())
+  User      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+}
+
+model ResetPassword {
+  id        Int      @id @default(autoincrement())
+  token     String   @unique
+  userId    Int
+  createdAt DateTime @default(now())
+  User      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+}
+
+model Subscription {
+  id            Int     @id @default(autoincrement())
+  userId        Int
+  stripeId      String  @unique
+  stripeStatus  String?
+  stripePriceId String?
+  trialEndsAt   Int?
+  endsAt        Int?
+  startDate     Int
+  lastEventDate Int
+  User          User    @relation(fields: [userId], references: [id], onDelete: Cascade)
+}
+
+model User {
+  id                Int                 @id @default(autoincrement())
+  loginType         String?             @default("email")
+  username          String              @unique
+  email             String              @unique
+  firstname         String
+  lastname          String
+  password          String
+  stripeCustomerId  String?
+  createdAt         DateTime            @default(now())
+  profilePicture    String?
+  updatedAt         DateTime?           @updatedAt
+  role              Int?                @default(1)
+  isVerified        Boolean             @default(false)
+  refreshToken      String?             @unique
+  authToken         String?             @unique
+  EmailVerification EmailVerification[]
+  ResetPassword     ResetPassword[]
+  Subscription      Subscription[]
+}
