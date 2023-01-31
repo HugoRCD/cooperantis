@@ -5,7 +5,10 @@ import { isString } from "@vueuse/core";
 import { H3Event } from "h3";
 import { Role } from "~/types/Role";
 import jwt from "jsonwebtoken";
-import { createStripeCustomer, deleteStripeCustomer } from "~/server/app/stripeService";
+import {
+  createStripeCustomer,
+  deleteStripeCustomer,
+} from "~/server/app/stripeService";
 
 export interface createUserInput {
   username: string;
@@ -34,7 +37,7 @@ export async function createUser(userData: createUserInput) {
     data: {
       ...userData,
       password,
-      stripeCustomerId: customerId.stripeCustomerId
+      stripeCustomerId: customerId.stripeCustomerId,
     },
     select: {
       id: true,
@@ -44,14 +47,14 @@ export async function createUser(userData: createUserInput) {
       email: true,
       role: true,
       authToken: true,
-    }
+    },
   });
 }
 
 export async function getUserById(userId: number) {
   return await prisma.user.findUnique({
     where: {
-      id: userId
+      id: userId,
     },
     select: {
       id: true,
@@ -60,16 +63,16 @@ export async function getUserById(userId: number) {
       lastname: true,
       email: true,
       role: true,
-      authToken: true
-    }
+      authToken: true,
+    },
   });
 }
 
 export async function getUserByLogin(login: string) {
   return await prisma.user.findFirst({
     where: {
-      OR: [{ email: login }, { username: login }]
-    }
+      OR: [{ email: login }, { username: login }],
+    },
   });
 }
 
@@ -83,15 +86,15 @@ export async function getAllUsers() {
       lastname: true,
       email: true,
       role: true,
-      authToken: true
-    }
+      authToken: true,
+    },
   });
 }
 
 export async function getUserByAuthToken(authToken: string) {
   return await prisma.user.findFirst({
     where: {
-      authToken
+      authToken,
     },
     select: {
       id: true,
@@ -100,25 +103,29 @@ export async function getUserByAuthToken(authToken: string) {
       lastname: true,
       email: true,
       role: true,
-      authToken: true
-    }
+      authToken: true,
+    },
   });
 }
 
 export async function setAuthToken(userId: number) {
-  const user = await getUserById(userId) as User;
-  const authToken = jwt.sign({
-    id: user.id,
-    role: user.role,
-    username: user.username,
-    email: user.email
-  }, useRuntimeConfig().private.authSecret, { expiresIn: "7d" });
+  const user = (await getUserById(userId)) as User;
+  const authToken = jwt.sign(
+    {
+      id: user.id,
+      role: user.role,
+      username: user.username,
+      email: user.email,
+    },
+    useRuntimeConfig().private.authSecret,
+    { expiresIn: "7d" },
+  );
   return await prisma.user.update({
     where: {
-      id: userId
+      id: userId,
     },
     data: {
-      authToken
+      authToken,
     },
     select: {
       id: true,
@@ -127,8 +134,8 @@ export async function setAuthToken(userId: number) {
       lastname: true,
       email: true,
       role: true,
-      authToken: true
-    }
+      authToken: true,
+    },
   });
 }
 
@@ -142,11 +149,11 @@ export async function adminCheck(event: H3Event): Promise<boolean> {
 }
 
 export async function deleteUser(userId: number) {
-  const user = await getUserById(userId) as User;
+  const user = (await getUserById(userId)) as User;
   await deleteStripeCustomer(user.stripeCustomerId as string);
   return await prisma.user.delete({
     where: {
-      id: userId
+      id: userId,
     },
     select: {
       id: true,
@@ -156,15 +163,18 @@ export async function deleteUser(userId: number) {
       email: true,
       role: true,
       authToken: true,
-    }
+    },
   });
 }
 
-export async function updateUser(userId: number, updateUserInput: updateUserInput) {
+export async function updateUser(
+  userId: number,
+  updateUserInput: updateUserInput,
+) {
   return await prisma.user.update({
     where: { id: userId },
     data: {
-      ...updateUserInput
+      ...updateUserInput,
     },
     select: {
       id: true,
@@ -174,7 +184,7 @@ export async function updateUser(userId: number, updateUserInput: updateUserInpu
       email: true,
       role: true,
       authToken: true,
-    }
+    },
   });
 }
 
@@ -182,15 +192,15 @@ export async function updateStripeCustomerId(data: User): Promise<User> {
   return await prisma.user.update({
     where: { email: data.email },
     data: {
-      stripeCustomerId: data.stripeCustomerId
-    }
+      stripeCustomerId: data.stripeCustomerId,
+    },
   });
 }
 
 export async function getUserByStripeCustomerId(stripeCustomerId: string) {
   return await prisma.user.findFirst({
     where: {
-      stripeCustomerId: stripeCustomerId
+      stripeCustomerId: stripeCustomerId,
     },
     select: {
       id: true,
@@ -200,32 +210,34 @@ export async function getUserByStripeCustomerId(stripeCustomerId: string) {
       email: true,
       role: true,
       authToken: true,
-      stripeCustomerId: true
-    }
+      stripeCustomerId: true,
+    },
   });
 }
 
-export async function getCurrentSubscription(userId: number): Promise<Subscription | null> {
-  const user = await getUserById(userId) as User;
+export async function getCurrentSubscription(
+  userId: number,
+): Promise<Subscription | null> {
+  const user = (await getUserById(userId)) as User;
   return await prisma.subscription.findFirst({
     where: {
-      userId: user.id
-    }
+      userId: user.id,
+    },
   });
 }
 
 export async function getSubscriptionById(stripeId: string) {
   return await prisma.subscription.findFirst({
     where: {
-      stripeId: stripeId
-    }
+      stripeId: stripeId,
+    },
   });
 }
 
 export async function createOrUpdateSubscription(data: Subscription) {
   return await prisma.subscription.upsert({
     where: {
-      stripeId: data.stripeId
+      stripeId: data.stripeId,
     },
     create: {
       userId: data.userId,
@@ -235,7 +247,7 @@ export async function createOrUpdateSubscription(data: Subscription) {
       trialEndsAt: data.trialEndsAt,
       endsAt: data.endsAt,
       lastEventDate: data.lastEventDate,
-      startDate: data.startDate
+      startDate: data.startDate,
     },
     update: {
       stripeStatus: data.stripeStatus,
@@ -243,7 +255,7 @@ export async function createOrUpdateSubscription(data: Subscription) {
       trialEndsAt: data.trialEndsAt,
       endsAt: data.endsAt,
       lastEventDate: data.lastEventDate,
-      startDate: data.startDate
-    }
+      startDate: data.startDate,
+    },
   });
 }

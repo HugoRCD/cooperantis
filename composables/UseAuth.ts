@@ -18,7 +18,10 @@ export async function useUser(): Promise<User | null> {
   return user.value;
 }
 
-export async function useLogin(login: string, password: string): Promise<User|null> {
+export async function useLogin(
+  login: string,
+  password: string,
+): Promise<User | null> {
   const config = useRuntimeConfig();
   const response = await $fetch<User>(`${config.public.apiUrl}auth/login`, {
     method: "POST",
@@ -29,18 +32,18 @@ export async function useLogin(login: string, password: string): Promise<User|nu
     credentials: "include",
   });
   if (!response) return null;
-  useState<User|null>("user").value = response;
+  useState<User | null>("user").value = response;
   useRouter().push("/app/profile");
   return response;
 }
 
 export async function useLogout() {
-  const user = useState<User|null>("user");
+  const user = useState<User | null>("user");
   if (!user.value) {
     useRouter().push("/");
     return;
   }
   await useAPI("auth/logout", "POST");
-  useState<User|null>("user").value = null;
+  useState<User | null>("user").value = null;
   useRouter().push("/");
 }

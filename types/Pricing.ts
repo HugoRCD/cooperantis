@@ -5,7 +5,7 @@ export type Plan = {
   priceId: string;
   description: string;
   features: string[];
-}
+};
 
 export enum AvailablePlans {
   PRO = "price_1MVgP9Ck9AfBe7l2bMuF95xP",

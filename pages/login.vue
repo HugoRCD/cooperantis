@@ -10,14 +10,14 @@ const password = ref("");
 
 const loading = ref(false);
 
-async function signin () {
+async function signin() {
   loading.value = true;
   const { data } = await useFetch("/api/auth/login", {
     method: "POST",
     body: {
       login: login.value,
       password: password.value,
-    }
+    },
   });
   if (data.value) {
     useState("user").value = data.value;
@@ -72,9 +72,8 @@ async function signin () {
             <NuxtLink
               :to="{ name: 'ForgotPassword' }"
               class="font-medium text-accent hover:text-accent-hover"
-            >Forgot your password?
-            </NuxtLink
-            >
+              >Forgot your password?
+            </NuxtLink>
           </div>
         </div>
 

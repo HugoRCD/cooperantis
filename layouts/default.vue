@@ -1,10 +1,10 @@
 <script setup lang="ts"></script>
 
 <template>
-  <div>
+  <div class="h-full">
     <CommandConsole />
     <Navbar />
-    <slot />
+    <slot class="h-full" />
   </div>
 </template>
 

@@ -1,13 +1,19 @@
 import Stripe from "stripe";
 import { Subscription, User } from "@prisma/client";
-import { createOrUpdateSubscription, getSubscriptionById, getUserByStripeCustomerId } from "~/server/app/userService";
+import {
+  createOrUpdateSubscription,
+  getSubscriptionById,
+  getUserByStripeCustomerId,
+} from "~/server/app/userService";
 
 const config = useRuntimeConfig();
 const stripe = new Stripe(config.private.stripeSecretKey, {
   apiVersion: "2022-11-15",
 });
 
-export async function createStripeCustomer(email: string): Promise<{ stripeCustomerId: string }> {
+export async function createStripeCustomer(
+  email: string,
+): Promise<{ stripeCustomerId: string }> {
   const customer = await stripe.customers.create({
     email,
   });
@@ -21,16 +27,13 @@ export async function deleteStripeCustomer(stripeCustomerId: string) {
 }
 
 export async function getSubscribeUrl(priceId: string, user: User) {
-
   const customerEmail = user.email;
 
-  const price = await stripe.prices.retrieve(
-    priceId
-  );
+  const price = await stripe.prices.retrieve(priceId);
 
   let shouldUpdateUser = false;
 
-  if(!user.stripeCustomerId) {
+  if (!user.stripeCustomerId) {
     shouldUpdateUser = true;
     const customer = await stripe.customers.create({ email: customerEmail });
     user.stripeCustomerId = customer.id;
@@ -47,23 +50,27 @@ export async function getSubscribeUrl(priceId: string, user: User) {
     mode: "subscription",
     success_url: `${config.public.appDomain}/app/profile?session_id={CHECKOUT_SESSION_ID}`,
     cancel_url: `${config.public.appDomain}`,
-    customer: user.stripeCustomerId
+    customer: user.stripeCustomerId,
   });
 
-  return {url: session.url as string, user, shouldUpdateUser};
+  return { url: session.url as string, user, shouldUpdateUser };
 }
 
-export async function handleSubscriptionChange(subscription: Stripe.Subscription, lastEventDate: number): Promise<boolean> {
+export async function handleSubscriptionChange(
+  subscription: Stripe.Subscription,
+  lastEventDate: number,
+): Promise<boolean> {
+  const localSubscription = (await getSubscriptionById(
+    subscription.id,
+  )) as Subscription;
 
-  const localSubscription = await getSubscriptionById(subscription.id) as Subscription;
-
-  if(localSubscription?.lastEventDate > lastEventDate){
+  if (localSubscription?.lastEventDate > lastEventDate) {
     return true;
   }
 
   const stripeCustomerId = subscription.customer as string;
 
-  const user = await getUserByStripeCustomerId(stripeCustomerId) as User;
+  const user = (await getUserByStripeCustomerId(stripeCustomerId)) as User;
 
   const data = {
     userId: user.id,
@@ -75,7 +82,7 @@ export async function handleSubscriptionChange(subscription: Stripe.Subscription
     trialEndsAt: subscription.trial_end,
     endsAt: subscription.ended_at,
     startDate: subscription.start_date,
-    lastEventDate: lastEventDate
+    lastEventDate: lastEventDate,
   } as unknown as Subscription;
 
   await createOrUpdateSubscription(data);
