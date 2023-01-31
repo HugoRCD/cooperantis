@@ -24,11 +24,14 @@ const user = useState("user");
             <i class="fas fa-times" v-else></i>
           </DisclosureButton>
         </div>
+        <div class="flex flex-shrink-0 items-center">
+          <Logo :isText="true" :isLogo="true" class="hidden sm:flex" />
+        </div>
         <div
-          class="flex flex-1 items-center justify-center sm:items-stretch sm:justify-start"
+          class="flex flex-1 items-center justify-center sm:items-stretch sm:justify-center"
         >
           <div class="flex flex-shrink-0 items-center">
-            <Logo :isText="true" :isLogo="false" />
+            <Logo :isText="true" :isLogo="true" class="sm:hidden" />
           </div>
           <div class="hidden sm:ml-6 sm:block">
             <div class="flex space-x-4">
@@ -53,7 +56,7 @@ const user = useState("user");
         <div
           class="absolute gap-5 inset-y-0 right-0 flex items-center pr-2 sm:static sm:inset-auto sm:ml-6 sm:pr-0"
         >
-          <Tools class="hidden md:flex" />
+          <LanguageSelector class="hidden md:flex" />
           <div
             class="hidden tablet:block h-6 w-px bg-accent-faded border-l border-gray-200 border-opacity-25"
           ></div>
@@ -94,7 +97,7 @@ const user = useState("user");
           {{ $t("navigation." + item.name.toLowerCase()) }}
         </NuxtLink>
       </div>
-      <Tools class="my-4" />
+      <LanguageSelector class="my-4" />
       <client-only>
         <div
           class="py-5 border-t border-gray-800 items-center text-center"

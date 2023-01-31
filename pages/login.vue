@@ -30,7 +30,7 @@ async function signin () {
 <template>
   <div class="flex min-h-full flex-col justify-center py-12 px-6 lg:px-8">
     <div class="sm:mx-auto sm:w-full sm:max-w-md">
-      <Logo :isText="true" :isLogo="false" class="flex justify-center" />
+      <Logo :isText="true" :isLogo="true" class="flex justify-center" />
       <h2
         class="mt-6 text-center text-3xl font-bold tracking-tight text-primary"
       >
