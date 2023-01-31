@@ -19,6 +19,10 @@
     "app-settings": "Paramètres de l'application"
   },
   "pages": {
+    "home": {
+      "hero": "Cooperantis arrive bientôt!",
+      "description": "Nous sommes en train de travailler dur pour vous apporter la meilleure expérience possible."
+    },
     "profile": {
       "title": "Profil",
       "username": "Nom d'utilisateur",
