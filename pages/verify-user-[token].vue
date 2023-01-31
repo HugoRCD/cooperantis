@@ -19,7 +19,7 @@ const sendVerificationEmail = async () => {};
           <router-link to="/">
             <img
               class="h-12 w-auto mx-auto"
-              src="../assets/media/logo.svg"
+              src="../assets/media/logo-cooperantis.svg"
               alt="Your Company"
             />
           </router-link>
