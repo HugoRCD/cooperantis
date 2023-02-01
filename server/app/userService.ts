@@ -259,3 +259,14 @@ export async function createOrUpdateSubscription(data: Subscription) {
     },
   });
 }
+
+export async function generateToken(userId: number) {
+  const token = Math.random().toString(36);
+  await prisma.resetPassword.create({
+    data: {
+      token,
+      userId
+    }
+  });
+  return token;
+}
