@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { Disclosure, DisclosureButton, DisclosurePanel } from "@headlessui/vue";
 
-const navigation = [{ name: "Home" }, { name: "Pricing" }, { name: "Contact" }];
+const navigation = getNavigation("home");
 
 const user = useState("user");
 </script>
@@ -46,7 +46,6 @@ const user = useState("user");
                     : 'text-primary hover:text-muted',
                   'px-4 py-1 rounded-md text-sm font-medium',
                 ]"
-                :aria-current="item.current ? 'page' : undefined"
               >
                 {{ $t("navigation." + item.name.toLowerCase()) }}
               </NuxtLink>
@@ -92,7 +91,6 @@ const user = useState("user");
               : 'text-gray-300 hover:bg-gray-800 hover:text-white',
             'block px-4 py-1 rounded-md text-primary font-medium',
           ]"
-          :aria-current="item.current ? 'page' : undefined"
         >
           {{ $t("navigation." + item.name.toLowerCase()) }}
         </NuxtLink>

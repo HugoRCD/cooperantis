@@ -30,7 +30,7 @@ watch(locale, (newLang) => {
       :key="key"
       :value="locale.iso"
     >
-      {{ locale.flag }} {{ locale.name }}
+      {{ locale.flag }}
     </option>
   </select>
 </template>
