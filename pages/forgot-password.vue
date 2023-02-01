@@ -8,9 +8,9 @@ definePageMeta({
 const email = ref("");
 
 const loading = ref(false);
-const sendResetPasswordEmail = async () => {
+async function sendResetPasswordEmail() {
   loading.value = true;
-  await useFetch("/api/auth/forgot", {
+  await useFetch("/api/auth/forgot-password", {
     method: "POST",
     body: {
       email: email.value,
