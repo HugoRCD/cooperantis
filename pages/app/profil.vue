@@ -23,10 +23,10 @@ const updateProfile = async () => {
         (await useFetch) <
         User >
         ("/api/user/" + user.id,
-        {
-          method: "PUT",
-          body: user,
-        });
+          {
+            method: "PUT",
+            body: user,
+          });
       useState("user").value = updatedUser.value;
       refresh();
     }
@@ -45,11 +45,6 @@ const deleteAccount = async () => {
   }
 };
 
-const tabs = [
-  { name: "Profile", href: "#", current: true },
-  { name: "Calendar", href: "#", current: false },
-  { name: "Recognition", href: "#", current: false },
-];
 const profile = {
   name: user?.firstname + " " + user?.lastname || "John Doe",
   imageUrl: user?.profilePicture || default_avatar,
@@ -134,29 +129,7 @@ const profile = {
             </div>
           </div>
         </div>
-
-        <div class="mt-6 sm:mt-2 2xl:mt-5">
-          <div class="border-b border-muted">
-            <div class="mx-auto max-w-5xl px-4 sm:px-6 lg:px-8">
-              <nav class="-mb-px flex space-x-8" aria-label="Tabs">
-                <a
-                  v-for="tab in tabs"
-                  :key="tab.name"
-                  :href="tab.href"
-                  :class="[
-                    tab.current
-                      ? 'border-accent text-primary'
-                      : 'border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300',
-                    'whitespace-nowrap py-4 px-1 border-b-2 font-medium text-sm',
-                  ]"
-                  :aria-current="tab.current ? 'page' : undefined"
-                  >{{ tab.name }}</a
-                >
-              </nav>
-            </div>
-          </div>
-        </div>
-
+        <hr class="border-muted">
         <div class="mx-auto mt-6 max-w-5xl px-4 sm:px-6 lg:px-8">
           <dl class="grid grid-cols-1 gap-x-4 gap-y-8 sm:grid-cols-2">
             <div

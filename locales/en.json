@@ -16,7 +16,8 @@
     "settings": "Settings",
     "admin": "Admin",
     "dashboard": "Dashboard",
-    "app-settings": "App Settings"
+    "app-settings": "App Settings",
+    "feed": "Feed"
   },
   "pages": {
     "home": {

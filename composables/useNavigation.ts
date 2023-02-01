@@ -1,6 +1,9 @@
-import { User } from "@prisma/client";
-import { Role } from "~/types/Role";
-import { CogIcon, HomeIcon } from "@heroicons/vue/24/outline";
+import {
+  CogIcon,
+  HomeIcon,
+  UserGroupIcon,
+  UserCircleIcon,
+} from "@heroicons/vue/24/outline";
 
 type Where = "home" | "app" | "admin" | "profil_nav";
 
@@ -23,21 +26,18 @@ const profil_nav: Navigation[] = [
 ];
 
 const app: Navigation[] = [
-  { name: "Profil", to: "/app/profil", icon: HomeIcon },
-  { name: "Profile", to: "/app/profile", icon: HomeIcon },
+  { name: "Feed", to: "/app/feed", icon: HomeIcon },
+  { name: "Profil", to: "/app/profil", icon: UserCircleIcon },
+  { name: "Profile", to: "/app/profile", icon: UserCircleIcon },
   { name: "Settings", to: "/app/settings", icon: CogIcon },
 ];
 
 const admin: Navigation[] = [
-  { name: "Dashboard", to: "/admin/dashboard", icon: HomeIcon },
-  { name: "App-Settings", to: "/admin/app-settings", icon: CogIcon },
+  { name: "Dashboard", to: "/app/admin/dashboard", icon: UserGroupIcon },
+  { name: "App-Settings", to: "/app/admin/app-settings", icon: CogIcon },
 ];
 
-export function getNavigation(where: Where) {
-  const user = useState<User | null>("user");
-  if (user.value?.role === Role.ADMIN) {
-    profil_nav.push({ name: "Admin", to: "/admin", icon: HomeIcon });
-  }
+export function getNavigation(where: Where): Navigation[] {
   switch (where) {
   case "home":
     return home;

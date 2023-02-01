@@ -16,7 +16,8 @@
     "settings": "Paramètres",
     "admin": "Admin",
     "dashboard": "Tableau de bord",
-    "app-settings": "Paramètres de l'application"
+    "app-settings": "Paramètres de l'application",
+    "feed": "Fil d'actualité"
   },
   "pages": {
     "home": {

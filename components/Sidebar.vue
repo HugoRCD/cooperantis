@@ -5,9 +5,11 @@ import {
   TransitionChild,
   TransitionRoot,
 } from "@headlessui/vue";
-import { CogIcon, SquaresPlusIcon, XMarkIcon } from "@heroicons/vue/24/outline";
+import { ArrowLeftOnRectangleIcon, XMarkIcon } from "@heroicons/vue/24/outline";
+import { User } from "@prisma/client";
+import { Role } from "~/types/Role";
 
-const user = await useUser();
+const user = useState<User | null>("user");
 
 const default_avatar =
   "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80";
@@ -15,10 +17,15 @@ const default_avatar =
 const sidebarOpen = ref(false);
 
 const navigation = getNavigation("app");
-const secondaryNavigation = [
-  { name: "Apps", to: "#", icon: SquaresPlusIcon },
-  { name: "Settings", to: "#", icon: CogIcon },
-];
+const adminNav = getNavigation("admin");
+
+const logout = async () => {
+  await useFetch("/api/auth/logout", {
+    method: "POST",
+  });
+  useState("user").value = null;
+  useRouter().push("/");
+};
 </script>
 
 <template>
@@ -76,7 +83,7 @@ const secondaryNavigation = [
               </TransitionChild>
               <div class="h-0 flex-1 overflow-y-auto pt-5 pb-4">
                 <div class="flex flex-shrink-0 items-center px-4">
-                  <Logo :isText="false" />
+                  <Logo :isText="true" />
                 </div>
                 <nav aria-label="Sidebar" class="mt-5">
                   <div class="space-y-1 px-2">
@@ -108,20 +115,46 @@ const secondaryNavigation = [
                     </NuxtLink>
                   </div>
                   <hr class="my-5 border-t border-muted" aria-hidden="true" />
-                  <div class="space-y-1 px-2">
+                  <div class="space-y-1 px-2" v-if="user && user.role === Role.ADMIN">
                     <NuxtLink
-                      v-for="item in secondaryNavigation"
+                      v-for="item in navigation"
                       :key="item.name"
                       :to="item.to"
-                      class="group flex items-center rounded-md px-2 py-2 text-base font-medium text-gray-600 hover:bg-gray-50 hover:text-primary"
+                      :class="[
+                    item.name === $route.name
+                      ? 'bg-accent-faded text-accent'
+                      : 'text-gray-600 hover:bg-accent-faded hover:text-accent',
+                    'group flex items-center px-2 py-2 text-sm font-medium rounded-md',
+                  ]"
+                      :aria-current="item.name === $route.name ? 'page' : undefined"
                     >
                       <component
                         :is="item.icon"
-                        class="mr-4 h-6 w-6 flex-shrink-0 text-gray-400 group-hover:text-gray-500"
+                        :class="[
+                      item.name === $route.name
+                        ? 'text-accent'
+                        : 'text-muted group-hover:text-accent',
+                      'mr-3 flex-shrink-0 h-6 w-6',
+                    ]"
                         aria-hidden="true"
                       />
                       {{ item.name }}
                     </NuxtLink>
+                  </div>
+                  <hr class="my-5 border-t border-muted" aria-hidden="true" />
+                  <div class="space-y-1 px-2">
+                    <button
+                      type="button"
+                      class="bg-accent group flex items-center rounded-md px-2 py-2 text-base font-medium text-gray-600 hover:bg-gray-50 hover:text-primary"
+                      @click="logout"
+                    >
+                      <component
+                        :is="ArrowLeftOnRectangleIcon"
+                        class="mr-3 h-6 w-6 flex-shrink-0 text-muted group-hover:text-accent-hover"
+                        aria-hidden="true"
+                      />
+                      Logout
+                    </button>
                   </div>
                 </nav>
               </div>
@@ -167,7 +200,7 @@ const secondaryNavigation = [
         >
           <div class="flex flex-1 flex-col overflow-y-auto pt-5 pb-4">
             <div class="flex flex-shrink-0 items-center px-4">
-              <Logo :isText="false" :isLogo="true" />
+              <Logo :isText="true" :isLogo="true" />
             </div>
             <nav class="mt-5 flex-1" aria-label="Sidebar">
               <div class="space-y-1 px-2">
@@ -197,20 +230,43 @@ const secondaryNavigation = [
                 </NuxtLink>
               </div>
               <hr class="my-5 border-t border-muted" aria-hidden="true" />
-              <div class="flex-1 space-y-1 px-2">
+              <div class="flex-1 space-y-1 px-2" v-if="user && user.role === Role.ADMIN">
                 <NuxtLink
-                  v-for="item in secondaryNavigation"
+                  v-for="item in adminNav"
                   :key="item.name"
                   :to="item.to"
-                  class="group flex items-center rounded-md px-2 py-2 text-sm font-medium text-muted hover:bg-accent-faded hover:text-accent"
+                  :class="[
+                    item.name === $route.name
+                      ? 'bg-accent-faded text-accent'
+                      : 'text-gray-600 hover:bg-accent-faded hover:text-accent',
+                    'group flex items-center px-2 py-2 text-sm font-medium rounded-md',
+                  ]"
+                  :aria-current="item.name === $route.name ? 'page' : undefined"
                 >
                   <component
                     :is="item.icon"
-                    class="mr-3 h-6 w-6 flex-shrink-0 text-muted group-hover:text-accent-hover"
+                    :class="[
+                      item.name === $route.name
+                        ? 'text-accent'
+                        : 'text-muted group-hover:text-accent',
+                      'mr-3 flex-shrink-0 h-6 w-6',
+                    ]"
                     aria-hidden="true"
                   />
                   {{ item.name }}
                 </NuxtLink>
+              </div>
+              <hr class="my-5 border-t border-muted" aria-hidden="true" />
+              <div class="space-y-1 px-2">
+                <button
+                  type="button"
+                  class="group flex items-center rounded-md px-2 py-2 text-sm font-medium text-muted hover:bg-accent-faded hover:text-accent"
+                  @click="logout"
+                >
+                  <ArrowLeftOnRectangleIcon
+                    class="mr-3 h-6 w-6 flex-shrink-0 text-muted group-hover:text-accent-hover" />
+                  Logout
+                </button>
               </div>
             </nav>
           </div>
