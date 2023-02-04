@@ -6,7 +6,7 @@ definePageMeta({
 </script>
 
 <template>
-  <div>
-    Feed
+  <div class="lg:px-20 lg:py-10 px-4 py-4">
+    <Post />
   </div>
 </template>
