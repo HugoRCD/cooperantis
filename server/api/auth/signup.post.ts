@@ -7,6 +7,7 @@ export default eventHandler(async (event: H3Event) => {
     username: body.username,
     password: body.password,
     email: body.email,
+    phone: body.phone,
     firstname: body.firstname,
     lastname: body.lastname,
   };

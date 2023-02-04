@@ -16,6 +16,7 @@ export interface createUserInput {
   lastname: string;
   password: string;
   email: string;
+  phone: string;
   profilePic?: string;
   role?: number;
 }
@@ -26,6 +27,7 @@ export interface updateUserInput {
   lastname?: string;
   password?: string;
   email?: string;
+  phone?: string;
   profilePic?: string;
   role?: number;
 }
@@ -62,6 +64,7 @@ export async function getUserById(userId: number) {
       firstname: true,
       lastname: true,
       email: true,
+      phone: true,
       role: true,
       authToken: true,
     },
@@ -71,7 +74,7 @@ export async function getUserById(userId: number) {
 export async function getUserByLogin(login: string) {
   return await prisma.user.findFirst({
     where: {
-      OR: [{ email: login }, { username: login }],
+      OR: [{ email: login }, { username: login }, { phone: login }],
     },
   });
 }
@@ -85,8 +88,8 @@ export async function getAllUsers() {
       firstname: true,
       lastname: true,
       email: true,
+      phone: true,
       role: true,
-      authToken: true,
     },
   });
 }
@@ -102,6 +105,7 @@ export async function getUserByAuthToken(authToken: string) {
       firstname: true,
       lastname: true,
       email: true,
+      phone: true,
       role: true,
       authToken: true,
     },
@@ -133,6 +137,7 @@ export async function setAuthToken(userId: number) {
       firstname: true,
       lastname: true,
       email: true,
+      phone: true,
       role: true,
       authToken: true,
     },

@@ -42,6 +42,7 @@ model User {
   loginType         String?             @default("email")
   username          String              @unique
   email             String              @unique
+  phone             String              @unique
   firstname         String
   lastname          String
   password          String

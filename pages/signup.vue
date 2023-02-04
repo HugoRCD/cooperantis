@@ -8,6 +8,7 @@ const username = ref("");
 const firstname = ref("");
 const lastname = ref("");
 const email = ref("");
+const phone = ref("");
 const password = ref("");
 const passwordConfirm = ref("");
 
@@ -21,6 +22,7 @@ const signup = async () => {
       firstname: firstname.value,
       lastname: lastname.value,
       email: email.value,
+      phone: phone.value,
       password: password.value,
     },
   });
@@ -80,6 +82,16 @@ const signup = async () => {
           placeholder="Email"
           class="input"
           v-model="email"
+        />
+        <input
+          id="phone"
+          name="phone"
+          type="tel"
+          autocomplete="tel"
+          required
+          placeholder="Phone"
+          class="input"
+          v-model="phone"
         />
         <input
           id="password"
