@@ -52,7 +52,6 @@ const deleteAccount = async () => {
 
 <template>
   <form class="space-y-6 p-4" @submit.prevent="updateProfile">
-    {{ user }}
     <div class="bg-secondary px-4 py-5 shadow sm:rounded-lg sm:p-6">
       <div class="md:grid md:grid-cols-3 md:gap-6">
         <div class="md:col-span-1">
