@@ -14,7 +14,6 @@ export async function useUser(): Promise<User | null> {
       headers: cookieHeaders as HeadersInit,
     });
     if (!data.value) {
-      useRouter().push("/");
       return null;
     }
     useUserStore().setUser(data.value);
