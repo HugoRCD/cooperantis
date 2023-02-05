@@ -9,7 +9,8 @@ import {
   createStripeCustomer,
   deleteStripeCustomer,
 } from "~/server/app/stripeService";
-import { createUserInput } from "~/server/api/user/user.dto";
+import { createUserInput, updateUserInput } from "~/server/api/user/user.dto";
+import { Plans } from "~/types/Pricing";
 
 export async function createUser(userData: createUserInput) {
   const password = await bcrypt.hash(userData.password, 10);
@@ -24,6 +25,7 @@ export async function createUser(userData: createUserInput) {
   await prisma.subscription.create({
     data: {
       userId: user.id,
+      name: Plans.TRIAL.name,
       stripeId: stripeInfo.subscription.id,
       stripeStatus: stripeInfo.subscription.status,
       stripePriceId: stripeInfo.subscription.items.data[0].price.id,
@@ -55,16 +57,9 @@ export async function getUserByLogin(login: string) {
 
 export async function getAllUsers() {
   const users = await prisma.user.findMany({
-    select: {
+    include: {
       Subscription: true,
-      id: true,
-      username: true,
-      firstname: true,
-      lastname: true,
-      email: true,
-      phone: true,
-      role: true,
-    },
+    }
   });
   return users.map((user) => {
     return exclude(user, ["password", "authToken", "refreshToken"]);
@@ -76,8 +71,10 @@ export async function getUserByAuthToken(authToken: string) {
     where: {
       authToken,
     },
+    include: {
+      Subscription: true,
+    }
   });
-
   return exclude(user, ["password", "authToken", "refreshToken"]);
 }
 
@@ -93,24 +90,15 @@ export async function setAuthToken(userId: number) {
     useRuntimeConfig().private.authSecret,
     { expiresIn: "7d" },
   );
-  return await prisma.user.update({
+  const updatedUser = await prisma.user.update({
     where: {
       id: userId,
     },
     data: {
       authToken,
     },
-    select: {
-      id: true,
-      username: true,
-      firstname: true,
-      lastname: true,
-      email: true,
-      phone: true,
-      role: true,
-      authToken: true,
-    },
   });
+  return exclude(updatedUser, ["password", "refreshToken"]);
 }
 
 export async function adminCheck(event: H3Event): Promise<boolean> {
@@ -150,6 +138,9 @@ export async function updateUser(
     data: {
       ...updateUserInput,
     },
+    include: {
+      Subscription: true,
+    }
   });
   return exclude(user, ["password", "authToken", "refreshToken"]);
 }
@@ -192,12 +183,14 @@ export async function getSubscriptionById(stripeId: string) {
 }
 
 export async function createOrUpdateSubscription(data: Subscription) {
+  const subName = data.stripeId === Plans.TRIAL.priceId ? Plans.TRIAL.name : Plans.PRO.name;
   return await prisma.subscription.upsert({
     where: {
       stripeId: data.stripeId,
     },
     create: {
       userId: data.userId,
+      name: subName,
       stripeId: data.stripeId,
       stripeStatus: data.stripeStatus,
       stripePriceId: data.stripePriceId,
@@ -207,6 +200,7 @@ export async function createOrUpdateSubscription(data: Subscription) {
       startDate: data.startDate,
     },
     update: {
+      name: subName,
       stripeStatus: data.stripeStatus,
       stripePriceId: data.stripePriceId,
       trialEndsAt: data.trialEndsAt,
