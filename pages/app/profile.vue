@@ -14,7 +14,7 @@ const coverImageUrl =
 
 const bio = "Not much to say here, just a test user.";
 
-const profileUrl = useRuntimeConfig().public.appDomain + "/app/profile-" + user.id;
+const profileUrl = useRuntimeConfig().public.appDomain + "/profile-" + user.id;
 
 </script>
 
