@@ -216,27 +216,29 @@ const deleteAccount = async () => {
           </div>
         </div>
         <div class="mt-5 flex gap-4">
-          <form action="/api/stripe/subscribe" method="post">
-            <input type="hidden" name="userId" :value="user.id" />
-            <button
-              name="priceId"
-              :value="Plans.PRO.priceId"
-              type="submit"
-              class="rounded-md bg-white py-2 px-4 text-sm font-medium text-gray-700 shadow-sm hover:bg-gray-50"
-            >
-              S'abonner
-            </button>
-          </form>
-          <form action="/api/stripe/createPortalSession" method="post">
-            <button
-              type="submit"
-              name="stripeCustomerId"
-              :value="user.stripeCustomerId"
-              class="rounded-md bg-white py-2 px-4 text-sm font-medium text-gray-700 shadow-sm hover:bg-gray-50"
-            >
-              Manage Subscription
-            </button>
-          </form>
+          <client-only>
+            <form action="/api/stripe/subscribe" method="post">
+              <input type="hidden" name="userId" :value="user.id" />
+              <button
+                name="priceId"
+                :value="Plans.PRO.priceId"
+                type="submit"
+                class="rounded-md bg-white py-2 px-4 text-sm font-medium text-gray-700 shadow-sm hover:bg-gray-50"
+              >
+                S'abonner
+              </button>
+            </form>
+            <form action="/api/stripe/createPortalSession" method="post">
+              <button
+                type="submit"
+                name="stripeCustomerId"
+                :value="user.stripeCustomerId"
+                class="rounded-md bg-white py-2 px-4 text-sm font-medium text-gray-700 shadow-sm hover:bg-gray-50"
+              >
+                Manage Subscription
+              </button>
+            </form>
+          </client-only>
         </div>
       </div>
     </div>
