@@ -1,5 +1,5 @@
 import { Subscription, User } from "@prisma/client";
-import prisma from "~/server/database/client";
+import prisma, { exclude } from "~/server/database/client";
 import bcrypt from "bcrypt";
 import { isString } from "@vueuse/core";
 import { H3Event } from "h3";
@@ -19,6 +19,11 @@ export interface createUserInput {
   phone: string;
   profilePic?: string;
   role?: number;
+  address: string;
+  city: string;
+  country: string;
+  postalCode: string;
+  profession: string;
 }
 
 export interface updateUserInput {
@@ -30,27 +35,39 @@ export interface updateUserInput {
   phone?: string;
   profilePic?: string;
   role?: number;
+  address?: string;
+  city?: string;
+  country?: string;
+  postalCode?: string;
+  profession?: string;
+  website?: string;
+  bio?: string;
+  company?: string;
 }
 
 export async function createUser(userData: createUserInput) {
   const password = await bcrypt.hash(userData.password, 10);
-  const customerId = await createStripeCustomer(userData.email);
-  return await prisma.user.create({
+  const stripeInfo = await createStripeCustomer(userData);
+  const user = await prisma.user.create({
     data: {
       ...userData,
       password,
-      stripeCustomerId: customerId.stripeCustomerId,
-    },
-    select: {
-      id: true,
-      username: true,
-      firstname: true,
-      lastname: true,
-      email: true,
-      role: true,
-      authToken: true,
+      stripeCustomerId: stripeInfo.stripeCustomerId,
     },
   });
+  await prisma.subscription.create({
+    data: {
+      userId: user.id,
+      stripeId: stripeInfo.subscription.id,
+      stripeStatus: stripeInfo.subscription.status,
+      stripePriceId: stripeInfo.subscription.items.data[0].price.id,
+      trialEndsAt: stripeInfo.subscription.trial_end,
+      endsAt: stripeInfo.subscription.current_period_end,
+      lastEventDate: stripeInfo.subscription.current_period_start,
+      startDate: stripeInfo.subscription.current_period_start,
+    },
+  });
+  return exclude(user, ["password", "authToken", "refreshToken"]);
 }
 
 export async function getUserById(userId: number) {
@@ -176,21 +193,13 @@ export async function updateUser(
   userId: number,
   updateUserInput: updateUserInput,
 ) {
-  return await prisma.user.update({
+  const user = await prisma.user.update({
     where: { id: userId },
     data: {
       ...updateUserInput,
     },
-    select: {
-      id: true,
-      username: true,
-      firstname: true,
-      lastname: true,
-      email: true,
-      role: true,
-      authToken: true,
-    },
   });
+  return exclude(user, ["password", "authToken", "refreshToken"]);
 }
 
 export async function updateStripeCustomerId(data: User): Promise<User> {

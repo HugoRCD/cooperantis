@@ -41,10 +41,18 @@ model User {
   id                Int                 @id @default(autoincrement())
   loginType         String?             @default("email")
   username          String              @unique
+  bio               String?
   email             String              @unique
   phone             String              @unique
   firstname         String
   lastname          String
+  country           String
+  address           String
+  city              String
+  postalCode        String
+  website           String?
+  company           String?
+  profession        String
   password          String
   stripeCustomerId  String?
   createdAt         DateTime            @default(now())

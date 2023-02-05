@@ -12,8 +12,7 @@ const default_avatar =
 const coverImageUrl =
   "https://images.unsplash.com/photo-1444628838545-ac4016a5418a?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=1950&q=80";
 
-const bio =
-  "Tincidunt quam neque in cursus viverra orci, dapibus nec tristique. Nullam ut sit dolor consectetur urna, dui cras nec sed. Cursus risus congue arcu aenean posuere aliquam. Et vivamus lorem pulvinar nascetur non. Pulvinar a sed platea rhoncus ac mauris amet. Urna, sem pretium sit pretium urna, senectus vitae. Scelerisque fermentum, cursus felis dui suspendisse velit pharetra. Augue et duis cursus maecenas eget quam lectus. Accumsan vitae nascetur pharetra rhoncus praesent dictum risus suspendisse.";
+const bio = "Not much to say here, just a test user.";
 </script>
 
 <template>
@@ -44,6 +43,7 @@ const bio =
                   <h1 class="truncate text-2xl font-bold text-primary">
                     {{ user.firstname }} {{ user.lastname }}
                   </h1>
+                  <p class="mt-1 text-sm text-primary">{{ user.profession }}</p>
                 </div>
                 <div
                   class="justify-stretch mt-6 flex flex-col space-y-3 sm:flex-row sm:space-y-0 sm:space-x-4"
@@ -75,6 +75,7 @@ const bio =
               <h1 class="truncate text-2xl font-bold text-primary">
                 {{ user.firstname }} {{ user.lastname }}
               </h1>
+              <p class="mt-1 text-sm text-primary">{{ user.profession }}</p>
             </div>
           </div>
         </div>
@@ -82,10 +83,10 @@ const bio =
         <div class="mx-auto max-w-5xl px-4 sm:px-6 lg:px-8">
           <dl class="grid grid-cols-1 gap-x-4 gap-y-8 sm:grid-cols-2">
             <div class="sm:col-span-2">
-              <dt class="text-sm font-medium text-gray-500">About</dt>
+              <dt class="text-sm font-medium text-gray-500">Bio</dt>
               <dd
                 class="mt-1 max-w-prose space-y-5 text-sm text-primary"
-                v-html="bio"
+                v-html="user.bio || bio"
               />
             </div>
             <div>
@@ -97,8 +98,10 @@ const bio =
               <dd class="mt-1 text-sm text-primary">{{ user.phone }}</dd>
             </div>
             <div>
-              <dt class="text-sm font-medium text-gray-500">Location</dt>
-              <dd class="mt-1 text-sm text-primary">{{ user.location }}</dd>
+              <dt class="text-sm font-medium text-gray-500">Address</dt>
+              <dd class="mt-1 text-sm text-primary">{{ user.address }}</dd>
+              <dd class="mt-1 text-sm text-primary">{{ user.city }}</dd>
+              <dd class="mt-1 text-sm text-primary">{{ user.postalCode }} {{ user.country }}</dd>
             </div>
             <div>
               <dt class="text-sm font-medium text-gray-500">Website</dt>

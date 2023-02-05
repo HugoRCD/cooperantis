@@ -68,7 +68,8 @@ const deleteAccount = async () => {
           <div>
             <label for="about" class="block text-sm font-medium text-muted">Bio</label>
             <div class="mt-1">
-              <textarea id="about" name="about" rows="3" class="bg-primary p-3 block w-full rounded-md border-gray-300 shadow-sm sm:text-sm" placeholder="Hi there! I'm new here." v-model="user.bio"></textarea>
+              <textarea id="about" name="about" rows="3" class="bg-primary p-3 block w-full rounded-md border-gray-300 shadow-sm sm:text-sm"
+                        placeholder="Hi there! I'm new here." v-model="user.bio"></textarea>
             </div>
             <p class="mt-2 text-sm text-muted">Brief description for your profile. URLs are hyperlinked.</p>
           </div>
@@ -153,13 +154,8 @@ const deleteAccount = async () => {
             </div>
 
             <div class="col-span-6 sm:col-span-3 lg:col-span-2">
-              <label for="region" class="block text-sm font-medium text-muted">State / Province</label>
-              <Input :value="user.region" :label="'region'" />
-            </div>
-
-            <div class="col-span-6 sm:col-span-3 lg:col-span-2">
               <label for="postal-code" class="block text-sm font-medium text-muted">ZIP / Postal code</label>
-              <Input :value="user.postalcode" :label="'postalcode'" />
+              <Input :value="user.postalCode" :label="'postalcode'" />
             </div>
           </div>
           <div class="flex justify-end mt-5">

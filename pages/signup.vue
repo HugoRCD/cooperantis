@@ -12,6 +12,19 @@ const phone = ref("");
 const password = ref("");
 const passwordConfirm = ref("");
 
+const professions = ref([
+  "Dentist",
+  "Doctor",
+  "Pharmacist",
+  "Other"
+]);
+const profession = ref("");
+
+const address = ref("");
+const city = ref("");
+const country = ref("");
+const postalCode = ref("");
+
 const loading = ref(false);
 const signup = async () => {
   loading.value = true;
@@ -23,6 +36,11 @@ const signup = async () => {
       lastname: lastname.value,
       email: email.value,
       phone: phone.value,
+      profession: profession.value,
+      address: address.value,
+      city: city.value,
+      country: country.value,
+      postalCode: postalCode.value,
       password: password.value,
     },
   });
@@ -92,6 +110,57 @@ const signup = async () => {
           placeholder="Phone"
           class="input"
           v-model="phone"
+        />
+        <select
+          id="profession"
+          name="profession"
+          autocomplete="profession"
+          required
+          class="input"
+          v-model="profession"
+        >
+          <option value="" disabled selected>Profession</option>
+          <option v-for="profession in professions" :key="profession" :value="profession">
+            {{ profession }}
+          </option>
+        </select>
+        <input
+          id="address"
+          name="address"
+          autocomplete="address"
+          required
+          placeholder="Address"
+          class="input"
+          v-model="address"
+        />
+        <div class="flex flex-row gap-2">
+          <input
+            id="city"
+            name="city"
+            autocomplete="city"
+            required
+            placeholder="City"
+            class="input"
+            v-model="city"
+          />
+          <input
+            id="postal-code"
+            name="postal-code"
+            autocomplete="postal-code"
+            required
+            placeholder="Postal Code"
+            class="input"
+            v-model="postalCode"
+          />
+        </div>
+        <input
+          id="country"
+          name="country"
+          autocomplete="country"
+          required
+          placeholder="Country"
+          class="input"
+          v-model="country"
         />
         <input
           id="password"

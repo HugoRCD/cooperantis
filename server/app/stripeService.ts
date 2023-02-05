@@ -1,7 +1,7 @@
 import Stripe from "stripe";
 import { Subscription, User } from "@prisma/client";
 import {
-  createOrUpdateSubscription,
+  createOrUpdateSubscription, createUserInput,
   getSubscriptionById,
   getUserByStripeCustomerId,
 } from "~/server/app/userService";
@@ -11,15 +11,31 @@ const stripe = new Stripe(config.private.stripeSecretKey, {
   apiVersion: "2022-11-15",
 });
 
-export async function createStripeCustomer(
-  email: string,
-): Promise<{ stripeCustomerId: string }> {
+export async function createStripeCustomer(userData: createUserInput) {
   const customer = await stripe.customers.create({
-    email,
+    email: userData.email,
+    address: {
+      line1: userData.address,
+      postal_code: userData.postalCode,
+      city: userData.city,
+      country: userData.country,
+    },
+    name: `${userData.firstname} ${userData.lastname}`,
+    phone: userData.phone,
   });
+  const subscription = await setCustomerToTrial(customer.id);
   return {
     stripeCustomerId: customer.id,
+    subscription,
   };
+}
+
+async function setCustomerToTrial(stripeCustomerId: string) {
+  return await stripe.subscriptions.create({
+    customer: stripeCustomerId,
+    items: [{ price: "price_1MY5DVCk9AfBe7l2XxB83AfK" }],
+    trial_from_plan: true,
+  });
 }
 
 export async function deleteStripeCustomer(stripeCustomerId: string) {
