@@ -1,10 +1,12 @@
 import Stripe from "stripe";
 import { Subscription, User } from "@prisma/client";
 import {
-  createOrUpdateSubscription, createUserInput,
+  createOrUpdateSubscription,
   getSubscriptionById,
   getUserByStripeCustomerId,
 } from "~/server/app/userService";
+import { createUserInput } from "~/server/api/user/user.dto";
+import { Plans } from "~/types/Pricing";
 
 const config = useRuntimeConfig();
 const stripe = new Stripe(config.private.stripeSecretKey, {
@@ -33,7 +35,7 @@ export async function createStripeCustomer(userData: createUserInput) {
 async function setCustomerToTrial(stripeCustomerId: string) {
   return await stripe.subscriptions.create({
     customer: stripeCustomerId,
-    items: [{ price: "price_1MY5DVCk9AfBe7l2XxB83AfK" }],
+    items: [{ price: Plans.TRIAL.priceId }],
     trial_from_plan: true,
   });
 }

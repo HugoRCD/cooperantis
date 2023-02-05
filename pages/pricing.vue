@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { AvailablePlans, Plan } from "~/types/Pricing";
+import { Plan, Plans } from "~/types/Pricing";
 definePageMeta({
   name: "Pricing",
   title: "Pricing",
@@ -11,7 +11,7 @@ const plans: Plan[] = [
     id: "prod_NEMP9hBJdE3WNV",
     name: "Professional",
     price: 35,
-    priceId: AvailablePlans.PRO,
+    priceId: Plans.PRO.priceId,
     description:
       "Lorem ipsum dolor sit amet consect etur adipisicing elit. Itaque amet indis perferendis.",
     features: [
@@ -25,7 +25,7 @@ const plans: Plan[] = [
     id: "prod_NEMP9hBJdE3WNV",
     name: "Premium",
     price: 95,
-    priceId: AvailablePlans.PREMIUM,
+    priceId: Plans.PREMIUM.priceId,
     description:
       "Lorem ipsum dolor sit amet consect etur adipisicing elit. Itaque amet indis perferendis.",
     features: [

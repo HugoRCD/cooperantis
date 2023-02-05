@@ -1,4 +1,6 @@
 <script setup lang="ts">
+import { Professions } from "~/types/User";
+
 definePageMeta({
   name: "Signup",
   title: "Signup",
@@ -12,12 +14,6 @@ const phone = ref("");
 const password = ref("");
 const passwordConfirm = ref("");
 
-const professions = ref([
-  "Dentist",
-  "Doctor",
-  "Pharmacist",
-  "Other"
-]);
 const profession = ref("");
 
 const address = ref("");
@@ -120,7 +116,7 @@ const signup = async () => {
           v-model="profession"
         >
           <option value="" disabled selected>Profession</option>
-          <option v-for="profession in professions" :key="profession" :value="profession">
+          <option v-for="profession in Professions" :key="profession" :value="profession">
             {{ profession }}
           </option>
         </select>

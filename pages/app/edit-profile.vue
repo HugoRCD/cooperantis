@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { User } from "@prisma/client";
-import { AvailablePlans } from "~/types/Pricing";
+import { Professions } from "~/types/User";
 
 definePageMeta({
   name: "Edit Profile",
@@ -128,6 +128,33 @@ const deleteAccount = async () => {
             </div>
 
             <div class="col-span-6 sm:col-span-3">
+              <label for="profession" class="block text-sm font-medium text-muted">Profession</label>
+              <select
+                id="profession"
+                name="profession"
+                autocomplete="profession"
+                required
+                class="input"
+                v-model="user.profession"
+              >
+                <option value="" disabled selected>Profession</option>
+                <option v-for="profession in Professions" :key="profession" :value="profession">
+                  {{ profession }}
+                </option>
+              </select>
+            </div>
+
+            <div class="col-span-6 sm:col-span-3">
+              <label for="company" class="block text-sm font-medium text-muted">Company</label>
+              <Input :value="user.company" :label="'company'" />
+            </div>
+
+            <div class="col-span-6">
+              <label for="website" class="block text-sm font-medium text-muted">Website</label>
+              <Input :value="user.website" :label="'website'" />
+            </div>
+
+            <div class="col-span-6 sm:col-span-3">
               <label for="email-address" class="block text-sm font-medium text-muted">Email address</label>
               <Input :value="user.email" :label="'email'" @update:modelValue="user.email = $event" />
             </div>
@@ -135,11 +162,6 @@ const deleteAccount = async () => {
             <div class="col-span-6 sm:col-span-3">
               <label for="phone" class="block text-sm font-medium text-muted">Phone</label>
               <Input :value="user.phone" :label="'phone'" @update:modelValue="user.phone = $event" />
-            </div>
-
-            <div class="col-span-6 sm:col-span-3">
-              <label for="country" class="block text-sm font-medium text-muted">Country</label>
-              <Input :value="user.country" :label="'country'" />
             </div>
 
             <div class="col-span-6">
@@ -155,6 +177,11 @@ const deleteAccount = async () => {
             <div class="col-span-6 sm:col-span-3 lg:col-span-2">
               <label for="postal-code" class="block text-sm font-medium text-muted">ZIP / Postal code</label>
               <Input :value="user.postalCode" :label="'postalcode'" />
+            </div>
+
+            <div class="col-span-6 sm:col-span-3 lg:col-span-2">
+              <label for="country" class="block text-sm font-medium text-muted">Country</label>
+              <Input :value="user.country" :label="'country'" />
             </div>
           </div>
           <div class="flex justify-end mt-5">

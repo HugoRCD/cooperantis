@@ -9,41 +9,7 @@ import {
   createStripeCustomer,
   deleteStripeCustomer,
 } from "~/server/app/stripeService";
-
-export interface createUserInput {
-  username: string;
-  firstname: string;
-  lastname: string;
-  password: string;
-  email: string;
-  phone: string;
-  profilePic?: string;
-  role?: number;
-  address: string;
-  city: string;
-  country: string;
-  postalCode: string;
-  profession: string;
-}
-
-export interface updateUserInput {
-  username?: string;
-  firstname?: string;
-  lastname?: string;
-  password?: string;
-  email?: string;
-  phone?: string;
-  profilePic?: string;
-  role?: number;
-  address?: string;
-  city?: string;
-  country?: string;
-  postalCode?: string;
-  profession?: string;
-  website?: string;
-  bio?: string;
-  company?: string;
-}
+import { createUserInput } from "~/server/api/user/user.dto";
 
 export async function createUser(userData: createUserInput) {
   const password = await bcrypt.hash(userData.password, 10);
@@ -71,21 +37,12 @@ export async function createUser(userData: createUserInput) {
 }
 
 export async function getUserById(userId: number) {
-  return await prisma.user.findUnique({
+  const user = await prisma.user.findUnique({
     where: {
       id: userId,
     },
-    select: {
-      id: true,
-      username: true,
-      firstname: true,
-      lastname: true,
-      email: true,
-      phone: true,
-      role: true,
-      authToken: true,
-    },
   });
+  return exclude(user, ["password", "authToken", "refreshToken"]);
 }
 
 export async function getUserByLogin(login: string) {
@@ -97,7 +54,7 @@ export async function getUserByLogin(login: string) {
 }
 
 export async function getAllUsers() {
-  return await prisma.user.findMany({
+  const users = await prisma.user.findMany({
     select: {
       Subscription: true,
       id: true,
@@ -109,24 +66,19 @@ export async function getAllUsers() {
       role: true,
     },
   });
+  return users.map((user) => {
+    return exclude(user, ["password", "authToken", "refreshToken"]);
+  });
 }
 
 export async function getUserByAuthToken(authToken: string) {
-  return await prisma.user.findFirst({
+  const user = await prisma.user.findFirst({
     where: {
       authToken,
     },
-    select: {
-      id: true,
-      username: true,
-      firstname: true,
-      lastname: true,
-      email: true,
-      phone: true,
-      role: true,
-      authToken: true,
-    },
   });
+
+  return exclude(user, ["password", "authToken", "refreshToken"]);
 }
 
 export async function setAuthToken(userId: number) {
@@ -212,21 +164,12 @@ export async function updateStripeCustomerId(data: User): Promise<User> {
 }
 
 export async function getUserByStripeCustomerId(stripeCustomerId: string) {
-  return await prisma.user.findFirst({
+  const user = await prisma.user.findFirst({
     where: {
       stripeCustomerId: stripeCustomerId,
     },
-    select: {
-      id: true,
-      username: true,
-      firstname: true,
-      lastname: true,
-      email: true,
-      role: true,
-      authToken: true,
-      stripeCustomerId: true,
-    },
   });
+  return exclude(user, ["password", "authToken", "refreshToken"]);
 }
 
 export async function getCurrentSubscription(
