@@ -67,7 +67,7 @@ const deleteAccount = async () => {
             <label class="block text-sm font-medium text-muted">Profile Picture</label>
             <div class="mt-1 flex items-center space-x-5">
               <span class="inline-block h-12 w-12 overflow-hidden rounded-full bg-gray-100">
-                <img :src="user.profilePicture" alt="" />
+                <img :src="user.avatar" alt="" />
               </span>
               <button type="button"
                       class="rounded-md border border-gray-300 bg-white py-2 px-3 text-sm font-medium leading-4 text-muted shadow-sm hover:bg-gray-50">
@@ -124,7 +124,7 @@ const deleteAccount = async () => {
 
             <div class="col-span-6 sm:col-span-3">
               <label for="last-name" class="block text-sm font-medium text-muted">Last name</label>
-              <Input :value="user.lastname" :label="'lastname'" />
+              <Input :value="user.lastname" :label="'lastname'" @update:modelValue="user.lastname = $event" />
             </div>
 
             <div class="col-span-6 sm:col-span-3">
@@ -205,14 +205,14 @@ const deleteAccount = async () => {
           </p>
         </div>
         <div>
-          <div v-if="user.Subscription && user.Subscription[0].name === 'Pro'">
+          <div v-if="user.Subscription.length > 0 && user.Subscription && user.Subscription[0].name === 'Pro'">
             <i class="fas fa-check-circle text-green-600"></i> {{ user.Subscription[0].name }}
           </div>
-          <div v-if="user.Subscription && user.Subscription[0].name === 'Trial'">
+          <div v-if="user.Subscription.length > 0 && user.Subscription && user.Subscription[0].name === 'Trial'">
             <i class="fas fa-check-circle text-yellow-600"></i> {{ user.Subscription[0].name }}
           </div>
           <div v-else>
-            <i class="fas fa-times-circle text-red-600"></i> {{ user.Subscription[0].name }}
+            <i class="fas fa-times-circle text-red-600"></i> No subscription
           </div>
         </div>
         <div class="mt-5 flex gap-4">

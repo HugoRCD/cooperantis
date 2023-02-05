@@ -10,19 +10,9 @@ const password = ref("");
 
 const loading = ref(false);
 
-async function signin() {
+async function signin () {
   loading.value = true;
-  const { data } = await useFetch("/api/auth/login", {
-    method: "POST",
-    body: {
-      login: login.value,
-      password: password.value,
-    },
-  });
-  if (data.value) {
-    useState("user").value = data.value;
-    useRouter().push("/app/profile");
-  }
+  await useLogin(login.value, password.value);
   loading.value = false;
 }
 </script>

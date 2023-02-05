@@ -181,9 +181,8 @@ export async function getSubscriptionById(stripeId: string) {
     },
   });
 }
-
 export async function createOrUpdateSubscription(data: Subscription) {
-  const subName = data.stripeId === Plans.TRIAL.priceId ? Plans.TRIAL.name : Plans.PRO.name;
+  const subName = data.stripePriceId === Plans.TRIAL.priceId ? Plans.TRIAL.name : Plans.PRO.name;
   return await prisma.subscription.upsert({
     where: {
       stripeId: data.stripeId,

@@ -5,7 +5,7 @@ export interface createUserInput {
   password: string;
   email: string;
   phone: string;
-  profilePic?: string;
+  avatar?: string;
   role?: number;
   address: string;
   city: string;
@@ -21,7 +21,7 @@ export interface updateUserInput {
   password?: string;
   email?: string;
   phone?: string;
-  profilePic?: string;
+  avatar?: string;
   role?: number;
   address?: string;
   city?: string;

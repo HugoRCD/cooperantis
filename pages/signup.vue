@@ -24,23 +24,19 @@ const postalCode = ref("");
 const loading = ref(false);
 const signup = async () => {
   loading.value = true;
-  await useFetch("/api/auth/signup", {
-    method: "POST",
-    body: {
-      username: username.value,
-      firstname: firstname.value,
-      lastname: lastname.value,
-      email: email.value,
-      phone: phone.value,
-      profession: profession.value,
-      address: address.value,
-      city: city.value,
-      country: country.value,
-      postalCode: postalCode.value,
-      password: password.value,
-    },
+  await useSignup({
+    username: username.value,
+    firstname: firstname.value,
+    lastname: lastname.value,
+    email: email.value,
+    password: password.value,
+    phone: phone.value,
+    profession: profession.value,
+    address: address.value,
+    city: city.value,
+    country: country.value,
+    postalCode: postalCode.value,
   });
-  useRouter().push("/login");
   loading.value = false;
 };
 </script>

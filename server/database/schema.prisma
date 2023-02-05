@@ -57,7 +57,7 @@ model User {
   password          String
   stripeCustomerId  String?
   createdAt         DateTime            @default(now())
-  profilePicture    String              @default("https://storage.cloud.google.com/cooperantis/default-avatar.jpeg")
+  avatar            String              @default("https://storage.cloud.google.com/cooperantis/default-avatar.jpeg")
   updatedAt         DateTime?           @updatedAt
   role              Int?                @default(1)
   isVerified        Boolean             @default(false)

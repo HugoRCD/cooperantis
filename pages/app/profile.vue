@@ -6,9 +6,6 @@ definePageMeta({
 });
 const user = await useUser();
 
-const default_avatar =
-  "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80";
-
 const coverImageUrl =
   "https://images.unsplash.com/photo-1444628838545-ac4016a5418a?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=1950&q=80";
 
@@ -32,7 +29,7 @@ const bio = "Not much to say here, just a test user.";
               <div class="flex">
                 <img
                   class="h-24 w-24 rounded-full ring-4 ring-white sm:h-32 sm:w-32"
-                  :src="user.profilePicture || default_avatar"
+                  :src="user.avatar"
                   alt=""
                 />
               </div>
