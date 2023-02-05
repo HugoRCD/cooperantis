@@ -8,6 +8,7 @@ specifiers:
   '@nuxtjs/i18n': 8.0.0-beta.8
   '@nuxtjs/style-resources': ^1.2.1
   '@nuxtjs/tailwindcss': ^6.2.0
+  '@pinia/nuxt': ^0.4.6
   '@prisma/client': ^4.9.0
   '@tailwindcss/forms': ^0.5.3
   '@types/bcrypt': ^5.0.0
@@ -24,6 +25,7 @@ specifiers:
   nuxt-headlessui: ^1.1.1
   nuxt-icon: ^0.2.6
   nuxt-mailer: ^0.11.0
+  pinia: ^2.0.30
   prettier: ^2.8.3
   prisma: ^4.9.0
   sass: ^1.57.1
@@ -38,6 +40,7 @@ devDependencies:
   '@nuxtjs/i18n': 8.0.0-beta.8
   '@nuxtjs/style-resources': 1.2.1
   '@nuxtjs/tailwindcss': 6.3.0
+  '@pinia/nuxt': 0.4.6_typescript@4.9.5
   '@prisma/client': 4.9.0_prisma@4.9.0
   '@tailwindcss/forms': 0.5.3
   '@types/bcrypt': 5.0.0
@@ -54,6 +57,7 @@ devDependencies:
   nuxt-headlessui: 1.1.1
   nuxt-icon: 0.2.10
   nuxt-mailer: 0.11.0
+  pinia: 2.0.30_typescript@4.9.5
   prettier: 2.8.3
   prisma: 4.9.0
   sass: 1.57.1
@@ -1442,6 +1446,19 @@ packages:
       - supports-color
       - ts-node
       - webpack
+    dev: true
+
+  /@pinia/nuxt/0.4.6_typescript@4.9.5:
+    resolution: {integrity: sha512-HjrYEfLdFpmsjhicPJgL36jVhzHWukIQPFFHGTSF84Cplu+f2nY2XHKqe9ToHzE9rLee2RjLOwAzOnXa/I/u6A==}
+    dependencies:
+      '@nuxt/kit': 3.1.1
+      pinia: 2.0.30_typescript@4.9.5
+    transitivePeerDependencies:
+      - '@vue/composition-api'
+      - rollup
+      - supports-color
+      - typescript
+      - vue
     dev: true
 
   /@pkgr/utils/2.3.1:
@@ -5938,6 +5955,23 @@ packages:
   /pify/2.3.0:
     resolution: {integrity: sha512-udgsAY+fTnvv7kI7aaxbqwWNb0AHiB0qBO89PZKPkoTmGOgdbrHDKD+0B2X4uTfJ/FT1R09r9gTsjUjNJotuog==}
     engines: {node: '>=0.10.0'}
+    dev: true
+
+  /pinia/2.0.30_typescript@4.9.5:
+    resolution: {integrity: sha512-q6DUmxWwe/mQgg+55QQjykpKC+aGeGdaJV3niminl19V08dE+LRTvSEuqi6/NLSGCKHI49KGL6tMNEOssFiMyA==}
+    peerDependencies:
+      '@vue/composition-api': ^1.4.0
+      typescript: '>=4.4.4'
+      vue: ^2.6.14 || ^3.2.0
+    peerDependenciesMeta:
+      '@vue/composition-api':
+        optional: true
+      typescript:
+        optional: true
+    dependencies:
+      '@vue/devtools-api': 6.5.0
+      typescript: 4.9.5
+      vue-demi: 0.13.11
     dev: true
 
   /pkg-types/1.0.1:

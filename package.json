@@ -50,6 +50,8 @@
     "sass": "^1.57.1",
     "stripe": "^11.7.0",
     "typescript": "^4.9.4",
-    "nuxt-mailer": "^0.11.0"
+    "nuxt-mailer": "^0.11.0",
+    "@pinia/nuxt": "^0.4.6",
+    "pinia": "^2.0.30"
   }
 }

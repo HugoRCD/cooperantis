@@ -1,5 +1,4 @@
 <script setup lang="ts">
-import { User } from "@prisma/client";
 import { Professions } from "~/types/User";
 import { Plans } from "~/types/Pricing";
 
@@ -8,33 +7,16 @@ definePageMeta({
   title: "Edit Profile",
 });
 
-const user = await useUser();
+const userStore = useUserStore();
+
+const user = userStore.getUser;
 
 const updateProfile = async () => {
-  if (confirm("Are you sure you want to update your profile?")) {
-    if (user) {
-      const { data: updatedUser } = await useFetch<User>(
-        "/api/user/" + user.id,
-        {
-          method: "PUT",
-          body: user,
-        },
-      );
-      useState("user").value = updatedUser.value;
-    }
-  }
+  await userStore.updateUser();
 };
 
 const deleteAccount = async () => {
-  if (confirm("Are you sure you want to delete your account?")) {
-    if (user) {
-      await useFetch("/api/user/" + user.id, {
-        method: "DELETE",
-      });
-      useState("user").value = null;
-      useRouter().push("/");
-    }
-  }
+  await userStore.deleteUser();
 };
 </script>
 
