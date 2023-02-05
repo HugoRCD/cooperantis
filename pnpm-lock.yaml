@@ -33,9 +33,6 @@ specifiers:
   stripe: ^11.7.0
   typescript: ^4.9.4
 
-dependencies:
-  qrcode.vue: 3.3.3
-
 devDependencies:
   '@headlessui/vue': 1.7.8
   '@heroicons/vue': 2.0.14
@@ -64,6 +61,7 @@ devDependencies:
   pinia: 2.0.30_typescript@4.9.5
   prettier: 2.8.3
   prisma: 4.9.0
+  qrcode.vue: 3.3.3
   sass: 1.57.1
   stripe: 11.8.0
   typescript: 4.9.5
@@ -6551,7 +6549,7 @@ packages:
     resolution: {integrity: sha512-OsD4tQjIbxg/K6D5ZkWjBdYI9eg9K2i8qeYILdEAX5mdAydSAxV7xKmmZSP/hA12olLqEMZ9ryqDQrwa9jEMgw==}
     peerDependencies:
       vue: ^3.0.0
-    dev: false
+    dev: true
 
   /qs/6.11.0:
     resolution: {integrity: sha512-MvjoMCJwEarSbUYk5O+nmoSzSutSsTwF85zcHPQ9OrlFoZOYIjaqBAJIqIXjptyD5vThxGq52Xu/MaJzRkIk4Q==}
