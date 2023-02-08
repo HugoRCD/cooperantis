@@ -14,6 +14,7 @@ definePageMeta({
         <p>Here you can change the application settings.</p>
       </div>
       <div class="mt-5 flex gap-4">
+        <ThemeSwitcher />
         <LanguageSelector :isText="true" />
       </div>
     </div>
