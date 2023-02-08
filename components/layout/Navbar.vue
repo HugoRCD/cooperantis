@@ -7,11 +7,7 @@ const user = useUserStore().getUser;
 </script>
 
 <template>
-  <Disclosure
-    as="nav"
-    class="backdrop-blur-lg bg-primary-opacity/40 sticky top-0 z-10"
-    v-slot="{ open }"
-  >
+  <Disclosure as="nav" class="backdrop-blur-lg bg-primary-opacity/40 sticky top-0 z-10" v-slot="{ open }">
     <div class="mx-auto max-w-7xl px-2 sm:px-6 lg:px-8">
       <div class="relative flex h-14 items-center justify-between">
         <div class="absolute inset-y-0 left-0 flex items-center sm:hidden">
@@ -27,9 +23,7 @@ const user = useUserStore().getUser;
         <div class="flex flex-shrink-0 items-center">
           <Logo :isText="true" :isLogo="true" class="hidden sm:flex" />
         </div>
-        <div
-          class="flex flex-1 items-center justify-center sm:items-stretch sm:justify-center"
-        >
+        <div class="flex flex-1 items-center justify-center sm:items-stretch sm:justify-center">
           <div class="flex flex-shrink-0 items-center">
             <Logo :isText="true" :isLogo="true" class="sm:hidden" />
           </div>
@@ -52,13 +46,9 @@ const user = useUserStore().getUser;
             </div>
           </div>
         </div>
-        <div
-          class="absolute gap-5 inset-y-0 right-0 flex items-center pr-2 sm:static sm:inset-auto sm:ml-6 sm:pr-0"
-        >
+        <div class="absolute gap-5 inset-y-0 right-0 flex items-center pr-2 sm:static sm:inset-auto sm:ml-6 sm:pr-0">
           <LanguageSelector class="hidden md:flex" />
-          <div
-            class="hidden tablet:block h-6 w-px bg-accent-faded border-l border-gray-200 border-opacity-25"
-          ></div>
+          <div class="hidden tablet:block h-6 w-px bg-accent-faded border-l border-gray-200 border-opacity-25"></div>
           <client-only>
             <NuxtLink
               v-if="user"
@@ -103,10 +93,7 @@ const user = useUserStore().getUser;
       </div>
       <LanguageSelector class="my-4" />
       <client-only>
-        <div
-          class="py-5 border-t border-gray-800 items-center text-center"
-          v-if="!user"
-        >
+        <div class="py-5 border-t border-gray-800 items-center text-center" v-if="!user">
           <NuxtLink
             :to="{ name: 'Login' }"
             class="text-primary hover:bg-gray-800 hover:text-white px-4 py-1 rounded-md text-sm font-medium"

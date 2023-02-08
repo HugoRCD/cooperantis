@@ -28,7 +28,7 @@ export async function useLogin(login: string, password: string) {
     body: {
       login: login,
       password: password,
-    }
+    },
   });
   if (data.value) {
     useState("user").value = data.value;

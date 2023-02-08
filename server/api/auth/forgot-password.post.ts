@@ -15,7 +15,7 @@ export default eventHandler(async (event: H3Event) => {
   }
   const token = await generateToken(user.id);
   const appDomain = useRuntimeConfig().public.appDomain;
-  const url =  `${appDomain}/reset-password-${token}`;
+  const url = `${appDomain}/reset-password-${token}`;
   await sendGmail({
     template: resetPassword(email, url),
     to: email,

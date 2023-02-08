@@ -56,16 +56,13 @@ export const useUserStore = defineStore("user", {
     async updateUser() {
       if (confirm("Are you sure you want to update your profile?")) {
         if (this.user) {
-          const { data: updatedUser } = await useFetch<User>(
-            "/api/user/" + this.user.id,
-            {
-              method: "PUT",
-              body: this.user,
-            },
-          );
+          const { data: updatedUser } = await useFetch<User>("/api/user/" + this.user.id, {
+            method: "PUT",
+            body: this.user,
+          });
           this.user = updatedUser.value;
         }
       }
-    }
-  }
+    },
+  },
 });

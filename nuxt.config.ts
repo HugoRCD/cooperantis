@@ -23,7 +23,7 @@ export default defineNuxtConfig({
     "@nuxtjs/tailwindcss",
     "@vueuse/nuxt",
     "nuxt-mailer",
-    "@pinia/nuxt"
+    "@pinia/nuxt",
   ],
 
   imports: {

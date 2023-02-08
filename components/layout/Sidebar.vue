@@ -1,10 +1,5 @@
 <script setup lang="ts">
-import {
-  Dialog,
-  DialogPanel,
-  TransitionChild,
-  TransitionRoot,
-} from "@headlessui/vue";
+import { Dialog, DialogPanel, TransitionChild, TransitionRoot } from "@headlessui/vue";
 import { ArrowLeftOnRectangleIcon, XMarkIcon } from "@heroicons/vue/24/outline";
 import { Role } from "~/types/Role";
 
@@ -23,11 +18,7 @@ const logout = async () => {
 <template>
   <div>
     <TransitionRoot as="template" :show="sidebarOpen">
-      <Dialog
-        as="div"
-        class="relative z-40 lg:hidden"
-        @close="sidebarOpen = false"
-      >
+      <Dialog as="div" class="relative z-40 lg:hidden" @close="sidebarOpen = false">
         <TransitionChild
           as="template"
           enter="transition-opacity ease-linear duration-300"
@@ -50,9 +41,7 @@ const logout = async () => {
             leave-from="translate-x-0"
             leave-to="-translate-x-full"
           >
-            <DialogPanel
-              class="relative flex w-full max-w-xs flex-1 flex-col bg-primary focus:outline-none"
-            >
+            <DialogPanel class="relative flex w-full max-w-xs flex-1 flex-col bg-primary focus:outline-none">
               <TransitionChild
                 as="template"
                 enter="ease-in-out duration-300"
@@ -89,16 +78,12 @@ const logout = async () => {
                           : 'text-gray-600 hover:bg-gray-50 hover:text-primary',
                         'group flex items-center px-2 py-2 text-base font-medium rounded-md',
                       ]"
-                      :aria-current="
-                        item.name === $route.name ? 'page' : undefined
-                      "
+                      :aria-current="item.name === $route.name ? 'page' : undefined"
                     >
                       <component
                         :is="item.icon"
                         :class="[
-                          item.name === $route.name
-                            ? 'text-gray-500'
-                            : 'text-gray-400 group-hover:text-gray-500',
+                          item.name === $route.name ? 'text-gray-500' : 'text-gray-400 group-hover:text-gray-500',
                           'mr-4 h-6 w-6',
                         ]"
                         aria-hidden="true"
@@ -113,21 +98,19 @@ const logout = async () => {
                       :key="item.name"
                       :to="item.to"
                       :class="[
-                    item.name === $route.name
-                      ? 'bg-accent-faded text-accent'
-                      : 'text-gray-600 hover:bg-accent-faded hover:text-accent',
-                    'group flex items-center px-2 py-2 text-sm font-medium rounded-md',
-                  ]"
+                        item.name === $route.name
+                          ? 'bg-accent-faded text-accent'
+                          : 'text-gray-600 hover:bg-accent-faded hover:text-accent',
+                        'group flex items-center px-2 py-2 text-sm font-medium rounded-md',
+                      ]"
                       :aria-current="item.name === $route.name ? 'page' : undefined"
                     >
                       <component
                         :is="item.icon"
                         :class="[
-                      item.name === $route.name
-                        ? 'text-accent'
-                        : 'text-muted group-hover:text-accent',
-                      'mr-3 flex-shrink-0 h-6 w-6',
-                    ]"
+                          item.name === $route.name ? 'text-accent' : 'text-muted group-hover:text-accent',
+                          'mr-3 flex-shrink-0 h-6 w-6',
+                        ]"
                         aria-hidden="true"
                       />
                       {{ item.name }}
@@ -154,23 +137,13 @@ const logout = async () => {
                 <a to="#" class="group block flex-shrink-0">
                   <div class="flex items-center">
                     <div>
-                      <img
-                        class="inline-block h-10 w-10 rounded-full"
-                        :src="user?.avatar"
-                        alt=""
-                      />
+                      <img class="inline-block h-10 w-10 rounded-full" :src="user?.avatar" alt="" />
                     </div>
                     <div class="ml-3">
-                      <p
-                        class="text-base font-medium text-primary group-hover:text-primary"
-                      >
+                      <p class="text-base font-medium text-primary group-hover:text-primary">
                         {{ user.firstname }} {{ user.lastname }}
                       </p>
-                      <p
-                        class="text-sm font-medium text-muted group-hover:text-gray-700"
-                      >
-                        View profile
-                      </p>
+                      <p class="text-sm font-medium text-muted group-hover:text-gray-700">View profile</p>
                     </div>
                   </div>
                 </a>
@@ -187,9 +160,7 @@ const logout = async () => {
     <div class="hidden lg:flex lg:flex-shrink-0 overflow-hidden h-full">
       <div class="flex w-64 flex-col">
         <!-- Sidebar component, swap this element with another sidebar if you like -->
-        <div
-          class="flex min-h-0 flex-1 flex-col border-r border-muted bg-primary"
-        >
+        <div class="flex min-h-0 flex-1 flex-col border-r border-muted bg-primary">
           <div class="flex flex-1 flex-col overflow-y-auto pt-5 pb-4">
             <div class="flex flex-shrink-0 items-center px-4">
               <Logo :isText="true" :isLogo="true" />
@@ -211,9 +182,7 @@ const logout = async () => {
                   <component
                     :is="item.icon"
                     :class="[
-                      item.name === $route.name
-                        ? 'text-accent'
-                        : 'text-muted group-hover:text-accent',
+                      item.name === $route.name ? 'text-accent' : 'text-muted group-hover:text-accent',
                       'mr-3 flex-shrink-0 h-6 w-6',
                     ]"
                     aria-hidden="true"
@@ -221,7 +190,7 @@ const logout = async () => {
                   {{ item.name }}
                 </NuxtLink>
               </div>
-              <hr class="my-5 border-t border-muted" aria-hidden="true" v-if="user && user.role === Role.ADMIN"/>
+              <hr class="my-5 border-t border-muted" aria-hidden="true" v-if="user && user.role === Role.ADMIN" />
               <div class="flex-1 space-y-1 px-2" v-if="user && user.role === Role.ADMIN">
                 <NuxtLink
                   v-for="item in adminNav"
@@ -238,9 +207,7 @@ const logout = async () => {
                   <component
                     :is="item.icon"
                     :class="[
-                      item.name === $route.name
-                        ? 'text-accent'
-                        : 'text-muted group-hover:text-accent',
+                      item.name === $route.name ? 'text-accent' : 'text-muted group-hover:text-accent',
                       'mr-3 flex-shrink-0 h-6 w-6',
                     ]"
                     aria-hidden="true"
@@ -256,36 +223,24 @@ const logout = async () => {
                   @click="logout"
                 >
                   <ArrowLeftOnRectangleIcon
-                    class="mr-3 h-6 w-6 flex-shrink-0 text-muted group-hover:text-accent-hover" />
+                    class="mr-3 h-6 w-6 flex-shrink-0 text-muted group-hover:text-accent-hover"
+                  />
                   Logout
                 </button>
               </div>
             </nav>
           </div>
           <div class="flex flex-shrink-0 border-t border-muted p-4">
-            <NuxtLink
-              to="/app/profile"
-              class="group block w-full flex-shrink-0"
-            >
+            <NuxtLink to="/app/profile" class="group block w-full flex-shrink-0">
               <div class="flex items-center">
                 <div>
-                  <img
-                    class="inline-block h-9 w-9 rounded-full"
-                    :src="user?.avatar"
-                    alt=""
-                  />
+                  <img class="inline-block h-9 w-9 rounded-full" :src="user?.avatar" alt="" />
                 </div>
                 <div class="ml-3">
-                  <p
-                    class="text-sm font-medium text-gray-700 group-hover:text-primary"
-                  >
+                  <p class="text-sm font-medium text-gray-700 group-hover:text-primary">
                     {{ user.firstname }} {{ user.lastname }}
                   </p>
-                  <p
-                    class="text-xs font-medium text-gray-500 group-hover:text-muted"
-                  >
-                    View profile
-                  </p>
+                  <p class="text-xs font-medium text-gray-500 group-hover:text-muted">View profile</p>
                 </div>
               </div>
             </NuxtLink>

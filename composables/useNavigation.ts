@@ -1,10 +1,4 @@
-import {
-  CogIcon,
-  HomeIcon,
-  UserGroupIcon,
-  UserCircleIcon,
-  PencilIcon,
-} from "@heroicons/vue/24/outline";
+import { CogIcon, HomeIcon, UserGroupIcon, UserCircleIcon, PencilIcon } from "@heroicons/vue/24/outline";
 
 type Where = "home" | "app" | "admin";
 
@@ -34,11 +28,11 @@ const admin: Navigation[] = [
 
 export function getNavigation(where: Where): Navigation[] {
   switch (where) {
-  case "home":
-    return home;
-  case "app":
-    return app;
-  case "admin":
-    return admin;
+    case "home":
+      return home;
+    case "app":
+      return app;
+    case "admin":
+      return admin;
   }
 }

@@ -6,7 +6,7 @@ type GlobalState = {
   theme: string;
   locale: string;
   user: ReturnType<typeof useUserStore>;
-}
+};
 
 export const useGlobalStore = defineStore({
   id: "global",
@@ -36,6 +36,6 @@ export const useGlobalStore = defineStore({
     },
     setLocale(locale: string) {
       this.locale = locale;
-    }
-  }
+    },
+  },
 });

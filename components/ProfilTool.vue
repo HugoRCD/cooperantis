@@ -18,15 +18,9 @@ const logout = async () => {
 <template>
   <Menu as="div" class="relative ml-3">
     <div>
-      <MenuButton
-        class="flex rounded-full bg-gray-800 text-sm focus:outline-none"
-      >
+      <MenuButton class="flex rounded-full bg-gray-800 text-sm focus:outline-none">
         <span class="sr-only">Open user menu</span>
-        <img
-          class="h-8 w-8 rounded-full"
-          :src="user?.avatar"
-          alt=""
-        />
+        <img class="h-8 w-8 rounded-full" :src="user?.avatar" alt="" />
       </MenuButton>
     </div>
     <transition
@@ -45,10 +39,7 @@ const logout = async () => {
           :to="{ name: item.name }"
           :key="item.name"
           class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
-          :class="[
-            item.name === $route.name ? 'bg-gray-100' : '',
-            'block px-4 py-2 text-sm text-gray-700',
-          ]"
+          :class="[item.name === $route.name ? 'bg-gray-100' : '', 'block px-4 py-2 text-sm text-gray-700']"
           role="menuitem"
           >{{ item.name }}</NuxtLink
         >

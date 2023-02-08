@@ -13,12 +13,7 @@ const toggleTheme = () => {
 
 <template>
   <div class="flex cursor-pointer" @click="toggleTheme">
-    <Icon
-      v-if="theme === 'light'"
-      name="grommet-icons:sun"
-      size="1.5em"
-      class="text-primary"
-    />
+    <Icon v-if="theme === 'light'" name="grommet-icons:sun" size="1.5em" class="text-primary" />
     <Icon v-else name="ph:moon-stars-bold" size="1.5em" class="text-primary" />
   </div>
 </template>
