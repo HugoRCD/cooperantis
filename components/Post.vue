@@ -19,10 +19,10 @@
            src="https://images.unsplash.com/photo-1550525811-e5869dd03032?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80" alt="" />
     </div>
     <div class="min-w-0 flex-1">
-      <form action="#" class="relative">
+      <form @submit.prevent="addPost" class="relative">
         <div class="overflow-hidden rounded-lg border border-muted shadow-sm">
           <label for="comment" class="sr-only">Add your comment</label>
-          <textarea rows="3" name="comment" id="comment" class="bg-secondary p-3 block w-full resize-none border-0 py-3 sm:text-sm placeholder-gray-600" placeholder="Add your comment..." />
+          <textarea v-model="post" rows="3" name="comment" id="comment" class="bg-secondary p-3 block w-full resize-none border-0 py-3 sm:text-sm placeholder-gray-600" placeholder="Add your comment..." />
           <!-- Spacer element to match the height of the toolbar -->
           <div class="py-2" aria-hidden="true">
             <!-- Matches height of button in toolbar (1px border + 36px content height) -->
@@ -52,4 +52,18 @@
 
 <script setup lang="ts">
 import { PaperClipIcon } from "@heroicons/vue/20/solid";
+import usersToken from "~~/server/api/auth/users-token";
+const post = ref("");
+const user = useUserStore().getUser;
+
+const addPost = async () => {
+  await useFetch("/api/feed/AddFeed", {
+    method: "POST",
+    body: {
+      content: post.value,
+      userId: user.id,
+    },
+  });
+  post.value = "";
+}
 </script>
