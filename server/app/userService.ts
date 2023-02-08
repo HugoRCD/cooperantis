@@ -41,6 +41,7 @@ export async function getUserById(userId: number) {
       id: userId,
     },
   });
+  if (!user) throw createError({ statusCode: 404, message: "User not found" });
   return exclude(user, ["password", "authToken", "refreshToken"]);
 }
 
@@ -158,6 +159,7 @@ export async function getUserByStripeCustomerId(stripeCustomerId: string) {
       stripeCustomerId: stripeCustomerId,
     },
   });
+  if (!user) throw createError({ statusCode: 404, message: "User not found" });
   return exclude(user, ["password", "authToken", "refreshToken"]);
 }
 
