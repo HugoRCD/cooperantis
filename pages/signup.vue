@@ -46,11 +46,7 @@ const signup = async () => {
   <div class="flex min-h-full flex-col justify-center py-12 px-6 lg:px-8">
     <div class="sm:mx-auto sm:w-full sm:max-w-md">
       <Logo :isText="false" :isLogo="true" class="flex justify-center" />
-      <h2
-        class="mt-6 text-center text-3xl font-bold tracking-tight text-primary"
-      >
-        Sign up for your account
-      </h2>
+      <h2 class="mt-6 text-center text-3xl font-bold tracking-tight text-primary">Sign up for your account</h2>
     </div>
     <div class="sm:mx-auto sm:w-full sm:max-w-md mt-12">
       <Loader v-if="loading" />
@@ -104,14 +100,7 @@ const signup = async () => {
           class="input"
           v-model="phone"
         />
-        <select
-          id="profession"
-          name="profession"
-          autocomplete="profession"
-          required
-          class="input"
-          v-model="profession"
-        >
+        <select id="profession" name="profession" autocomplete="profession" required class="input" v-model="profession">
           <option value="" disabled selected>Profession</option>
           <option v-for="profession in Professions" :key="profession" :value="profession">
             {{ profession }}
@@ -127,15 +116,7 @@ const signup = async () => {
           v-model="address"
         />
         <div class="flex flex-row gap-2">
-          <input
-            id="city"
-            name="city"
-            autocomplete="city"
-            required
-            placeholder="City"
-            class="input"
-            v-model="city"
-          />
+          <input id="city" name="city" autocomplete="city" required placeholder="City" class="input" v-model="city" />
           <input
             id="postal-code"
             name="postal-code"
@@ -179,9 +160,7 @@ const signup = async () => {
           <button type="submit" class="btn-primary">Sign up</button>
         </div>
       </form>
-      <NuxtLink :to="{ name: 'Login' }" class="btn-secondary mt-6">
-        Already have an account ? Login here
-      </NuxtLink>
+      <NuxtLink :to="{ name: 'Login' }" class="btn-secondary mt-6"> Already have an account ? Login here </NuxtLink>
     </div>
   </div>
 </template>

@@ -3,11 +3,7 @@ import { FetchContext, FetchResponse } from "ofetch";
 
 type RequestMethod = "GET" | "POST" | "PUT" | "PATCH" | "DELETE";
 
-export async function useAPI<T>(
-  url: string,
-  method: RequestMethod,
-  body?: object | User | null,
-): Promise<T | null> {
+export async function useAPI<T>(url: string, method: RequestMethod, body?: object | User | null): Promise<T | null> {
   const config = useRuntimeConfig();
   const fullURL = `${config.public.apiUrl}${url}`;
   const user = useState<User | null>("user");
@@ -24,10 +20,7 @@ export async function useAPI<T>(
     const context = error as FetchContext & { response: FetchResponse<T> };
     if (context.response.status === 401) {
       try {
-        useState<User | null>("user").value = await useAPI<User>(
-          "auth/refresh",
-          "POST",
-        );
+        useState<User | null>("user").value = await useAPI<User>("auth/refresh", "POST");
         return useAPI<T>(url, method, body);
       } catch (error) {
         useState<User | null>("user").value = null;

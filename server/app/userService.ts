@@ -5,10 +5,7 @@ import { isString } from "@vueuse/core";
 import { H3Event } from "h3";
 import { Role } from "~/types/Role";
 import jwt from "jsonwebtoken";
-import {
-  createStripeCustomer,
-  deleteStripeCustomer,
-} from "~/server/app/stripeService";
+import { createStripeCustomer, deleteStripeCustomer } from "~/server/app/stripeService";
 import { createUserInput, updateUserInput } from "~/server/api/user/user.dto";
 import { Plans } from "~/types/Pricing";
 
@@ -49,6 +46,7 @@ export async function getUserById(userId: number) {
       id: userId,
     },
   });
+  if (!user) throw createError({ statusCode: 404, message: "User not found" });
   return exclude(user, ["password", "authToken", "refreshToken"]);
 }
 
@@ -64,7 +62,7 @@ export async function getAllUsers() {
   const users = await prisma.user.findMany({
     include: {
       Subscription: true,
-    }
+    },
   });
   return users.map((user: any) => {
     return exclude(user, ["password", "authToken", "refreshToken"]);
@@ -78,9 +76,10 @@ export async function getUserByAuthToken(authToken: string) {
     },
     include: {
       Subscription: true,
-    }
+    },
   });
-  return exclude(user, ["password", "authToken", "refreshToken"]);
+  if (!user) return null;
+  return exclude(user, ["password"]);
 }
 
 export async function setAuthToken(userId: number) {
@@ -104,7 +103,7 @@ export async function setAuthToken(userId: number) {
     },
     include: {
       Subscription: true,
-    }
+    },
   });
   return exclude(updatedUser, ["password", "refreshToken"]);
 }
@@ -137,10 +136,7 @@ export async function deleteUser(userId: number) {
   });
 }
 
-export async function updateUser(
-  userId: number,
-  updateUserInput: updateUserInput,
-) {
+export async function updateUser(userId: number, updateUserInput: updateUserInput) {
   const user = await prisma.user.update({
     where: { id: userId },
     data: {
@@ -148,7 +144,7 @@ export async function updateUser(
     },
     include: {
       Subscription: true,
-    }
+    },
   });
   return exclude(user, ["password", "authToken", "refreshToken"]);
 }
@@ -168,12 +164,11 @@ export async function getUserByStripeCustomerId(stripeCustomerId: string) {
       stripeCustomerId: stripeCustomerId,
     },
   });
+  if (!user) throw createError({ statusCode: 404, message: "User not found" });
   return exclude(user, ["password", "authToken", "refreshToken"]);
 }
 
-export async function getCurrentSubscription(
-  userId: number,
-): Promise<Subscription | null> {
+export async function getCurrentSubscription(userId: number): Promise<Subscription | null> {
   const user = (await getUserById(userId)) as User;
   return await prisma.subscription.findFirst({
     where: {
@@ -223,8 +218,8 @@ export async function generateToken(userId: number) {
   await prisma.resetPassword.create({
     data: {
       token,
-      userId
-    }
+      userId,
+    },
   });
   return token;
 }

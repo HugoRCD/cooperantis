@@ -10,7 +10,7 @@ const password = ref("");
 
 const loading = ref(false);
 
-async function signin () {
+async function signin() {
   loading.value = true;
   await useLogin(login.value, password.value);
   loading.value = false;
@@ -21,11 +21,7 @@ async function signin () {
   <div class="flex min-h-full flex-col justify-center py-12 px-6 lg:px-8">
     <div class="sm:mx-auto sm:w-full sm:max-w-md">
       <Logo :isText="true" :isLogo="true" class="flex justify-center" />
-      <h2
-        class="mt-6 text-center text-3xl font-bold tracking-tight text-primary"
-      >
-        Sign in to your account
-      </h2>
+      <h2 class="mt-6 text-center text-3xl font-bold tracking-tight text-primary">Sign in to your account</h2>
     </div>
     <div class="sm:mx-auto sm:w-full sm:max-w-md mt-12">
       <Loader v-if="loading" />
@@ -59,9 +55,7 @@ async function signin () {
         </div>
         <div class="flex items-center justify-end">
           <div class="text-sm">
-            <NuxtLink
-              :to="{ name: 'ForgotPassword' }"
-              class="font-medium text-accent hover:text-accent-hover"
+            <NuxtLink :to="{ name: 'ForgotPassword' }" class="font-medium text-accent hover:text-accent-hover"
               >Forgot your password?
             </NuxtLink>
           </div>
@@ -71,9 +65,7 @@ async function signin () {
           <button type="submit" class="btn-primary">Sign in</button>
         </div>
       </form>
-      <NuxtLink :to="{ name: 'Signup' }" class="btn-secondary mt-6">
-        Don't have an account ? Sign up
-      </NuxtLink>
+      <NuxtLink :to="{ name: 'Signup' }" class="btn-secondary mt-6"> Don't have an account ? Sign up </NuxtLink>
     </div>
   </div>
 </template>

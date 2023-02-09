@@ -1,10 +1,6 @@
 import Stripe from "stripe";
 import { Subscription, User } from "@prisma/client";
-import {
-  createOrUpdateSubscription,
-  getSubscriptionById,
-  getUserByStripeCustomerId,
-} from "~/server/app/userService";
+import { createOrUpdateSubscription, getSubscriptionById, getUserByStripeCustomerId } from "~/server/app/userService";
 import { createUserInput } from "~/server/api/user/user.dto";
 import { Plans } from "~/types/Pricing";
 
@@ -78,9 +74,7 @@ export async function handleSubscriptionChange(
   subscription: Stripe.Subscription,
   lastEventDate: number,
 ): Promise<boolean> {
-  const localSubscription = (await getSubscriptionById(
-    subscription.id,
-  )) as Subscription;
+  const localSubscription = (await getSubscriptionById(subscription.id)) as Subscription;
 
   if (localSubscription?.lastEventDate > lastEventDate) {
     return true;
