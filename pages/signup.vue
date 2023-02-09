@@ -37,6 +37,7 @@ const signup = async () => {
     country: country.value,
     postalCode: postalCode.value,
   });
+  useRouter().push("/login");
   loading.value = false;
 };
 </script>

@@ -57,13 +57,22 @@ model User {
   password          String
   stripeCustomerId  String?
   createdAt         DateTime            @default(now())
-  avatar            String              @default("https://storage.cloud.google.com/cooperantis/default-avatar.jpeg")
   updatedAt         DateTime?           @updatedAt
   role              Int                 @default(1)
   isVerified        Boolean             @default(false)
   refreshToken      String?             @unique
   authToken         String?             @unique
+  avatar            String              @default("https://storage.cloud.google.com/cooperantis/default-avatar.jpeg")
   EmailVerification EmailVerification[]
   ResetPassword     ResetPassword[]
   Subscription      Subscription[]
+  Post              Post[]
+}
+
+model Post{
+  id        Int      @id @default(autoincrement())
+  content   String
+  createdAt DateTime @default(now())
+  userId    Int
+  User      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
 }
