@@ -45,9 +45,9 @@ async function deletePost(postId: number) {
         <h2 class="text-lg font-semibold text-primary">{{ user.firstname }} {{ user.lastname }}</h2>
       </div>
     </NuxtLink>
-    <div class="mt-4">
-      <p class="text-lg leading-7 text-muted">{{ content }}</p>
-    </div>
+    <p class="mt-4 text-lg text-muted truncate">
+      {{ content }}
+    </p>
     <div class="mt-4 flex justify-between items-center text-muted text-sm">
       <div class="flex items-center gap-2">
         <div>10</div>
