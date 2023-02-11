@@ -14,7 +14,13 @@ defineProps({
     type: String,
     required: true,
   },
+  createdAt: {
+    type: String,
+    required: true,
+  },
 });
+
+const emit = defineEmits(["delete"]);
 
 async function deletePost(postId: number) {
   if (confirm("Are you sure you want to delete this post?")) {
@@ -24,6 +30,7 @@ async function deletePost(postId: number) {
         postId,
       },
     });
+    emit("delete");
   }
 }
 </script>
@@ -32,11 +39,11 @@ async function deletePost(postId: number) {
   <div>
     <div class="flex items-center space-x-3">
       <img :src="user.avatar" alt="" class="w-10 h-10 rounded-full" />
-      <div class="flex-1 min-w-0">
+      <div class="flex items-center gap-4">
         <p class="text-sm font-medium text-primary truncate">{{ user.firstname }} {{ user.lastname }}</p>
-        <p class="text-sm text-muted truncate">
-          {{ user.email }}
-        </p>
+        <span class="text-muted">
+          {{ new Date(createdAt).toLocaleDateString() }}
+        </span>
       </div>
     </div>
     <div class="mt-2 text-sm text-muted">

@@ -38,7 +38,7 @@ async function createPost() {
     </div>
     <ul role="list">
       <li v-for="post in data" :key="post.id" class="px-6 py-4 border-b border-muted">
-        <Post :id="post.id" :user="post.User" :content="post.content" />
+        <Post @delete="refresh" :id="post.id" :user="post.User" :content="post.content" :created-at="post.createdAt" />
       </li>
     </ul>
   </div>
