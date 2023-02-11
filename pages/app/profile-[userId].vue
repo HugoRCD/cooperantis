@@ -1,6 +1,5 @@
 <script setup>
 import { EnvelopeIcon, PhoneIcon } from "@heroicons/vue/20/solid";
-
 import QrcodeVue from "qrcode.vue";
 
 const userId = useRoute().params.userId;
@@ -12,14 +11,18 @@ const { data: user } = await useFetch("/api/getUserById", {
     userId,
   },
 });
-console.log(user);
+
+definePageMeta({
+  middleware: false,
+  title: "Profile - " + user.firstname + " " + user.lastname,
+});
 
 const coverImageUrl =
   "https://images.unsplash.com/photo-1444628838545-ac4016a5418a?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=1950&q=80";
 
 const bio = "Not much to say here, just a test user.";
 
-const profileUrl = useRuntimeConfig().public.appDomain + "/profile-" + user.id;
+const profileUrl = useRuntimeConfig().public.appDomain + "/app/profile-" + user.id;
 </script>
 
 <template>

@@ -1,4 +1,6 @@
 <script setup lang="ts">
+import { HeartIcon, TrashIcon } from "@heroicons/vue/24/outline";
+
 const currentUser = useUserStore().getUser;
 
 defineProps({
@@ -36,24 +38,29 @@ async function deletePost(postId: number) {
 </script>
 
 <template>
-  <div>
-    <div class="flex items-center space-x-3">
-      <img :src="user.avatar" alt="" class="w-10 h-10 rounded-full" />
-      <div class="flex items-center gap-4">
-        <p class="text-sm font-medium text-primary truncate">{{ user.firstname }} {{ user.lastname }}</p>
-        <span class="text-muted">
-          {{ new Date(createdAt).toLocaleDateString() }}
-        </span>
+  <div class="bg-secondary border border-muted rounded-lg p-4 mb-4">
+    <NuxtLink class="flex items-center" :to="`/app/profile-${user.id}`">
+      <img :src="user.avatar" alt="" class="w-12 h-12 rounded-full mr-4" />
+      <div>
+        <h2 class="text-lg font-semibold text-primary">{{ user.firstname }} {{ user.lastname }}</h2>
       </div>
+    </NuxtLink>
+    <div class="mt-4">
+      <p class="text-lg leading-7 text-muted">{{ content }}</p>
     </div>
-    <div class="mt-2 text-sm text-muted">
-      <p>
-        {{ content }}
-      </p>
-    </div>
-    <div class="mt-6 flex space-x-8">
-      <div class="flex text-sm" v-if="user.id === currentUser?.id">
-        <button @click="deletePost(id)" class="font-medium text-red-600 hover:text-red-500">Delete</button>
+    <div class="mt-4 flex justify-between items-center text-muted text-sm">
+      <div class="flex items-center gap-2">
+        <div>10</div>
+        <HeartIcon
+          class="w-5 h-5 hover:text-red-500 hover:fill-red-500 cursor-pointer hover:scale-110 transition duration-200"
+        />
+      </div>
+      <div>
+        <TrashIcon
+          v-if="user.id === currentUser?.id"
+          @click="deletePost(id)"
+          class="w-5 h-5 hover:text-red-500 cursor-pointer"
+        />
       </div>
     </div>
   </div>
