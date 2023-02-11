@@ -157,7 +157,7 @@ const signup = async () => {
           v-model="passwordConfirm"
         />
         <div>
-          <button type="submit" class="btn-primary">Sign up</button>
+          <button type="submit" class="btn-primary w-full">Sign up</button>
         </div>
       </form>
       <NuxtLink :to="{ name: 'Login' }" class="btn-secondary mt-6"> Already have an account ? Login here </NuxtLink>

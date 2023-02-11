@@ -64,7 +64,7 @@ export async function getAllUsers() {
       Subscription: true,
     },
   });
-  return users.map((user: any) => {
+  return users.map((user: User) => {
     return exclude(user, ["password", "authToken", "refreshToken"]);
   });
 }
