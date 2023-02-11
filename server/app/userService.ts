@@ -9,11 +9,6 @@ import { createStripeCustomer, deleteStripeCustomer } from "~/server/app/stripeS
 import { createUserInput, updateUserInput } from "~/server/api/user/user.dto";
 import { Plans } from "~/types/Pricing";
 
-export interface createPostInput {
-  content: string;
-  userId: number;
-}
-
 export async function createUser(userData: createUserInput) {
   const password = await bcrypt.hash(userData.password, 10);
   const stripeInfo = await createStripeCustomer(userData);
@@ -222,10 +217,4 @@ export async function generateToken(userId: number) {
     },
   });
   return token;
-}
-
-export async function createPost(postData: createPostInput) {
-  return await prisma.post.create({
-    data: postData,
-  });
 }

@@ -18,7 +18,7 @@ defineProps({
 
 async function deletePost(postId: number) {
   if (confirm("Are you sure you want to delete this post?")) {
-    await useFetch("/api/feed/deletePost", {
+    await useFetch("/api/post/deletePost", {
       method: "DELETE",
       body: {
         postId,

@@ -1,5 +1,5 @@
 import { H3Event } from "h3";
-import { createPost, createPostInput } from "~/server/app/userService";
+import { createPost, createPostInput } from "~/server/app/postService";
 
 export default eventHandler(async (event: H3Event) => {
   const body = await readBody(event);

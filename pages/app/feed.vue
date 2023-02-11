@@ -8,14 +8,14 @@ definePageMeta({
 
 const user = useUserStore().getUser;
 
-const { data, refresh } = useFetch("/api/feed/getFeed", {
+const { data, refresh } = useFetch("/api/post/getPosts", {
   method: "GET",
 });
 
 const postContent = ref("");
 
-async function addPost() {
-  await useFetch("/api/feed/AddFeed", {
+async function createPost() {
+  await useFetch("/api/post/createPost", {
     method: "POST",
     body: {
       content: postContent.value,
@@ -31,7 +31,7 @@ async function addPost() {
   <div>
     <div class="flex items-start space-x-4 py-4 px-6 border-b border-muted">
       <img class="inline-block h-10 w-10 rounded-full" :src="user.avatar" alt="" />
-      <form @submit.prevent="addPost" class="relative w-full">
+      <form @submit.prevent="createPost" class="relative w-full">
         <textarea v-model="postContent" rows="3" class="input p-3" placeholder="Tell us what you think..." />
         <button type="submit" class="btn btn-primary float-right" :disabled="postContent === ''">Post</button>
       </form>
