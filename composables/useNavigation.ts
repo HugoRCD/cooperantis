@@ -16,7 +16,7 @@ const home: Navigation[] = [
 
 const app: Navigation[] = [
   { name: "Feed", to: "/app/feed", icon: HomeIcon },
-  { name: "Profile", to: "/app/profile", icon: UserCircleIcon },
+  { name: "Profile", to: "/app/profile/me", icon: UserCircleIcon },
   { name: "Edit Profile", to: "/app/edit-profile", icon: PencilIcon },
   { name: "Settings", to: "/app/settings", icon: CogIcon },
 ];

@@ -39,7 +39,7 @@ async function deletePost(postId: number) {
 
 <template>
   <div class="bg-secondary border border-muted rounded-lg p-4 mb-4">
-    <NuxtLink class="flex items-center" :to="`/app/profile-${user.id}`">
+    <NuxtLink class="flex items-center" :to="`/app/profile/${user.id}`">
       <img :src="user.avatar" alt="" class="w-12 h-12 rounded-full mr-4" />
       <div>
         <h2 class="text-lg font-semibold text-primary">{{ user.firstname }} {{ user.lastname }}</h2>

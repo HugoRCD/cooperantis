@@ -1,10 +1,10 @@
-<script setup>
-import { EnvelopeIcon, PhoneIcon } from "@heroicons/vue/20/solid";
+<script setup lang="ts">
+import { EnvelopeIcon, PhoneIcon, BackspaceIcon } from "@heroicons/vue/20/solid";
 import QrcodeVue from "qrcode.vue";
 
 const userId = useRoute().params.userId;
 
-const { data: user } = await useFetch("/api/getUserById", {
+const { data: user, error } = await useFetch("/api/getUserById", {
   key: "getUserById-" + userId,
   method: "GET",
   params: {
@@ -12,17 +12,26 @@ const { data: user } = await useFetch("/api/getUserById", {
   },
 });
 
-definePageMeta({
-  middleware: false,
-  title: "Profile - " + user.firstname + " " + user.lastname,
-});
+if (error.value !== null && !user.value) {
+  throw createError({ statusCode: 404, message: "User not found" });
+}
 
 const coverImageUrl =
   "https://images.unsplash.com/photo-1444628838545-ac4016a5418a?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=1950&q=80";
 
 const bio = "Not much to say here, just a test user.";
 
-const profileUrl = useRuntimeConfig().public.appDomain + "/app/profile-" + user.id;
+const profileUrl = useRuntimeConfig().public.appDomain + "/app/profile/" + user.id;
+
+useHead({
+  title: "Profile - " + user.value?.firstname + " " + user.value?.lastname,
+  meta: [
+    {
+      name: "description",
+      content: "Profile",
+    },
+  ],
+});
 </script>
 
 <template>
@@ -30,13 +39,18 @@ const profileUrl = useRuntimeConfig().public.appDomain + "/app/profile-" + user.
     <main class="relative z-0 flex-1 focus:outline-none xl:order-last">
       <article>
         <div>
-          <div>
+          <div class="relative">
+            <BackspaceIcon
+              class="absolute top-4 left-4 h-8 w-8 text-inverted cursor-pointer bg-accent hover:bg-accent-hover rounded-full p-2"
+              @click="$router.back()"
+              aria-hidden="true"
+            />
             <img class="h-32 w-full object-cover lg:h-48" :src="coverImageUrl" alt="" />
           </div>
           <div class="mx-auto max-w-5xl px-4 sm:px-6 lg:px-8">
             <div class="-mt-12 sm:-mt-16 sm:flex sm:items-end sm:space-x-5">
               <div class="flex">
-                <img class="h-24 w-24 rounded-full ring-4 ring-white sm:h-32 sm:w-32" :src="user.avatar" alt="" />
+                <img class="z-10 h-24 w-24 rounded-full ring-4 ring-white sm:h-32 sm:w-32" :src="user.avatar" alt="" />
               </div>
               <div class="mt-6 sm:flex sm:min-w-0 sm:flex-1 sm:items-center sm:justify-end sm:space-x-6 sm:pb-1">
                 <div class="mt-6 min-w-0 flex-1 sm:hidden 2xl:block">
