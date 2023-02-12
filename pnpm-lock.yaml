@@ -35,6 +35,7 @@ specifiers:
   sass: ^1.57.1
   stripe: ^11.7.0
   typescript: ^4.9.4
+  vue-sweetalert2: ^5.0.5
 
 devDependencies:
   '@headlessui/vue': 1.7.8
@@ -71,6 +72,7 @@ devDependencies:
   sass: 1.57.1
   stripe: 11.8.0
   typescript: 4.9.5
+  vue-sweetalert2: 5.0.5
 
 packages:
 
@@ -7281,6 +7283,10 @@ packages:
       stable: 0.1.8
     dev: true
 
+  /sweetalert2/11.7.1:
+    resolution: {integrity: sha512-+1bnkbqBl64FnZmi3g4SzAi4F3pL3S2jF1YQvrysv4GbgizfeFqGkJopxR3FnV/eJm6w2SQ2oAmCxSIBjgP/ag==}
+    dev: true
+
   /synckit/0.8.5:
     resolution: {integrity: sha512-L1dapNV6vu2s/4Sputv8xGsCdAVlb5nRDMFU/E27D44l5U6cw1g0dGd45uLc+OXjNMmF4ntiMdCimzcjFKQI8Q==}
     engines: {node: ^14.18.0 || >=16.0.0}
@@ -7935,6 +7941,14 @@ packages:
     dependencies:
       '@vue/devtools-api': 6.5.0
       vue: 3.2.45
+    dev: true
+
+  /vue-sweetalert2/5.0.5:
+    resolution: {integrity: sha512-Q7+TjQxNwGruT2jfPaSKMz18HHWs81r4umEwlrrtOf/QL5Iwl1T+tUaNkcvKB7Rf9rYftubt7NnOMjfDMnDH3A==}
+    peerDependencies:
+      vue: '*'
+    dependencies:
+      sweetalert2: 11.7.1
     dev: true
 
   /vue/3.2.45:
