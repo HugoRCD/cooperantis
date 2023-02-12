@@ -9,6 +9,7 @@ const adminNav = getNavigation("admin");
 
 const logout = async () => {
   await useLogout();
+  useSuccessToast("You have been logged out.");
 };
 </script>
 
