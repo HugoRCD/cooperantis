@@ -26,8 +26,8 @@ export async function deletePost(userId: number, postId: number) {
   });
 }
 
-export async function getPostById(postId: number) {
-  return prisma.post.findUnique({
+export async function getPostById(postId: number, userId: number) {
+  const post = await prisma.post.findUnique({
     where: {
       id: postId,
     },
@@ -41,6 +41,11 @@ export async function getPostById(postId: number) {
       },
     },
   });
+  if (!post) throw new Error("Post not found");
+  return {
+    ...post,
+    isLiked: post.likes.some((like) => like.userId === userId),
+  };
 }
 
 export async function getPostsByUserId(userId: number) {
@@ -88,7 +93,7 @@ export async function getAllPosts(userId: number) {
 }
 
 export async function handleLikePost(userId: number, postId: number) {
-  const post = await getPostById(postId);
+  const post = await getPostById(postId, userId);
   if (!post) throw new Error("Post not found");
   const isLiked = post.likes.some((like) => like.userId === userId);
   if (isLiked) {

@@ -1,12 +1,16 @@
 <script setup lang="ts">
 import Post from "~/components/feed/Post.vue";
 import CommentForm from "~/components/feed/commentForm.vue";
+import CommentList from "~/components/feed/commentList.vue";
 
 const postId = useRoute().params.postId;
 const currentUser = useUserStore().getUser;
 
 const { data: post } = useFetch("/api/post/" + postId, {
-  method: "GET",
+  method: "POST",
+  body: {
+    userId: currentUser?.id,
+  },
 });
 </script>
 
@@ -18,6 +22,7 @@ const { data: post } = useFetch("/api/post/" + postId, {
       :content="post.content"
       :created-at="post.createdAt"
       :nb-likes="post._count.likes"
+      :is-liked="post.isLiked"
     />
     <div class="mt-4 border-t border-muted">
       <CommentForm :postId="post.id" />
