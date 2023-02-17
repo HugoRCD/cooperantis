@@ -6,6 +6,10 @@ definePageMeta({
   description: "Home page",
   keywords: "Home",
 });
+
+function test() {
+  useTestToast("Ceci est un test");
+}
 </script>
 
 <template>
@@ -18,7 +22,7 @@ definePageMeta({
         {{ $t("pages.home.description") }}
       </p>
       <div class="mt-6 flex justify-center">
-        <NuxtLink to="/contact" class="btn-primary w-1/6"> Contact </NuxtLink>
+        <NuxtLink to="/contact" class="btn-primary"> Contact </NuxtLink>
       </div>
     </div>
   </main>

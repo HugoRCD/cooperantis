@@ -1,9 +1,10 @@
 <script setup lang="ts">
 import { HeartIcon, TrashIcon } from "@heroicons/vue/24/outline";
+import { handleLikePost } from "~/composables/usePost";
 
 const currentUser = useUserStore().getUser;
 
-defineProps({
+const props = defineProps({
   id: {
     type: Number,
     required: true,
@@ -18,6 +19,14 @@ defineProps({
   },
   createdAt: {
     type: String,
+    required: true,
+  },
+  nbLikes: {
+    type: Number,
+    required: true,
+  },
+  isLiked: {
+    type: Boolean,
     required: true,
   },
 });
@@ -35,24 +44,50 @@ async function deletePost(postId: number) {
     emit("delete");
   }
 }
+
+const nbLikesRef = ref(props.nbLikes);
+const isLikedRef = ref(props.isLiked);
+
+async function handleLike(postId: number) {
+  isLikedRef.value = !isLikedRef.value;
+  await handleLikePost(postId);
+}
+
+watch(
+  () => isLikedRef.value,
+  (isLiked) => {
+    if (isLiked) {
+      nbLikesRef.value++;
+      isLikedRef.value = true;
+    } else {
+      nbLikesRef.value--;
+      isLikedRef.value = false;
+    }
+  },
+);
 </script>
 
 <template>
-  <div class="bg-secondary border border-muted rounded-lg p-4 mb-4">
-    <NuxtLink class="flex items-center" :to="`/app/profile/${user.id}`">
+  <div>
+    <div class="flex items-center">
       <img :src="user.avatar" alt="" class="w-12 h-12 rounded-full mr-4" />
-      <div>
-        <h2 class="text-lg font-semibold text-primary">{{ user.firstname }} {{ user.lastname }}</h2>
-      </div>
-    </NuxtLink>
+      <NuxtLink :to="`/app/profile/${user.id}`">
+        <h2 class="text-lg font-semibold text-primary hover:underline">{{ user.firstname }} {{ user.lastname }}</h2>
+      </NuxtLink>
+    </div>
     <p class="mt-4 text-lg text-muted truncate">
       {{ content }}
     </p>
     <div class="mt-4 flex justify-between items-center text-muted text-sm">
       <div class="flex items-center gap-2">
-        <div>10</div>
+        <span>{{ nbLikesRef }}</span>
         <HeartIcon
-          class="w-5 h-5 hover:text-red-500 hover:fill-red-500 cursor-pointer hover:scale-110 transition duration-200"
+          :class="{
+            'text-red-500 fill-red-500 hover:scale-110': isLikedRef,
+            'text-gray-400 hover:scale-110': !isLikedRef,
+          }"
+          class="w-5 h-5 cursor-pointer transition duration-200 hover:text-red-500"
+          @click="handleLike(id)"
         />
       </div>
       <div>

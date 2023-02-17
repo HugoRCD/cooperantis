@@ -209,11 +209,11 @@ const deleteAccount = async () => {
           </p>
         </div>
         <div>
-          <div v-if="user.Subscription.length > 0 && user.Subscription && user.Subscription[0].name === 'Pro'">
-            <i class="fas fa-check-circle text-green-600"></i> {{ user.Subscription[0].name }}
+          <div v-if="user.subscription.length > 0 && user.subscription && user.subscription[0].name === 'Pro'">
+            <i class="fas fa-check-circle text-green-600"></i> {{ user.subscription[0].name }}
           </div>
-          <div v-if="user.Subscription.length > 0 && user.Subscription && user.Subscription[0].name === 'Trial'">
-            <i class="fas fa-check-circle text-yellow-600"></i> {{ user.Subscription[0].name }}
+          <div v-if="user.subscription.length > 0 && user.subscription && user.subscription[0].name === 'Trial'">
+            <i class="fas fa-check-circle text-yellow-600"></i> {{ user.subscription[0].name }}
           </div>
           <div v-else><i class="fas fa-times-circle text-red-600"></i> No subscription</div>
         </div>

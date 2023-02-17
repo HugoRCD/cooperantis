@@ -13,7 +13,7 @@ model EmailVerification {
   token     String   @unique
   userId    Int
   createdAt DateTime @default(now())
-  User      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
 }
 
 model ResetPassword {
@@ -21,7 +21,7 @@ model ResetPassword {
   token     String   @unique
   userId    Int
   createdAt DateTime @default(now())
-  User      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
 }
 
 model Subscription {
@@ -35,7 +35,7 @@ model Subscription {
   endsAt        Int?
   startDate     Int
   lastEventDate Int
-  User          User    @relation(fields: [userId], references: [id], onDelete: Cascade)
+  user          User    @relation(fields: [userId], references: [id], onDelete: Cascade)
 }
 
 model User {
@@ -63,10 +63,11 @@ model User {
   isVerified        Boolean             @default(false)
   refreshToken      String?             @unique
   authToken         String?             @unique
-  EmailVerification EmailVerification[]
-  Post              Post[]
-  ResetPassword     ResetPassword[]
-  Subscription      Subscription[]
+  emailVerification EmailVerification[]
+  post              Post[]
+  resetPassword     ResetPassword[]
+  subscription      Subscription[]
+  likes             Like[]
 }
 
 model Post {
@@ -74,5 +75,15 @@ model Post {
   content   String
   createdAt DateTime @default(now())
   userId    Int
-  User      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  likes     Like[]
+}
+
+model Like {
+  id        Int      @id @default(autoincrement())
+  createdAt DateTime @default(now())
+  userId    Int
+  postId    Int
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  post      Post     @relation(fields: [postId], references: [id], onDelete: Cascade)
 }

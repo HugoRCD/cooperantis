@@ -56,7 +56,7 @@ export async function getUserByLogin(login: string) {
 export async function getAllUsers() {
   const users = await prisma.user.findMany({
     include: {
-      Subscription: true,
+      subscription: true,
     },
   });
   return users.map((user: User) => {
@@ -70,7 +70,7 @@ export async function getUserByAuthToken(authToken: string) {
       authToken,
     },
     include: {
-      Subscription: true,
+      subscription: true,
     },
   });
   if (!user) return null;
@@ -97,7 +97,7 @@ export async function setAuthToken(userId: number) {
       authToken,
     },
     include: {
-      Subscription: true,
+      subscription: true,
     },
   });
   return exclude(updatedUser, ["password", "refreshToken"]);
@@ -138,7 +138,7 @@ export async function updateUser(userId: number, updateUserInput: updateUserInpu
       ...updateUserInput,
     },
     include: {
-      Subscription: true,
+      subscription: true,
     },
   });
   return exclude(user, ["password", "authToken", "refreshToken"]);
