@@ -5,6 +5,12 @@ export interface createPostInput {
   userId: number;
 }
 
+export interface createCommentInput {
+  content: string;
+  userId: number;
+  postId: number;
+}
+
 export async function createPost(post: createPostInput) {
   return prisma.post.create({
     data: {
@@ -34,9 +40,11 @@ export async function getPostById(postId: number, userId: number) {
     include: {
       user: true,
       likes: true,
+      comments: true,
       _count: {
         select: {
           likes: true,
+          comments: true,
         },
       },
     },
@@ -56,9 +64,11 @@ export async function getPostsByUserId(userId: number) {
     include: {
       user: true,
       likes: true,
+      comments: true,
       _count: {
         select: {
           likes: true,
+          comments: true,
         },
       },
     },
@@ -77,9 +87,11 @@ export async function getAllPosts(userId: number) {
     include: {
       user: true,
       likes: true,
+      comments: true,
       _count: {
         select: {
           likes: true,
+          comments: true,
         },
       },
     },
@@ -118,4 +130,30 @@ export async function handleLikePost(userId: number, postId: number) {
       },
     });
   }
+}
+
+export async function createComment(comment: createCommentInput) {
+  return prisma.comment.create({
+    data: {
+      content: comment.content,
+      user: {
+        connect: {
+          id: comment.userId,
+        },
+      },
+      post: {
+        connect: {
+          id: comment.postId,
+        },
+      },
+    },
+  });
+}
+
+export async function deleteComment(commentId: number) {
+  return prisma.comment.delete({
+    where: {
+      id: commentId,
+    },
+  });
 }
