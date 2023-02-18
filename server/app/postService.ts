@@ -40,7 +40,11 @@ export async function getPostById(postId: number, userId: number) {
     include: {
       user: true,
       likes: true,
-      comments: true,
+      comments: {
+        include: {
+          user: true,
+        },
+      },
       _count: {
         select: {
           likes: true,

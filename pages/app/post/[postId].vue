@@ -1,14 +1,18 @@
 <script setup lang="ts">
 import { ArrowUturnLeftIcon } from "@heroicons/vue/24/outline";
 import Post from "~/components/feed/Post.vue";
-import CommentForm from "~/components/feed/commentForm.vue";
-import CommentList from "~/components/feed/commentList.vue";
+import CommentForm from "~/components/feed/CommentForm.vue";
+import CommentList from "~/components/feed/CommentList.vue";
 import PostLoader from "~/components/loader/PostLoader.vue";
 
 const postId = useRoute().params.postId;
 const currentUser = useUserStore().getUser;
 
-const { data: post, pending } = useLazyFetch("/api/post/" + postId, {
+const {
+  data: post,
+  pending,
+  refresh,
+} = useLazyFetch("/api/post/" + postId, {
   method: "POST",
   body: {
     userId: currentUser?.id,
@@ -34,11 +38,12 @@ const { data: post, pending } = useLazyFetch("/api/post/" + postId, {
         :content="post.content"
         :created-at="post.createdAt"
         :nb-likes="post._count.likes"
+        :nb-comments="post._count.comments"
         :is-liked="post.isLiked"
       />
       <div class="mt-4 border-t border-muted">
-        <CommentForm :postId="post.id" />
-        <CommentList :postId="post.id" />
+        <CommentForm :postId="post.id" :refresh="refresh" />
+        <CommentList :comments="post.comments" />
       </div>
     </div>
   </div>

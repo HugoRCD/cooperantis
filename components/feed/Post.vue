@@ -25,6 +25,10 @@ const props = defineProps({
     type: Number,
     required: true,
   },
+  nbComments: {
+    type: Number,
+    required: true,
+  },
   isLiked: {
     type: Boolean,
     required: true,
@@ -93,7 +97,7 @@ watch(
           />
         </div>
         <div class="flex items-center gap-1">
-          <span>0</span>
+          <span>{{ nbComments }}</span>
           <NuxtLink :to="`/app/post/${id}`">
             <ChatBubbleBottomCenterIcon class="w-5 h-5 cursor-pointer transition duration-200 hover:text-primary" />
           </NuxtLink>

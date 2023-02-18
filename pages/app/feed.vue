@@ -49,6 +49,7 @@ async function addPost() {
             :content="post.content"
             :created-at="post.createdAt"
             :nb-likes="post._count.likes"
+            :nb-comments="post._count.comments"
             :is-liked="post.isLiked"
           />
         </div>
