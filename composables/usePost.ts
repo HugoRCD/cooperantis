@@ -13,25 +13,15 @@ interface Post {
 }
 
 export async function getPostById(postId: number) {
+  const user = useUserStore().getUser;
   const { data, refresh } = await useFetch(`/api/post/${postId}`, {
-    method: "GET",
-  });
-  if (!data) {
-    useErrorToast("Failed to fetch post");
-  } else {
-    return { data, refresh };
-  }
-}
-
-export async function getPosts(userId: number) {
-  const { data, refresh } = await useFetch("/api/post/getPosts", {
     method: "POST",
     body: {
-      userId,
+      userId: user?.id,
     },
   });
   if (!data) {
-    useErrorToast("Failed to fetch posts");
+    useErrorToast("Failed to fetch post");
   } else {
     return { data, refresh };
   }

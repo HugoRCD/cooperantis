@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import Post from "~/components/feed/Post.vue";
-import { getPosts } from "~/composables/usePost";
+import PostLoader from "~/components/loader/PostLoader.vue";
 
 definePageMeta({
   name: "Feed",
@@ -9,7 +9,12 @@ definePageMeta({
 
 const user = useUserStore().getUser;
 
-const { data, refresh } = await getPosts(user.id);
+const { data, refresh, pending } = await useLazyFetch("/api/post/getPosts", {
+  method: "POST",
+  body: {
+    userId: user?.id,
+  },
+});
 
 const postContent = ref("");
 
@@ -29,7 +34,8 @@ async function addPost() {
         <button type="submit" class="btn btn-primary float-right" :disabled="postContent === ''">Post</button>
       </form>
     </div>
-    <ul role="list">
+    <PostLoader v-if="pending" :nb-posts="6" />
+    <ul role="list" v-else>
       <li
         v-for="post in data"
         :key="post.id"
