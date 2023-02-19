@@ -32,18 +32,10 @@ const {
           <h1 class="text-2xl font-bold">Post</h1>
         </div>
       </div>
-      <Post
-        :id="post.id"
-        :user="post.user"
-        :content="post.content"
-        :created-at="post.createdAt"
-        :nb-likes="post._count.likes"
-        :nb-comments="post._count.comments"
-        :is-liked="post.isLiked"
-      />
+      <Post :post="post" :user="post.user" />
       <div class="mt-4 border-t border-muted">
         <CommentForm :postId="post.id" :refresh="refresh" />
-        <CommentList :comments="post.comments" />
+        <CommentList :comments="post.comments" :refresh="refresh" />
       </div>
     </div>
   </div>

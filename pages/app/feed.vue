@@ -42,16 +42,7 @@ async function addPost() {
         class="px-8 py-6 border-b border-muted hover:bg-secondary-opacity/20 transition-colors duration-200"
       >
         <div>
-          <Post
-            @delete="refresh"
-            :id="post.id"
-            :user="post.user"
-            :content="post.content"
-            :created-at="post.createdAt"
-            :nb-likes="post._count.likes"
-            :nb-comments="post._count.comments"
-            :is-liked="post.isLiked"
-          />
+          <Post @delete="refresh" :post="post" :user="post.user" />
         </div>
       </li>
     </ul>

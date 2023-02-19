@@ -44,6 +44,9 @@ export async function getPostById(postId: number, userId: number) {
         include: {
           user: true,
         },
+        where: {
+          userId: userId,
+        },
       },
       _count: {
         select: {
@@ -54,9 +57,17 @@ export async function getPostById(postId: number, userId: number) {
     },
   });
   if (!post) throw new Error("Post not found");
+  const isLiked = post.likes.some((like) => like.userId === userId);
+  const comments = post.comments.map((comment) => {
+    return {
+      ...comment,
+      owner: comment.user.id === userId,
+    };
+  });
   return {
     ...post,
-    isLiked: post.likes.some((like) => like.userId === userId),
+    isLiked,
+    comments,
   };
 }
 

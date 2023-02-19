@@ -5,32 +5,12 @@ import { handleLikePost } from "~/composables/usePost";
 const currentUser = useUserStore().getUser;
 
 const props = defineProps({
-  id: {
-    type: Number,
+  post: {
+    type: Object,
     required: true,
   },
   user: {
     type: Object,
-    required: true,
-  },
-  content: {
-    type: String,
-    required: true,
-  },
-  createdAt: {
-    type: String,
-    required: true,
-  },
-  nbLikes: {
-    type: Number,
-    required: true,
-  },
-  nbComments: {
-    type: Number,
-    required: true,
-  },
-  isLiked: {
-    type: Boolean,
     required: true,
   },
 });
@@ -49,8 +29,8 @@ async function deletePost(postId: number) {
   }
 }
 
-const nbLikesRef = ref(props.nbLikes);
-const isLikedRef = ref(props.isLiked);
+const nbLikesRef = ref(props.post._count.likes);
+const isLikedRef = ref(props.post.isLiked);
 
 async function handleLike(postId: number) {
   isLikedRef.value = !isLikedRef.value;
@@ -77,11 +57,11 @@ watch(
       <img :src="user.avatar" alt="" class="w-12 h-12 rounded-full mr-4" />
       <NuxtLink :to="`/app/profile/${user.id}`">
         <h2 class="text-lg font-semibold text-primary hover:underline">{{ user.firstname }} {{ user.lastname }}</h2>
-        <p class="text-sm text-muted">{{ createdAt }}</p>
+        <p class="text-sm text-muted">{{ post.createdAt }}</p>
       </NuxtLink>
     </div>
     <p class="mt-4 text-lg text-muted truncate">
-      {{ content }}
+      {{ post.content }}
     </p>
     <div class="mt-4 flex justify-between items-center text-muted text-sm">
       <div class="flex items-center gap-4">
@@ -97,8 +77,8 @@ watch(
           />
         </div>
         <div class="flex items-center gap-1">
-          <span>{{ nbComments }}</span>
-          <NuxtLink :to="`/app/post/${id}`">
+          <span>{{ post._count.comments }}</span>
+          <NuxtLink :to="`/app/post/${post.id}`">
             <ChatBubbleBottomCenterIcon class="w-5 h-5 cursor-pointer transition duration-200 hover:text-primary" />
           </NuxtLink>
         </div>
@@ -106,7 +86,7 @@ watch(
       <div>
         <TrashIcon
           v-if="user.id === currentUser?.id"
-          @click="deletePost(id)"
+          @click="deletePost(post.id)"
           class="w-5 h-5 hover:text-red-500 cursor-pointer"
         />
       </div>
