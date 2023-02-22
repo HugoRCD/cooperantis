@@ -11,7 +11,7 @@ datasource db {
 model EmailVerification {
   id        Int      @id @default(autoincrement())
   token     String   @unique
-  userId    Int
+  userId    Int      @unique
   createdAt DateTime @default(now())
   User      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
 }
@@ -19,7 +19,7 @@ model EmailVerification {
 model ResetPassword {
   id        Int      @id @default(autoincrement())
   token     String   @unique
-  userId    Int
+  userId    Int      @unique
   createdAt DateTime @default(now())
   User      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
 }
@@ -63,16 +63,42 @@ model User {
   refreshToken      String?             @unique
   authToken         String?             @unique
   avatar            String              @default("https://storage.cloud.google.com/cooperantis/default-avatar.jpeg")
+  Comment           Comment[]
   EmailVerification EmailVerification[]
+  Like              Like[]
+  Post              Post[]
   ResetPassword     ResetPassword[]
   Subscription      Subscription[]
-  Post              Post[]
 }
 
-model Post{
+model Post {
+  id        Int       @id @default(autoincrement())
+  content   String
+  createdAt DateTime  @default(now())
+  userId    Int
+  Comment   Comment[]
+  Like      Like[]
+  User      User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+}
+
+model Comment {
   id        Int      @id @default(autoincrement())
   content   String
   createdAt DateTime @default(now())
   userId    Int
+  postId    Int
+  Post      Post     @relation(fields: [postId], references: [id], onDelete: Cascade)
+  User      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  Like      Like[]
+}
+
+model Like {
+  id        Int      @id @default(autoincrement())
+  createdAt DateTime @default(now())
+  userId    Int
+  postId    Int
+  commentId Int?
+  Comment   Comment? @relation(fields: [commentId], references: [id], onDelete: Cascade)
+  Post      Post     @relation(fields: [postId], references: [id], onDelete: Cascade)
   User      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
 }

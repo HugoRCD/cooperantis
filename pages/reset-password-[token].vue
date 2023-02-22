@@ -10,33 +10,31 @@ const passwordConfirmation = ref("");
 
 const token = useRoute().params.token;
 
-const resetPassword = async () => {};
+async function newPassword() {
+  await useFetch("/api/auth/resetPassword", {
+    method: "POST",
+    body: {
+      token,
+      password: password,
+      passwordConfirmation: passwordConfirmation,
+    },
+  });
+  useRouter().push("/login");
+};
 </script>
 
 <template>
   <div class="flex h-screen">
-    <div
-      class="flex flex-1 flex-col justify-center py-12 px-4 sm:px-6 lg:flex-none lg:px-20 xl:px-24"
-    >
+    <div class="flex flex-1 flex-col justify-center py-12 px-4 sm:px-6 lg:flex-none lg:px-20 xl:px-24">
       <div class="mx-auto w-full max-w-sm lg:w-96">
         <div>
           <router-link to="/">
-            <img
-              class="h-12 w-auto mx-auto"
-              src="../assets/media/logo-cooperantis.svg"
-              alt="Your Company"
-            />
+            <img class="h-12 w-auto mx-auto" src="../assets/media/logo-cooperantis.svg" alt="Your Company" />
           </router-link>
-          <h2
-            class="text-center mt-6 text-3xl font-bold tracking-tight text-primary"
-          >
-            Reset Password
-          </h2>
-          <p class="my-6 text-center text-sm text-muted">
-            Please enter your new password.
-          </p>
+          <h2 class="text-center mt-6 text-3xl font-bold tracking-tight text-primary">Reset Password</h2>
+          <p class="my-6 text-center text-sm text-muted">Please enter your new password.</p>
         </div>
-        <form class="space-y-6" @submit.prevent="resetPassword">
+        <form class="space-y-6" @submit.prevent="newPassword">
           <input
             id="password"
             name="password"
