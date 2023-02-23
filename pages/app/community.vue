@@ -68,7 +68,7 @@ watchEffect(() => {
         >
           <img class="mx-auto h-24 w-24 rounded-full object-cover" :src="user.avatar" alt="" />
           <h3 class="mt-6 text-center text-lg font-medium text-primary">{{ user.firstname }} {{ user.lastname }}</h3>
-          <p class="mt-2 text-center text-sm text-muted">{{ user.bio }}</p>
+          <p class="text-center text-sm text-muted">{{ user.profession }}</p>
         </li>
       </ul>
     </div>
@@ -82,7 +82,7 @@ watchEffect(() => {
         <img class="h-20 w-20 rounded-full object-cover" :src="user.avatar" alt="" />
         <div class="flex flex-col gap-2">
           <h3 class="text-lg font-medium text-primary">{{ user.firstname }} {{ user.lastname }}</h3>
-          <p class="text-sm text-muted">{{ user.bio }}</p>
+          <p class="text-sm text-muted">{{ user.profession }}</p>
         </div>
       </div>
     </div>

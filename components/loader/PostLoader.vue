@@ -9,7 +9,7 @@ defineProps({
 
 <template>
   <div>
-    <div class="border border-muted shadow rounded-md px-4 py-8 w-full" v-for="i in nbPosts" :key="i">
+    <div class="border border-muted shadow rounded-md px-8 py-8 w-full" v-for="i in nbPosts" :key="i">
       <div class="animate-pulse flex space-x-4">
         <div class="rounded-full bg-secondary h-10 w-10"></div>
         <div class="flex-1 space-y-6 py-1">
