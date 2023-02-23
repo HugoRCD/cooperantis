@@ -29,7 +29,7 @@ export async function getPostById(postId: number) {
 
 export async function createPost(postContent: string) {
   const user = useUserStore().getUser;
-  const { data, refresh } = await useFetch("/api/post", {
+  const { data, refresh } = await useFetch("/api/post/createPost", {
     method: "POST",
     body: {
       content: postContent,

@@ -19,7 +19,7 @@ const { data, refresh, pending } = await useLazyFetch("/api/post/getPosts", {
 const postContent = ref("");
 
 async function addPost() {
-  await createPost(postContent.value.content);
+  await createPost(postContent.value);
   refresh();
   postContent.value = "";
 }

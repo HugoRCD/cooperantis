@@ -48,7 +48,7 @@ const profileUrl = useRuntimeConfig().public.appDomain + "/app/profile/" + user.
             </div>
             <div class="hidden min-w-0 flex-1 sm:block 2xl:hidden">
               <div class="flex items-center justify-between">
-                <div class="flex items-center space-x-2 cursor-pointer" @click="copyProfileLink(user.id)">
+                <div class="flex items-center space-x-2">
                   <h1 class="truncate text-2xl font-bold text-primary">{{ user.firstname }} {{ user.lastname }}</h1>
                   <p class="mt-1 text-sm text-primary">- {{ user.profession }}</p>
                 </div>
