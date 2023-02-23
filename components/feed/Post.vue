@@ -73,7 +73,7 @@ watch(
               'text-gray-400 hover:scale-110': !isLikedRef,
             }"
             class="w-5 h-5 cursor-pointer transition duration-200 hover:text-red-500"
-            @click="handleLike(id)"
+            @click="handleLike(post.id)"
           />
         </div>
         <div class="flex items-center gap-1">
