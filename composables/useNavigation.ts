@@ -1,4 +1,4 @@
-import { CogIcon, HomeIcon, UserGroupIcon, UserCircleIcon, PencilIcon } from "@heroicons/vue/24/outline";
+import { CogIcon, HomeIcon, UserGroupIcon, UserCircleIcon, PencilIcon, GlobeAltIcon } from "@heroicons/vue/24/outline";
 
 type Where = "home" | "app" | "admin";
 
@@ -16,6 +16,7 @@ const home: Navigation[] = [
 
 const app: Navigation[] = [
   { name: "Feed", to: "/app/feed", icon: HomeIcon },
+  { name: "Community", to: "/app/community", icon: GlobeAltIcon },
   { name: "Profile", to: "/app/profile/me", icon: UserCircleIcon },
   { name: "Edit Profile", to: "/app/edit-profile", icon: PencilIcon },
   { name: "Settings", to: "/app/settings", icon: CogIcon },

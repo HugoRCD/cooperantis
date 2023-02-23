@@ -1,5 +1,5 @@
 <script setup>
-import { EnvelopeIcon, PhoneIcon } from "@heroicons/vue/20/solid";
+import { EnvelopeIcon, PhoneIcon, LinkIcon } from "@heroicons/vue/20/solid";
 
 import QrcodeVue from "qrcode.vue";
 
@@ -21,37 +21,62 @@ const profileUrl = useRuntimeConfig().public.appDomain + "/app/profile/" + user.
           <div>
             <img class="h-32 w-full object-cover lg:h-48" :src="coverImageUrl" alt="" />
           </div>
-          <div class="mx-auto max-w-5xl px-4 sm:px-6 lg:px-8">
-            <div class="-mt-12 sm:-mt-16 sm:flex sm:items-end sm:space-x-5">
+          <div class="mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="-mt-12 sm:-mt-16 sm:items-end sm:space-x-5">
               <div class="flex">
-                <img class="h-24 w-24 rounded-full ring-4 ring-white sm:h-32 sm:w-32" :src="user.avatar" alt="" />
+                <img
+                  class="h-24 w-24 rounded-full ring-2 ring-white sm:h-32 sm:w-32 object-cover"
+                  :src="user.avatar"
+                  alt=""
+                />
               </div>
               <div class="mt-6 sm:flex sm:min-w-0 sm:flex-1 sm:items-center sm:justify-end sm:space-x-6 sm:pb-1">
                 <div class="mt-6 min-w-0 flex-1 sm:hidden 2xl:block">
-                  <h1 class="truncate text-2xl font-bold text-primary">{{ user.firstname }} {{ user.lastname }}</h1>
-                  <p class="mt-1 text-sm text-primary">{{ user.profession }}</p>
-                </div>
-                <div class="justify-stretch mt-6 flex flex-col space-y-3 sm:flex-row sm:space-y-0 sm:space-x-4">
-                  <button
-                    type="button"
-                    class="inline-flex justify-center rounded-md bg-accent px-4 py-2 text-sm font-medium text-inverted shadow-sm hover:bg-accent-hover"
-                  >
-                    <EnvelopeIcon class="-ml-1 mr-2 h-5 w-5 text-inverted" aria-hidden="true" />
-                    <span>Email</span>
-                  </button>
-                  <button
-                    type="button"
-                    class="inline-flex justify-center rounded-md bg-accent px-4 py-2 text-sm font-medium text-inverted shadow-sm hover:bg-accent-hover"
-                  >
-                    <PhoneIcon class="-ml-1 mr-2 h-5 w-5 text-inverted" aria-hidden="true" />
-                    <span>Call</span>
-                  </button>
+                  <div class="flex items-center justify-between">
+                    <h1 class="truncate text-2xl font-bold text-primary">{{ user.firstname }} {{ user.lastname }}</h1>
+                    <p class="mt-1 text-sm text-primary">{{ user.profession }}</p>
+                    <div class="flex items-center space-x-2 cursor-pointer" @click="copyProfileLink(user.id)">
+                      <LinkIcon class="h-5 w-5 text-muted" />
+                    </div>
+                  </div>
+                  <div class="sm:col-span-2 mt-5">
+                    <dt class="text-sm font-medium text-gray-500">Bio</dt>
+                    <dd class="mt-1 max-w-prose space-y-5 text-sm text-primary" v-html="user.bio || bio" />
+                  </div>
                 </div>
               </div>
             </div>
-            <div class="mt-6 hidden min-w-0 flex-1 sm:block 2xl:hidden">
-              <h1 class="truncate text-2xl font-bold text-primary">{{ user.firstname }} {{ user.lastname }}</h1>
-              <p class="mt-1 text-sm text-primary">{{ user.profession }}</p>
+            <div class="hidden min-w-0 flex-1 sm:block 2xl:hidden">
+              <div class="flex items-center justify-between">
+                <div class="flex items-center space-x-2 cursor-pointer" @click="copyProfileLink(user.id)">
+                  <h1 class="truncate text-2xl font-bold text-primary">{{ user.firstname }} {{ user.lastname }}</h1>
+                  <p class="mt-1 text-sm text-primary">- {{ user.profession }}</p>
+                </div>
+                <div class="flex items-center space-x-2 cursor-pointer" @click="copyProfileLink(user.id)">
+                  <LinkIcon class="h-5 w-5 text-muted" />
+                  <p class="text-sm text-muted">Copy link to profile</p>
+                </div>
+              </div>
+              <div class="sm:col-span-2 mt-5">
+                <dt class="text-sm font-medium text-gray-500">Bio</dt>
+                <dd class="mt-1 max-w-prose space-y-5 text-sm text-primary" v-html="user.bio || bio" />
+              </div>
+            </div>
+            <div class="justify-stretch mt-6 flex flex-col space-y-3 sm:flex-row sm:space-y-0 sm:space-x-4">
+              <button
+                type="button"
+                class="inline-flex justify-center rounded-md bg-accent px-4 py-2 text-sm font-medium text-inverted shadow-sm hover:bg-accent-hover"
+              >
+                <EnvelopeIcon class="-ml-1 mr-2 h-5 w-5 text-inverted" aria-hidden="true" />
+                <span>Email</span>
+              </button>
+              <button
+                type="button"
+                class="inline-flex justify-center rounded-md bg-accent px-4 py-2 text-sm font-medium text-inverted shadow-sm hover:bg-accent-hover"
+              >
+                <PhoneIcon class="-ml-1 mr-2 h-5 w-5 text-inverted" aria-hidden="true" />
+                <span>Call</span>
+              </button>
             </div>
           </div>
         </div>

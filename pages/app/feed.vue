@@ -26,7 +26,7 @@ async function addPost() {
 </script>
 
 <template>
-  <div>
+  <div class="-m-4">
     <div class="flex items-start space-x-4 py-4 px-6 border-b border-muted">
       <img class="inline-block h-10 w-10 rounded-full" :src="user.avatar" alt="" />
       <form @submit.prevent="addPost" class="relative w-full">
