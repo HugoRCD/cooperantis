@@ -9,6 +9,7 @@ import { createStripeCustomer, deleteStripeCustomer } from "~/server/app/stripeS
 import { createUserInput, updateUserInput } from "~/server/api/user/user.dto";
 import { Plans } from "~/types/Pricing";
 import resetPassword from "../api/mailer/templates/reset-password";
+import { sendGmail } from "~/server/app/mailerService";
 
 export async function createUser(userData: createUserInput) {
   const password = await bcrypt.hash(userData.password, 10);
@@ -32,6 +33,15 @@ export async function createUser(userData: createUserInput) {
       lastEventDate: stripeInfo.subscription.current_period_start,
       startDate: stripeInfo.subscription.current_period_start,
     },
+  });
+  const token = await createEmailVerificationToken(user.id);
+  const appDomain = useRuntimeConfig().public.appDomain;
+  const url = `${appDomain}/verify-email-${token}`;
+  await sendGmail({
+    template: resetPassword(user.email, url),
+    to: user.email,
+    from: useRuntimeConfig().mailerUser,
+    subject: "Verify your email",
   });
   return exclude(user, ["password", "authToken", "refreshToken"]);
 }
@@ -271,7 +281,50 @@ export async function newPassword(userId: number, password: string) {
 export async function getPasswordResetByToken(token: string) {
   return await prisma.resetPassword.findFirst({
     where: {
+      token: token,
+    },
+  });
+}
+
+export async function createEmailVerificationToken(id: number) {
+  const token = Math.random().toString(36);
+  await prisma.emailVerification.upsert({
+    where: {
+      userId: id,
+    },
+    create: {
+      userId: id,
       token,
+    },
+    update: {
+      token,
+    },
+  });
+}
+
+export async function verifyEmailbyToken(token: string) {
+  return await prisma.emailVerification.findFirst({
+    where: {
+      token: token,
+    },
+  });
+}
+
+export async function deleteEmailVerificationToken(token: string) {
+  await prisma.emailVerification.delete({
+    where: {
+      token,
+    },
+  });
+}
+
+export async function updateUserEmailVerification(userid: number) {
+  return await prisma.user.update({
+    where: {
+      id: userid,
+    },
+    data: {
+      isVerified: true,
     },
   });
 }

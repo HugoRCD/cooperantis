@@ -17,5 +17,5 @@ export default eventHandler(async (event: H3Event) => {
     postalCode: body.postalCode,
     profession: body.profession,
   };
-  return await createUser(createUserInput);
+  return createUser(createUserInput);
 });
