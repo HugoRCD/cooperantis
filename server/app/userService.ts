@@ -8,6 +8,7 @@ import jwt from "jsonwebtoken";
 import { createStripeCustomer, deleteStripeCustomer } from "~/server/app/stripeService";
 import { createUserInput, updateUserInput } from "~/server/api/user/user.dto";
 import { Plans } from "~/types/Pricing";
+import resetPassword from "../api/mailer/templates/reset-password";
 
 export async function createUser(userData: createUserInput) {
   const password = await bcrypt.hash(userData.password, 10);
@@ -208,13 +209,69 @@ export async function createOrUpdateSubscription(data: Subscription) {
   });
 }
 
-export async function generateToken(userId: number) {
+export async function generateToken(id: number) {
   const token = Math.random().toString(36);
-  await prisma.resetPassword.create({
-    data: {
-      token,
-      userId,
+  await prisma.resetPassword.upsert({
+    where: {
+      userId: id,
+    },
+    create: {
+      userId: id,
+      token: token,
+    },
+    update: {
+      token: token,
     },
   });
   return token;
+}
+
+export async function createPost(postData: createPostInput) {
+  return await prisma.post.create({
+    data: postData,
+  });
+}
+
+export async function getUserResetPasswordbyToken(token: string ) {
+  const user = await prisma.resetPassword.findFirst({
+    where: {
+      token,
+    },
+    include: {
+      User: true,
+    },
+  });
+    if (!user) return null;
+    return user;
+}
+
+
+export async function deleteResetPasswordToken(Id: number) {
+  await prisma.resetPassword.delete({
+    where: {
+      userId: Id,
+    },
+  });
+}
+
+export async function newPassword(userId: number, password: string) {
+  const user = (await getUserById(userId)) as User;
+  const hashedPassword = await bcrypt.hash(password, 10);
+  return await prisma.user.update({
+    where: {
+      id: user.id,
+    },
+    data: {
+      password: hashedPassword,
+    },
+  });
+}
+
+
+export async function getPasswordResetByToken(token: string) {
+  return await prisma.resetPassword.findFirst({
+    where: {
+      token,
+    },
+  });
 }

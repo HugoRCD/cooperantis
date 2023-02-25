@@ -10,7 +10,17 @@ const passwordConfirmation = ref("");
 
 const token = useRoute().params.token;
 
-const resetPassword = async () => {};
+async function newPassword() {
+  await useFetch("/api/auth/resetPassword", {
+    method: "POST",
+    body: {
+      token,
+      password: password,
+      passwordConfirmation: passwordConfirmation,
+    },
+  });
+  useRouter().push("/login");
+};
 </script>
 
 <template>
@@ -24,7 +34,7 @@ const resetPassword = async () => {};
           <h2 class="text-center mt-6 text-3xl font-bold tracking-tight text-primary">Reset Password</h2>
           <p class="my-6 text-center text-sm text-muted">Please enter your new password.</p>
         </div>
-        <form class="space-y-6" @submit.prevent="resetPassword">
+        <form class="space-y-6" @submit.prevent="newPassword">
           <input
             id="password"
             name="password"

@@ -11,7 +11,7 @@ datasource db {
 model EmailVerification {
   id        Int      @id @default(autoincrement())
   token     String   @unique
-  userId    Int
+  userId    Int      @unique
   createdAt DateTime @default(now())
   user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
 }
@@ -19,7 +19,7 @@ model EmailVerification {
 model ResetPassword {
   id        Int      @id @default(autoincrement())
   token     String   @unique
-  userId    Int
+  userId    Int      @unique
   createdAt DateTime @default(now())
   user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
 }
@@ -101,4 +101,15 @@ model Comment {
   user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
   post      Post     @relation(fields: [postId], references: [id], onDelete: Cascade)
   likes     Like[]
+}
+
+model Like {
+  id        Int      @id @default(autoincrement())
+  createdAt DateTime @default(now())
+  userId    Int
+  postId    Int
+  commentId Int?
+  Comment   Comment? @relation(fields: [commentId], references: [id], onDelete: Cascade)
+  Post      Post     @relation(fields: [postId], references: [id], onDelete: Cascade)
+  User      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
 }
