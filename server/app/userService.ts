@@ -11,6 +11,7 @@ import {
 } from "~/server/app/stripeService";
 import { createUserInput, updateUserInput } from "~/server/api/user/user.dto";
 import { Plans } from "~/types/Pricing";
+import resetPassword from "../api/mailer/templates/reset-password";
 
 export interface createPostInput {
   content: string;
@@ -272,6 +273,15 @@ export async function newPassword(userId: number, password: string) {
     },
     data: {
       password: hashedPassword,
+    },
+  });
+}
+
+
+export async function getPasswordResetByToken(token: string) {
+  return await prisma.resetPassword.findFirst({
+    where: {
+      token,
     },
   });
 }
