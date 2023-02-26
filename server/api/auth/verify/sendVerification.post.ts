@@ -2,7 +2,6 @@ import { H3Event } from "h3";
 import { getUserByLogin } from "~/server/app/userService";
 import { generateEmailVerificationToken } from "~/server/app/authService";
 import { sendGmail } from "~/server/app/mailerService";
-import resetPassword from "~/server/api/mailer/templates/reset-password";
 import newUser from "~/server/api/mailer/templates/new-user";
 
 export default eventHandler(async (event: H3Event) => {
