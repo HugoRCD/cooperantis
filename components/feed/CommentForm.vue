@@ -29,7 +29,7 @@ async function addComment() {
 
 <template>
   <form class="flex items-start space-x-4 py-4 px-6 border-b border-muted" @submit.prevent="addComment">
-    <img class="inline-block h-10 w-10 rounded-full" :src="currentUser.avatar" alt="" />
+    <img class="inline-block h-10 w-10 rounded-full object-cover" :src="currentUser.avatar" alt="" />
     <textarea
       autofocus
       rows="2"

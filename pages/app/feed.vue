@@ -27,8 +27,8 @@ async function addPost() {
 
 <template>
   <div class="-m-4">
-    <div class="flex items-start space-x-4 py-4 px-6 border-b border-muted">
-      <img class="inline-block h-10 w-10 rounded-full" :src="user.avatar" alt="" />
+    <div class="flex items-start space-x-4 p-10 border-b border-muted">
+      <img class="inline-block h-10 w-10 rounded-full object-cover" :src="user.avatar" alt="" />
       <form @submit.prevent="addPost" class="relative w-full">
         <textarea v-model="postContent" rows="3" class="input p-3" placeholder="Tell us what you think..." />
         <button type="submit" class="btn btn-primary float-right" :disabled="postContent === ''">Post</button>

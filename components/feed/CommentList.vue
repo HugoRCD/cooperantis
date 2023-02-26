@@ -28,7 +28,7 @@ async function deleteComment(commentId: number) {
       :key="comment.id"
       class="flex items-start space-x-4 py-4 px-6 border-b border-muted"
     >
-      <img class="inline-block h-10 w-10 rounded-full" :src="comment.user.avatar" alt="" />
+      <img class="inline-block h-10 w-10 rounded-full object-cover" :src="comment.user.avatar" alt="" />
       <div class="flex-1 space-y-2">
         <div class="flex items-center justify-between">
           <NuxtLink :to="`/app/profile/${comment.user.id}`">

@@ -54,7 +54,7 @@ watch(
 <template>
   <div>
     <div class="flex items-center">
-      <img :src="user.avatar" alt="" class="w-12 h-12 rounded-full mr-4" />
+      <img :src="user.avatar" alt="" class="w-12 h-12 rounded-full mr-4 object-cover" />
       <NuxtLink :to="`/app/profile/${user.id}`">
         <h2 class="text-lg font-semibold text-primary hover:underline">{{ user.firstname }} {{ user.lastname }}</h2>
         <p class="text-sm text-muted">{{ post.createdAt }}</p>
