@@ -10,7 +10,7 @@ const email = ref("");
 const loading = ref<boolean>(false);
 async function sendResetPasswordEmail() {
   loading.value = true;
-  const { data, error } = await useFetch("/api/auth/reset-password/" + email.value, {
+  const { data, error } = await useFetch("/api/auth/password/" + email.value, {
     method: "POST",
   });
   if (error.value) {

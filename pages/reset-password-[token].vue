@@ -12,16 +12,31 @@ const passwordConfirmation = ref("");
 
 const token = useRoute().params.token;
 
-async function newPassword() {
-  await useFetch("/api/auth/resetPassword", {
+const loading = ref<boolean>(false);
+
+const disabled = computed(() => {
+  return password.value.length < 8 || password.value !== passwordConfirmation.value;
+});
+
+async function resetPassword() {
+  loading.value = true;
+  const { data, error } = await useFetch("/api/auth/password/reset", {
     method: "POST",
     body: {
       token,
-      password: password,
-      passwordConfirmation: passwordConfirmation,
+      password: password.value,
     },
   });
-  useRouter().push("/login");
+  if (error.value) {
+    useErrorToast(error.value.message || "Error updating password");
+    loading.value = false;
+    return;
+  }
+  if (data) {
+    loading.value = false;
+    useSuccessToast("Password updated!");
+    useRouter().push("/login");
+  }
 }
 </script>
 
@@ -36,7 +51,7 @@ async function newPassword() {
           <h2 class="text-center mt-6 text-3xl font-bold tracking-tight text-primary">Reset Password</h2>
           <p class="my-6 text-center text-sm text-muted">Please enter your new password.</p>
         </div>
-        <form class="space-y-6" @submit.prevent="newPassword">
+        <form class="space-y-6" @submit.prevent="resetPassword">
           <input
             id="password"
             name="password"
@@ -55,7 +70,16 @@ async function newPassword() {
             class="input"
             v-model="passwordConfirmation"
           />
-          <button type="submit" class="btn-primary">Send</button>
+          <span class="text-sm text-muted text-red-600" v-if="disabled">
+            Password must match and be at least 8 characters.
+          </span>
+          <ButtonPrimary
+            :full-width="true"
+            :pending="loading"
+            type="submit"
+            :disabled="disabled"
+            :class="disabled ? 'opacity-50 cursor-not-allowed' : ''"
+          />
         </form>
       </div>
     </div>

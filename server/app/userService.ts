@@ -250,35 +250,6 @@ export async function getUserResetPasswordByToken(token: string) {
   return user;
 }
 
-export async function deleteResetPasswordToken(Id: number) {
-  await prisma.resetPassword.delete({
-    where: {
-      userId: Id,
-    },
-  });
-}
-
-export async function newPassword(userId: number, password: string) {
-  const user = (await getUserById(userId)) as User;
-  const hashedPassword = await bcrypt.hash(password, 10);
-  return await prisma.user.update({
-    where: {
-      id: user.id,
-    },
-    data: {
-      password: hashedPassword,
-    },
-  });
-}
-
-export async function getPasswordResetByToken(token: string) {
-  return await prisma.resetPassword.findFirst({
-    where: {
-      token: token,
-    },
-  });
-}
-
 export async function createEmailVerificationToken(id: number) {
   const token = Math.random().toString(36);
   await prisma.emailVerification.upsert({
