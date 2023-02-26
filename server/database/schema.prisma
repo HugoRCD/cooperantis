@@ -57,8 +57,8 @@ model User {
   password          String
   stripeCustomerId  String?
   createdAt         DateTime            @default(now())
-  avatar            String              @default("https://fbxtfrvztprjgwvahavn.supabase.co/storage/v1/object/public/avatars/default-avatar.jpeg")
-  cover             String              @default("https://fbxtfrvztprjgwvahavn.supabase.co/storage/v1/object/public/avatars/banner.avif")
+  avatar            String              @default("https://fbxtfrvztprjgwvahavn.supabase.co/storage/v1/object/public/avatars/default-avatar")
+  cover             String              @default("https://fbxtfrvztprjgwvahavn.supabase.co/storage/v1/object/public/avatars/default-cover")
   updatedAt         DateTime?           @updatedAt
   role              Int                 @default(1)
   isVerified        Boolean             @default(false)

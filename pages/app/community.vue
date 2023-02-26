@@ -66,7 +66,11 @@ watchEffect(() => {
           class="col-span-1 flex flex-col text-center cursor-pointer"
           @click="goToProfile(user.id)"
         >
-          <img class="mx-auto h-24 w-24 rounded-full object-cover" :src="user.avatar" alt="" />
+          <nuxt-img
+            class="mx-auto h-24 w-24 rounded-full object-cover"
+            :src="user.avatar"
+            sizes="sm:100vw md:50vw lg:400px"
+          />
           <h3 class="mt-6 text-center text-lg font-medium text-primary">{{ user.firstname }} {{ user.lastname }}</h3>
           <p class="text-center text-sm text-muted">{{ user.profession }}</p>
         </li>
@@ -79,7 +83,7 @@ watchEffect(() => {
         class="bg-secondary rounded-lg p-4 flex cursor-pointer items-center gap-4"
         @click="goToProfile(user.id)"
       >
-        <img class="h-20 w-20 rounded-full object-cover" :src="user.avatar" alt="" />
+        <nuxt-img class="h-20 w-20 rounded-full object-cover" :src="user.avatar" sizes="sm:100vw md:50vw lg:400px" />
         <div class="flex flex-col gap-2">
           <h3 class="text-lg font-medium text-primary">{{ user.firstname }} {{ user.lastname }}</h3>
           <p class="text-sm text-muted">{{ user.profession }}</p>
