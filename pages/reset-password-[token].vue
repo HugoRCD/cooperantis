@@ -1,4 +1,6 @@
 <script setup lang="ts">
+import ButtonPrimary from "~/components/ButtonPrimary.vue";
+
 definePageMeta({
   name: "reset-password",
   title: "Reset Password",
@@ -20,7 +22,7 @@ async function newPassword() {
     },
   });
   useRouter().push("/login");
-};
+}
 </script>
 
 <template>

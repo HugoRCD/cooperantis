@@ -221,7 +221,7 @@ export async function createOrUpdateSubscription(data: Subscription) {
 }
 
 export async function generateToken(id: number) {
-  const token = Math.random().toString(36);
+  const token = Math.random().toString(36).substr(2);
   await prisma.resetPassword.upsert({
     where: {
       userId: id,

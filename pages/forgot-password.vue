@@ -7,17 +7,22 @@ definePageMeta({
 
 const email = ref("");
 
-const loading = ref(false);
+const loading = ref<boolean>(false);
 async function sendResetPasswordEmail() {
   loading.value = true;
-  await useFetch("/api/auth/forgot-password", {
+  const { data, error } = await useFetch("/api/auth/reset-password/" + email.value, {
     method: "POST",
-    body: {
-      email: email.value,
-    },
   });
-  useRouter().push("/login");
-  loading.value = false;
+  if (error.value) {
+    useErrorToast(error.value.message || "Error sending email");
+    loading.value = false;
+    return;
+  }
+  if (data) {
+    loading.value = false;
+    useSuccessToast("Email sent!");
+    useRouter().push("/login");
+  }
 }
 </script>
 
@@ -26,9 +31,9 @@ async function sendResetPasswordEmail() {
     <div class="flex flex-1 flex-col justify-center py-12 px-4 sm:px-6 lg:flex-none lg:px-20 xl:px-24">
       <div class="mx-auto w-full max-w-sm lg:w-96">
         <div>
-          <router-link to="/">
+          <RouterLink to="/">
             <img class="h-12 w-auto mx-auto" src="../assets/media/logo-cooperantis.svg" alt="Your Company" />
-          </router-link>
+          </RouterLink>
           <h2 class="text-center mt-6 text-3xl font-bold tracking-tight text-primary">Forgot Password</h2>
           <p class="my-6 text-center text-sm text-muted">
             Enter your email address and we will send you a link to reset your password.
@@ -36,7 +41,7 @@ async function sendResetPasswordEmail() {
         </div>
         <form class="space-y-6" @submit.prevent="sendResetPasswordEmail">
           <input id="email" name="email" required placeholder="johndoe@contact.com" class="input" v-model="email" />
-          <button type="submit" class="btn-primary">Send</button>
+          <ButtonPrimary :full-width="true" :pending="loading" type="submit" />
         </form>
       </div>
     </div>
