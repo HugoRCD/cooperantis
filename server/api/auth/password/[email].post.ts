@@ -1,7 +1,8 @@
 import { H3Event } from "h3";
-import { generateToken, getUserByLogin } from "~/server/app/userService";
+import { getUserByLogin } from "~/server/app/userService";
 import resetPassword from "~/server/api/mailer/templates/reset-password";
 import { sendGmail } from "~/server/app/mailerService";
+import { generateResetPasswordToken } from "~/server/app/authService";
 
 export default eventHandler(async (event: H3Event) => {
   const userEmail = event.context.params.email;
@@ -12,9 +13,9 @@ export default eventHandler(async (event: H3Event) => {
       statusMessage: "User not found",
     });
   }
-  const token = await generateToken(user.id);
+  const token = await generateResetPasswordToken(user.id);
   const appDomain = useRuntimeConfig().public.appDomain;
-  const url = `${appDomain}/reset-password-${token}`;
+  const url = `${appDomain}/password/reset-${token}`;
   await sendGmail({
     template: resetPassword(userEmail, url),
     to: userEmail,

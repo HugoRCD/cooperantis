@@ -57,7 +57,7 @@ async function signin() {
         </div>
         <div class="flex items-center justify-end">
           <div class="text-sm">
-            <NuxtLink :to="{ name: 'ForgotPassword' }" class="font-medium text-accent hover:text-accent-hover"
+            <NuxtLink to="/password/forgot" class="font-medium text-accent hover:text-accent-hover"
               >Forgot your password?
             </NuxtLink>
           </div>

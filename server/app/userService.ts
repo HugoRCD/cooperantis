@@ -10,8 +10,30 @@ import { createUserInput, updateUserInput } from "~/server/api/user/user.dto";
 import { Plans } from "~/types/Pricing";
 import resetPassword from "../api/mailer/templates/reset-password";
 import { sendGmail } from "~/server/app/mailerService";
+import { generateEmailVerificationToken } from "~/server/app/authService";
 
 export async function createUser(userData: createUserInput) {
+  const foundUser = await prisma.user.findFirst({
+    where: {
+      OR: [
+        {
+          username: userData.username,
+        },
+        {
+          email: userData.email,
+        },
+        {
+          phone: userData.phone,
+        },
+      ],
+    },
+  });
+  if (foundUser) {
+    throw createError({
+      statusCode: 400,
+      statusMessage: "User already exists",
+    });
+  }
   const password = await bcrypt.hash(userData.password, 10);
   const stripeInfo = await createStripeCustomer(userData);
   const user = await prisma.user.create({
@@ -34,7 +56,7 @@ export async function createUser(userData: createUserInput) {
       startDate: stripeInfo.subscription.current_period_start,
     },
   });
-  const token = await createEmailVerificationToken(user.id);
+  const token = await generateEmailVerificationToken(user.id);
   const appDomain = useRuntimeConfig().public.appDomain;
   const url = `${appDomain}/verify-email-${token}`;
   await sendGmail({
@@ -216,79 +238,6 @@ export async function createOrUpdateSubscription(data: Subscription) {
       endsAt: data.endsAt,
       lastEventDate: data.lastEventDate,
       startDate: data.startDate,
-    },
-  });
-}
-
-export async function generateToken(id: number) {
-  const token = Math.random().toString(36).substr(2);
-  await prisma.resetPassword.upsert({
-    where: {
-      userId: id,
-    },
-    create: {
-      userId: id,
-      token: token,
-    },
-    update: {
-      token: token,
-    },
-  });
-  return token;
-}
-
-export async function getUserResetPasswordByToken(token: string) {
-  const user = await prisma.resetPassword.findFirst({
-    where: {
-      token,
-    },
-    include: {
-      user: true,
-    },
-  });
-  if (!user) return null;
-  return user;
-}
-
-export async function createEmailVerificationToken(id: number) {
-  const token = Math.random().toString(36);
-  await prisma.emailVerification.upsert({
-    where: {
-      userId: id,
-    },
-    create: {
-      userId: id,
-      token,
-    },
-    update: {
-      token,
-    },
-  });
-}
-
-export async function verifyEmailbyToken(token: string) {
-  return await prisma.emailVerification.findFirst({
-    where: {
-      token: token,
-    },
-  });
-}
-
-export async function deleteEmailVerificationToken(token: string) {
-  await prisma.emailVerification.delete({
-    where: {
-      token,
-    },
-  });
-}
-
-export async function updateUserEmailVerification(userid: number) {
-  return await prisma.user.update({
-    where: {
-      id: userid,
-    },
-    data: {
-      isVerified: true,
     },
   });
 }

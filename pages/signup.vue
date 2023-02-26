@@ -21,6 +21,10 @@ const city = ref("");
 const country = ref("");
 const postalCode = ref("");
 
+const disabled = computed(() => {
+  return password.value.length < 8 || password.value !== passwordConfirm.value;
+});
+
 const loading = ref(false);
 const signup = async () => {
   loading.value = true;
@@ -37,7 +41,6 @@ const signup = async () => {
     country: country.value,
     postalCode: postalCode.value,
   });
-  useRouter().push("/login");
   loading.value = false;
 };
 </script>
@@ -49,8 +52,7 @@ const signup = async () => {
       <h2 class="mt-6 text-center text-3xl font-bold tracking-tight text-primary">Sign up for your account</h2>
     </div>
     <div class="sm:mx-auto sm:w-full sm:max-w-md mt-12">
-      <Loader v-if="loading" />
-      <form class="space-y-6" @submit.prevent="signup" v-else>
+      <form class="space-y-6" @submit.prevent="signup">
         <input
           id="username"
           name="username"
@@ -156,9 +158,13 @@ const signup = async () => {
           class="input"
           v-model="passwordConfirm"
         />
-        <div>
-          <button type="submit" class="btn-primary w-full">Sign up</button>
-        </div>
+        <ButtonPrimary
+          :full-width="true"
+          :pending="loading"
+          type="submit"
+          :disabled="disabled"
+          :class="disabled ? 'opacity-50 cursor-not-allowed' : ''"
+        />
       </form>
       <NuxtLink :to="{ name: 'Login' }" class="btn-secondary mt-6"> Already have an account ? Login here </NuxtLink>
     </div>

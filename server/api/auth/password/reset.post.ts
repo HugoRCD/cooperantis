@@ -1,12 +1,11 @@
 import { H3Event } from "h3";
-import { getUserIdByToken, updatePassword } from "~/server/app/authService";
+import { getResetPasswordByToken, updatePassword } from "~/server/app/authService";
 
 export default eventHandler(async (event: H3Event) => {
   const body = await readBody(event);
   const newPassword = body.password;
   const token = body.token;
-  console.log("token", token);
-  const userId = await getUserIdByToken(token);
+  const userId = await getResetPasswordByToken(token);
   if (!userId) {
     throw createError({
       statusCode: 400,

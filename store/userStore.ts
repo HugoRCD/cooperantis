@@ -48,6 +48,11 @@ export const useUserStore = defineStore("user", {
     },
   },
   actions: {
+    setVerified() {
+      if (this.user) {
+        this.user.isVerified = true;
+      }
+    },
     setUser(user: User) {
       this.user = user;
     },
