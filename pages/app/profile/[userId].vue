@@ -45,8 +45,10 @@ useHead({
               <div class="mt-6 sm:flex sm:min-w-0 sm:flex-1 sm:items-center sm:justify-end sm:space-x-6 sm:pb-1">
                 <div class="mt-6 min-w-0 flex-1 sm:hidden 2xl:block">
                   <div class="flex items-center justify-between">
-                    <h1 class="truncate text-2xl font-bold text-primary">{{ user.firstname }} {{ user.lastname }}</h1>
-                    <p class="mt-1 text-sm text-primary">{{ user.profession }}</p>
+                    <div class="flex items-center space-x-2">
+                      <h1 class="truncate text-2xl font-bold text-primary">{{ user.firstname }} {{ user.lastname }}</h1>
+                      <p class="mt-1 text-sm text-primary">- {{ user.profession }}</p>
+                    </div>
                     <div class="flex items-center space-x-2 cursor-pointer" @click="copyProfileLink(user.id)">
                       <LinkIcon class="h-5 w-5 text-muted" />
                     </div>
