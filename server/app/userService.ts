@@ -58,7 +58,7 @@ export async function createUser(userData: createUserInput) {
   });
   const token = await generateEmailVerificationToken(user.id);
   const appDomain = useRuntimeConfig().public.appDomain;
-  const url = `${appDomain}/verify-email-${token}`;
+  const url = `${appDomain}/verify/user?token=${token}`;
   await sendGmail({
     template: resetPassword(user.email, url),
     to: user.email,
