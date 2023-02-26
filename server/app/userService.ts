@@ -237,13 +237,7 @@ export async function generateToken(id: number) {
   return token;
 }
 
-export async function createPost(postData: createPostInput) {
-  return await prisma.post.create({
-    data: postData,
-  });
-}
-
-export async function getUserResetPasswordByToken(token: string ) {
+export async function getUserResetPasswordByToken(token: string) {
   const user = await prisma.resetPassword.findFirst({
     where: {
       token,
@@ -255,7 +249,6 @@ export async function getUserResetPasswordByToken(token: string ) {
   if (!user) return null;
   return user;
 }
-
 
 export async function deleteResetPasswordToken(Id: number) {
   await prisma.resetPassword.delete({
@@ -277,7 +270,6 @@ export async function newPassword(userId: number, password: string) {
     },
   });
 }
-
 
 export async function getPasswordResetByToken(token: string) {
   return await prisma.resetPassword.findFirst({
