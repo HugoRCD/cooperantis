@@ -42,7 +42,7 @@ model User {
   id                Int                 @id @default(autoincrement())
   loginType         String?             @default("email")
   username          String              @unique
-  bio               String?
+  bio               String?             @default("No bio yet")
   email             String              @unique
   phone             String              @unique
   firstname         String
@@ -57,7 +57,8 @@ model User {
   password          String
   stripeCustomerId  String?
   createdAt         DateTime            @default(now())
-  avatar            String              @default("https://storage.cloud.google.com/cooperantis/default-avatar.jpeg")
+  avatar            String              @default("https://fbxtfrvztprjgwvahavn.supabase.co/storage/v1/object/public/avatars/default-avatar.jpeg")
+  cover             String              @default("https://fbxtfrvztprjgwvahavn.supabase.co/storage/v1/object/public/avatars/banner.avif")
   updatedAt         DateTime?           @updatedAt
   role              Int                 @default(1)
   isVerified        Boolean             @default(false)

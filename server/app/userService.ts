@@ -180,6 +180,7 @@ export async function getSubscriptionById(stripeId: string) {
     },
   });
 }
+
 export async function createOrUpdateSubscription(data: Subscription) {
   const subName = data.stripePriceId === Plans.TRIAL.priceId ? Plans.TRIAL.name : Plans.PRO.name;
   return await prisma.subscription.upsert({
@@ -226,25 +227,18 @@ export async function generateToken(id: number) {
   return token;
 }
 
-export async function createPost(postData: createPostInput) {
-  return await prisma.post.create({
-    data: postData,
-  });
-}
-
-export async function getUserResetPasswordbyToken(token: string ) {
+export async function getUserResetPasswordByToken(token: string) {
   const user = await prisma.resetPassword.findFirst({
     where: {
       token,
     },
     include: {
-      User: true,
+      user: true,
     },
   });
-    if (!user) return null;
-    return user;
+  if (!user) return null;
+  return user;
 }
-
 
 export async function deleteResetPasswordToken(Id: number) {
   await prisma.resetPassword.delete({
@@ -266,7 +260,6 @@ export async function newPassword(userId: number, password: string) {
     },
   });
 }
-
 
 export async function getPasswordResetByToken(token: string) {
   return await prisma.resetPassword.findFirst({

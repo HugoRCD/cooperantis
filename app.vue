@@ -28,8 +28,8 @@ useHead({
 const theme = computed(() => useGlobalStore().getTheme);
 
 onMounted(() => {
-  const userLocale = useLocalStorage("locale", "en");
-  const userTheme = useLocalStorage("theme", "dark");
+  const userLocale = useLocalStorage("cooperantis_locale", "en");
+  const userTheme = useLocalStorage("cooperantis_theme", "dark");
 
   useGlobalStore().setTheme(userTheme.value);
   useGlobalStore().setLocale(userLocale.value);

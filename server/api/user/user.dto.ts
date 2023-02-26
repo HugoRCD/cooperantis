@@ -30,5 +30,6 @@ export interface updateUserInput {
   profession?: string;
   website?: string;
   bio?: string;
+  cover?: string;
   company?: string;
 }

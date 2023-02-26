@@ -17,7 +17,7 @@ const home: Navigation[] = [
 const app: Navigation[] = [
   { name: "Feed", to: "/app/feed", icon: HomeIcon },
   { name: "Community", to: "/app/community", icon: GlobeAltIcon },
-  { name: "Profile", to: "/app/profile/me", icon: UserCircleIcon },
+  { name: "Profile", to: "/app/profile/" + useUserStore().getUser?.id, icon: UserCircleIcon },
   { name: "Edit Profile", to: "/app/edit-profile", icon: PencilIcon },
   { name: "Settings", to: "/app/settings", icon: CogIcon },
 ];

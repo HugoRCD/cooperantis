@@ -34,7 +34,7 @@ export async function useLogin(login: string, password: string) {
     useState("user").value = data.value;
     useUserStore().setUser(data.value);
     useUserStore().setSubscription(data.value.subscription);
-    useRouter().push("/app/profile/me");
+    useRouter().push("/app/profile/" + data.value.id);
     return {
       user: data.value,
     };
