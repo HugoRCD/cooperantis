@@ -40,19 +40,23 @@ watchEffect(() => {
     <PostLoader v-if="pending" :nb-posts="3" />
     <div class="bg-secondary rounded-lg p-4" v-else>
       <div class="flex flex-col items-center justify-center gap-4">
-        <h2 class="text-3xl font-bold tracking-tight text-primary sm:text-4xl">Our Community</h2>
+        <h2 class="text-3xl font-bold tracking-tight text-primary sm:text-4xl">
+          {{ $t("community.title") }}
+        </h2>
         <p class="max-w-2xl text-xl text-muted text-center">
-          Meet our awesome community of doctors, nurses, and healthcare workers. We're always looking for new members
+          {{ $t("community.description") }}
         </p>
         <div class="flex items-center justify-center gap-4 w-full">
           <input
             v-model="search"
             type="text"
             class="w-full px-4 py-2 bg-primary border border-muted rounded-lg focus:outline-none focus:ring-2 focus:ring-accent focus:border-transparent"
-            placeholder="Search for a user"
+            :placeholder="$t('community.search_members')"
             @keyup.enter="searchUser"
           />
-          <button type="button" class="btn btn-primary" :disabled="search === ''" @click="searchUser">Search</button>
+          <button type="button" class="btn btn-primary" :disabled="search === ''" @click="searchUser">
+            {{ $t("community.search") }}
+          </button>
         </div>
       </div>
       <ul
@@ -66,13 +70,9 @@ watchEffect(() => {
           class="col-span-1 flex flex-col text-center cursor-pointer"
           @click="goToProfile(user.id)"
         >
-          <nuxt-img
-            class="mx-auto h-24 w-24 rounded-full object-cover"
-            :src="user.avatar"
-            sizes="sm:100vw md:50vw lg:400px"
-          />
+          <Avatar :user="user" size="community" />
           <h3 class="mt-6 text-center text-lg font-medium text-primary">{{ user.firstname }} {{ user.lastname }}</h3>
-          <p class="text-center text-sm text-muted">{{ user.profession }}</p>
+          <p class="mt-2 text-center text-sm text-muted">{{ user.bio }}</p>
         </li>
       </ul>
     </div>
@@ -83,16 +83,20 @@ watchEffect(() => {
         class="bg-secondary rounded-lg p-4 flex cursor-pointer items-center gap-4"
         @click="goToProfile(user.id)"
       >
-        <nuxt-img class="h-20 w-20 rounded-full object-cover" :src="user.avatar" sizes="sm:100vw md:50vw lg:400px" />
+        <Avatar :user="user" size="community" />
         <div class="flex flex-col gap-2">
           <h3 class="text-lg font-medium text-primary">{{ user.firstname }} {{ user.lastname }}</h3>
-          <p class="text-sm text-muted">{{ user.profession }}</p>
+          <p class="text-sm text-muted">{{ user.bio }}</p>
         </div>
       </div>
     </div>
     <div v-else-if="searchedUsers && searchedUsers.length === 0" class="bg-secondary rounded-lg p-4 mt-4">
-      <p class="text-center text-muted">No user found</p>
-      <p class="text-center text-muted">Try again with another search</p>
+      <p class="text-center text-muted">
+        {{ $t("community.no_members_found") }}
+      </p>
+      <p class="text-center text-muted">
+        {{ $t("community.try_other_search") }}
+      </p>
     </div>
   </div>
 </template>

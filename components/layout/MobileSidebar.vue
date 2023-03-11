@@ -1,17 +1,26 @@
 <script setup lang="ts">
 import { Dialog, DialogPanel, TransitionChild, TransitionRoot } from "@headlessui/vue";
-import { ArrowLeftOnRectangleIcon, Bars3BottomLeftIcon, XMarkIcon } from "@heroicons/vue/24/outline";
+import { ArrowLeftOnRectangleIcon, Bars3BottomLeftIcon, XMarkIcon, PlusCircleIcon } from "@heroicons/vue/24/outline";
 import { Role } from "~/types/Role";
-
-const user = useUserStore().getUser;
+const { t } = useI18n();
 
 const appNav = getNavigation("app");
 const adminNav = getNavigation("admin");
 
-const logout = async () => {
-  await useLogout();
-  useSuccessToast("You have been logged out.");
-};
+const userStore = useUserStore();
+
+const user = computed(() => {
+  return userStore.getUser;
+});
+
+async function logout() {
+  await useFetch("/api/auth/logout", {
+    method: "POST",
+  });
+  useSuccessToast(t("profile.logout") + " " + user.value?.username ?? "");
+  userStore.logout();
+  useRouter().push("/auth/login");
+}
 
 const sidebarOpen = ref(false);
 </script>
@@ -70,7 +79,8 @@ const sidebarOpen = ref(false);
                     <div class="flex flex-shrink-0 items-center px-4">
                       <Logo :isText="true" :isLogo="true" />
                     </div>
-                    <nav class="mt-5 flex-1" aria-label="Sidebar">
+                    <nav class="flex-1" aria-label="Sidebar">
+                      <hr class="my-5 border-t border-muted" aria-hidden="true" />
                       <div class="space-y-1 px-2">
                         <NuxtLink
                           @click="sidebarOpen = false"
@@ -78,7 +88,7 @@ const sidebarOpen = ref(false);
                           :key="item.name"
                           :to="item.to"
                           :class="[
-                            item.name === $route.name
+                            item.to === $route.path
                               ? 'bg-accent-faded text-accent'
                               : 'text-gray-600 hover:bg-accent-faded hover:text-accent',
                             'group flex items-center px-2 py-2 text-sm font-medium rounded-md',
@@ -88,12 +98,12 @@ const sidebarOpen = ref(false);
                           <component
                             :is="item.icon"
                             :class="[
-                              item.name === $route.name ? 'text-accent' : 'text-muted group-hover:text-accent',
+                              item.to === $route.path ? 'text-accent' : 'text-muted group-hover:text-accent',
                               'mr-3 flex-shrink-0 h-6 w-6',
                             ]"
                             aria-hidden="true"
                           />
-                          {{ item.name }}
+                          {{ $t("navigation." + item.name.toLowerCase()) }}
                         </NuxtLink>
                       </div>
                       <hr
@@ -108,22 +118,21 @@ const sidebarOpen = ref(false);
                           :key="item.name"
                           :to="item.to"
                           :class="[
-                            item.name === $route.name
+                            item.to === $route.path
                               ? 'bg-accent-faded text-accent'
                               : 'text-gray-600 hover:bg-accent-faded hover:text-accent',
                             'group flex items-center px-2 py-2 text-sm font-medium rounded-md',
                           ]"
-                          :aria-current="item.name === $route.name ? 'page' : undefined"
                         >
                           <component
                             :is="item.icon"
                             :class="[
-                              item.name === $route.name ? 'text-accent' : 'text-muted group-hover:text-accent',
+                              item.to === $route.path ? 'text-accent' : 'text-muted group-hover:text-accent',
                               'mr-3 flex-shrink-0 h-6 w-6',
                             ]"
                             aria-hidden="true"
                           />
-                          {{ item.name }}
+                          {{ $t("navigation." + item.name.toLowerCase()) }}
                         </NuxtLink>
                       </div>
                       <hr class="my-5 border-t border-muted" aria-hidden="true" />
@@ -136,7 +145,7 @@ const sidebarOpen = ref(false);
                           <ArrowLeftOnRectangleIcon
                             class="mr-3 h-6 w-6 flex-shrink-0 text-muted group-hover:text-accent-hover"
                           />
-                          Logout
+                          {{ $t("navigation.logout") }}
                         </button>
                       </div>
                     </nav>

@@ -34,11 +34,31 @@ html,body, #__nuxt, #__layout{
     }
   }
 
+  .gradient-bl {
+    @apply bg-gradient-to-bl from-accent-primary to-accent-secondary;
+  }
+
+  .text-gradient {
+    @apply bg-clip-text text-transparent;
+    @apply bg-gradient-to-bl from-accent-primary to-accent-secondary;
+  }
+
+  .glass-card {
+    @apply flex flex-col items-center backdrop-blur-md bg-primary-opacity/30 rounded-md p-8 shadow-lg;
+    @apply h-80 relative;
+  }
+
   .btn-secondary {
     @apply bg-primary;
     @apply text-muted;
     @apply border-sm rounded-md border-primary hover:border-primary-hover;
     @apply px-4 py-2 flex justify-center;
     @apply cursor-pointer;
+  }
+
+  .border-gradient {
+    @apply bg-gradient-to-r from-accent-primary to-accent-secondary;
+    @apply bg-clip-text text-transparent;
+    @apply border border-accent;
   }
 }

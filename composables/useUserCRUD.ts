@@ -10,5 +10,5 @@ export async function useSignup(createUserInput: createUserInput) {
     return;
   }
   useSuccessToast("Your account has been created");
-  useRouter().push("/login");
+  useRouter().push("/auth/login");
 }

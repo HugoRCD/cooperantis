@@ -2,7 +2,7 @@ import Stripe from "stripe";
 import { Subscription, User } from "@prisma/client";
 import { createOrUpdateSubscription, getSubscriptionById, getUserByStripeCustomerId } from "~/server/app/userService";
 import { createUserInput } from "~/server/api/user/user.dto";
-import { Plans } from "~/types/Pricing";
+import prisma from "~/server/database/client";
 
 const config = useRuntimeConfig();
 const stripe = new Stripe(config.private.stripeSecretKey, {
@@ -12,28 +12,11 @@ const stripe = new Stripe(config.private.stripeSecretKey, {
 export async function createStripeCustomer(userData: createUserInput) {
   const customer = await stripe.customers.create({
     email: userData.email,
-    address: {
-      line1: userData.address,
-      postal_code: userData.postalCode,
-      city: userData.city,
-      country: userData.country,
-    },
     name: `${userData.firstname} ${userData.lastname}`,
-    phone: userData.phone,
   });
-  const subscription = await setCustomerToTrial(customer.id);
   return {
     stripeCustomerId: customer.id,
-    subscription,
   };
-}
-
-async function setCustomerToTrial(stripeCustomerId: string) {
-  return await stripe.subscriptions.create({
-    customer: stripeCustomerId,
-    items: [{ price: Plans.TRIAL.priceId }],
-    trial_from_plan: true,
-  });
 }
 
 export async function deleteStripeCustomer(stripeCustomerId: string) {
@@ -49,12 +32,15 @@ export async function getSubscribeUrl(priceId: string, user: User) {
 
   if (!user.stripeCustomerId) {
     shouldUpdateUser = true;
-    const customer = await stripe.customers.create({ email: customerEmail });
+    const customer = await stripe.customers.create({
+      email: customerEmail,
+    });
     user.stripeCustomerId = customer.id;
   }
 
   const session = await stripe.checkout.sessions.create({
     billing_address_collection: "auto",
+    allow_promotion_codes: true,
     line_items: [
       {
         price: price.id,
@@ -80,10 +66,18 @@ export async function handleSubscriptionChange(
     return true;
   }
 
+  if (subscription.status === "canceled") {
+    await prisma.subscription.delete({
+      where: {
+        stripeId: subscription.id,
+      },
+    });
+    return true;
+  }
+
   const stripeCustomerId = subscription.customer as string;
 
-  const user = (await getUserByStripeCustomerId(stripeCustomerId)) as User;
-
+  const user = await getUserByStripeCustomerId(stripeCustomerId);
   const data = {
     userId: user.id,
     name: subscription.id,

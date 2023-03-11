@@ -1,7 +1,6 @@
 <script setup lang="ts">
-import { EnvelopeIcon, PhoneIcon, BackspaceIcon, LinkIcon } from "@heroicons/vue/20/solid";
-import QrcodeVue from "qrcode.vue";
-
+import { LinkIcon } from "@heroicons/vue/24/outline";
+import Avatar from "~/components/Avatar.vue";
 const userId = useRoute().params.userId;
 
 const { data: user, error } = await useFetch("/api/getUserById", {
@@ -15,8 +14,6 @@ const { data: user, error } = await useFetch("/api/getUserById", {
 if (error.value !== null && !user.value) {
   throw createError({ statusCode: 404, message: "User not found" });
 }
-
-const profileUrl = useRuntimeConfig().public.appDomain + "/app/profile/" + user.id;
 
 useHead({
   title: "Profile - " + user.value?.firstname + " " + user.value?.lastname,
@@ -34,26 +31,25 @@ useHead({
     <main class="relative z-0 flex-1 focus:outline-none xl:order-last">
       <article>
         <div>
-          <nuxt-img
-            class="h-32 w-full object-cover lg:h-48"
-            :src="user.cover"
-            alt=""
-            sizes="sm:100vw md:50vw lg:400px"
-          />
+          <div>
+            <nuxt-img
+              class="h-32 w-full object-cover lg:h-48"
+              :src="`${user.cover}?${new Date().getTime()}`"
+              sizes="sm:100vw md:50vw lg:400px"
+              :alt="user.firstname + ' ' + user.lastname"
+              :height="400"
+              quality="50"
+            />
+          </div>
           <div class="mx-auto px-4 sm:px-6 lg:px-8">
             <div class="-mt-12 sm:-mt-16 sm:items-end sm:space-x-5">
-              <nuxt-img
-                class="h-24 w-24 rounded-full sm:h-32 sm:w-32 object-cover"
-                :src="user.avatar"
-                sizes="sm:100vw md:50vw lg:400px"
-              />
+              <div class="flex">
+                <Avatar :user="user" size="profile" />
+              </div>
               <div class="mt-6 sm:flex sm:min-w-0 sm:flex-1 sm:items-center sm:justify-end sm:space-x-6 sm:pb-1">
                 <div class="mt-6 min-w-0 flex-1 sm:hidden 2xl:block">
                   <div class="flex items-center justify-between">
-                    <div class="flex items-center space-x-2">
-                      <h1 class="truncate text-2xl font-bold text-primary">{{ user.firstname }} {{ user.lastname }}</h1>
-                      <p class="mt-1 text-sm text-primary">- {{ user.profession }}</p>
-                    </div>
+                    <h1 class="truncate text-2xl font-bold text-primary">{{ user.firstname }} {{ user.lastname }}</h1>
                     <div class="flex items-center space-x-2 cursor-pointer" @click="copyProfileLink(user.id)">
                       <LinkIcon class="h-5 w-5 text-muted" />
                     </div>
@@ -67,75 +63,22 @@ useHead({
             </div>
             <div class="hidden min-w-0 flex-1 sm:block 2xl:hidden">
               <div class="flex items-center justify-between">
-                <div class="flex items-center space-x-2">
-                  <h1 class="truncate text-2xl font-bold text-primary">{{ user.firstname }} {{ user.lastname }}</h1>
-                  <p class="mt-1 text-sm text-primary">- {{ user.profession }}</p>
-                </div>
+                <h1 class="truncate text-2xl font-bold text-primary">{{ user.firstname }} {{ user.lastname }}</h1>
                 <div class="flex items-center space-x-2 cursor-pointer" @click="copyProfileLink(user.id)">
                   <LinkIcon class="h-5 w-5 text-muted" />
-                  <p class="text-sm text-muted">Copy link to profile</p>
+                  <p class="text-sm text-muted">
+                    {{ $t("profile.copy_link") }}
+                  </p>
                 </div>
               </div>
               <div class="sm:col-span-2 mt-5">
                 <dt class="text-sm font-medium text-gray-500">Bio</dt>
-                <dd class="mt-1 max-w-prose space-y-5 text-sm text-primary" v-html="user.bio || bio" />
+                <dd class="mt-1 max-w-prose space-y-5 text-sm text-primary" v-html="user.bio" />
               </div>
-            </div>
-            <div class="justify-stretch mt-6 flex flex-col space-y-3 sm:flex-row sm:space-y-0 sm:space-x-4">
-              <button
-                type="button"
-                class="inline-flex justify-center rounded-md bg-accent px-4 py-2 text-sm font-medium text-inverted shadow-sm hover:bg-accent-hover"
-              >
-                <EnvelopeIcon class="-ml-1 mr-2 h-5 w-5 text-inverted" aria-hidden="true" />
-                <span>Email</span>
-              </button>
-              <button
-                type="button"
-                class="inline-flex justify-center rounded-md bg-accent px-4 py-2 text-sm font-medium text-inverted shadow-sm hover:bg-accent-hover"
-              >
-                <PhoneIcon class="-ml-1 mr-2 h-5 w-5 text-inverted" aria-hidden="true" />
-                <span>Call</span>
-              </button>
             </div>
           </div>
         </div>
         <hr class="border-muted my-8" />
-        <div class="mx-auto max-w-5xl px-4 sm:px-6 lg:px-8">
-          <dl class="grid grid-cols-1 gap-x-4 gap-y-8 sm:grid-cols-2">
-            <div class="sm:col-span-2">
-              <dt class="text-sm font-medium text-gray-500">Bio</dt>
-              <dd class="mt-1 max-w-prose space-y-5 text-sm text-primary" v-html="user.bio || bio" />
-            </div>
-            <div>
-              <dt class="text-sm font-medium text-gray-500">Email</dt>
-              <dd class="mt-1 text-sm text-primary">{{ user.email }}</dd>
-            </div>
-            <div>
-              <dt class="text-sm font-medium text-gray-500">Phone</dt>
-              <dd class="mt-1 text-sm text-primary">{{ user.phone }}</dd>
-            </div>
-            <div>
-              <dt class="text-sm font-medium text-gray-500">Address</dt>
-              <dd class="mt-1 text-sm text-primary">{{ user.address }}</dd>
-              <dd class="mt-1 text-sm text-primary">{{ user.city }}</dd>
-              <dd class="mt-1 text-sm text-primary">{{ user.postalCode }} {{ user.country }}</dd>
-            </div>
-            <div>
-              <dt class="text-sm font-medium text-gray-500">Website</dt>
-              <dd class="mt-1 text-sm text-primary">{{ user.website }}</dd>
-            </div>
-            <div>
-              <dt class="text-sm font-medium text-gray-500">Company</dt>
-              <dd class="mt-1 text-sm text-primary">{{ user.company }}</dd>
-            </div>
-          </dl>
-        </div>
-        <div class="w-1/2 m-auto my-10">
-          <div class="bg-gradient-to-bl from-yellow-600 to-yellow-200 p-4 rounded-lg">
-            <p class="text-center text-2xl font-bold text-gray-700">{{ user.firstname }} {{ user.lastname }}</p>
-            <QrcodeVue :background="'#f4bc16'" :value="profileUrl" :options="{ width: 128 }" class="m-auto" />
-          </div>
-        </div>
       </article>
     </main>
   </div>

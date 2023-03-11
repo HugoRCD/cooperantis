@@ -1,16 +1,25 @@
 <script setup lang="ts">
-import { ArrowLeftOnRectangleIcon } from "@heroicons/vue/24/outline";
+import { ArrowLeftOnRectangleIcon, PlusCircleIcon } from "@heroicons/vue/24/outline";
 import { Role } from "~/types/Role";
-
-const user = useUserStore().getUser;
+const { t } = useI18n();
 
 const appNav = getNavigation("app");
 const adminNav = getNavigation("admin");
 
-const logout = async () => {
-  await useLogout();
-  useSuccessToast("You have been logged out.");
-};
+const userStore = useUserStore();
+
+const user = computed(() => {
+  return userStore.getUser;
+});
+
+async function logout() {
+  await useFetch("/api/auth/logout", {
+    method: "POST",
+  });
+  useSuccessToast(t("profile.logout") + " " + user.value?.username ?? "");
+  userStore.logout();
+  useRouter().push("/auth/login");
+}
 </script>
 
 <template>
@@ -22,29 +31,29 @@ const logout = async () => {
           <div class="flex flex-shrink-0 items-center px-4">
             <Logo :isText="true" :isLogo="true" />
           </div>
-          <nav class="mt-5 flex-1" aria-label="Sidebar">
+          <nav class="flex-1" aria-label="Sidebar">
+            <hr class="my-5 border-t border-muted" aria-hidden="true" />
             <div class="space-y-1 px-2">
               <NuxtLink
                 v-for="item in appNav"
                 :key="item.name"
                 :to="item.to"
                 :class="[
-                  item.name === $route.name
+                  item.to === $route.path
                     ? 'bg-accent-faded text-accent'
                     : 'text-gray-600 hover:bg-accent-faded hover:text-accent',
                   'group flex items-center px-2 py-2 text-sm font-medium rounded-md',
                 ]"
-                :aria-current="item.name === $route.name ? 'page' : undefined"
               >
                 <component
                   :is="item.icon"
                   :class="[
-                    item.name === $route.name ? 'text-accent' : 'text-muted group-hover:text-accent',
+                    item.to === $route.path ? 'text-accent' : 'text-muted group-hover:text-accent',
                     'mr-3 flex-shrink-0 h-6 w-6',
                   ]"
                   aria-hidden="true"
                 />
-                {{ item.name }}
+                {{ $t("navigation." + item.name.toLowerCase()) }}
               </NuxtLink>
             </div>
             <hr class="my-5 border-t border-muted" aria-hidden="true" v-if="user && user.role === Role.ADMIN" />
@@ -54,22 +63,21 @@ const logout = async () => {
                 :key="item.name"
                 :to="item.to"
                 :class="[
-                  item.name === $route.name
+                  item.to === $route.path
                     ? 'bg-accent-faded text-accent'
                     : 'text-gray-600 hover:bg-accent-faded hover:text-accent',
                   'group flex items-center px-2 py-2 text-sm font-medium rounded-md',
                 ]"
-                :aria-current="item.name === $route.name ? 'page' : undefined"
               >
                 <component
                   :is="item.icon"
                   :class="[
-                    item.name === $route.name ? 'text-accent' : 'text-muted group-hover:text-accent',
+                    item.to === $route.path ? 'text-accent' : 'text-muted group-hover:text-accent',
                     'mr-3 flex-shrink-0 h-6 w-6',
                   ]"
                   aria-hidden="true"
                 />
-                {{ item.name }}
+                {{ $t("navigation." + item.name.toLowerCase()) }}
               </NuxtLink>
             </div>
             <hr class="my-5 border-t border-muted" aria-hidden="true" />
@@ -80,7 +88,7 @@ const logout = async () => {
                 @click="logout"
               >
                 <ArrowLeftOnRectangleIcon class="mr-3 h-6 w-6 flex-shrink-0 text-muted group-hover:text-accent-hover" />
-                Logout
+                {{ $t("navigation.logout") }}
               </button>
             </div>
           </nav>

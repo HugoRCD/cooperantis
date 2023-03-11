@@ -4,32 +4,19 @@ export interface createUserInput {
   lastname: string;
   password: string;
   email: string;
-  phone: string;
   avatar?: string;
+  cover?: string;
   role?: number;
-  address: string;
-  city: string;
-  country: string;
-  postalCode: string;
-  profession: string;
 }
 
 export interface updateUserInput {
   username?: string;
   firstname?: string;
   lastname?: string;
+  bio?: string;
   password?: string;
   email?: string;
-  phone?: string;
   avatar?: string;
-  role?: number;
-  address?: string;
-  city?: string;
-  country?: string;
-  postalCode?: string;
-  profession?: string;
-  website?: string;
-  bio?: string;
   cover?: string;
-  company?: string;
+  role?: number;
 }

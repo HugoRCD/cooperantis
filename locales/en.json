@@ -12,30 +12,141 @@
     "login": "Login",
     "logout": "Logout",
     "signup": "Sign Up",
+    "feed": "Feed",
     "profile": "Profile",
+    "edit profile": "Edit Profile",
+    "community": "Community",
     "settings": "Settings",
     "admin": "Admin",
     "dashboard": "Dashboard",
-    "app-settings": "App Settings",
-    "feed": "Feed"
+    "app management": "App Management",
+    "open_app": "Open App"
   },
-  "pages": {
-    "home": {
-      "hero": "Cooperantis is coming soon!",
-      "description": "We are working hard to bring you the best experience possible. We will be launching soon!"
-    },
-    "profile": {
-      "title": "Profile",
-      "username": "Username",
-      "firstname": "Firstname",
-      "lastname": "Lastname",
-      "email": "Email",
-      "password": "Password",
-      "update": "Update",
-      "cancel_my_account": "Cancel my account",
-      "are_you_sure": "Are you sure?",
-      "delete_account": "Delete account",
-      "delete_my_account": "Delete my account"
-    }
+  "error": {
+    "404": "Page not found",
+    "404_message": "The page you are looking for might have been removed, had its name changed, or is temporarily unavailable.",
+    "500": "Internal Server Error",
+    "user_not_found": "User not found",
+    "invalid_password": "Invalid password",
+    "user_already_exists": "User already exists",
+    "unknown_error": "Unknown error",
+    "invalid_code": "Invalid code"
+  },
+  "login": {
+    "signin_to_your_account": "Sign in to your account",
+    "login": "Login",
+    "password": "Password",
+    "forgot_password": "Forgot password?",
+    "signin": "Sign in",
+    "dont_have_an_account": "Don't have an account? Sign up",
+    "welcome_back": "Welcome back"
+  },
+  "signup": {
+    "signup_to_your_account": "Sign up to your account",
+    "username": "Username",
+    "firstname": "Firstname",
+    "lastname": "Lastname",
+    "email": "Email",
+    "password": "Password",
+    "confirm_password": "Confirm Password",
+    "signup": "Sign up",
+    "already_have_an_account": "Already have an account? Sign in",
+    "signup_success": "You have successfully registered"
+  },
+  "verify": {
+    "verify_your_account": "Verify your account",
+    "verify": "Verify",
+    "verification_code_sent": "A verification code has been sent to your email address",
+    "verification_code_sent_again": "A new verification code has been sent to your email address",
+    "resend_email": "Resend email",
+    "didnt_receive_email": "Didn't receive the email ?",
+    "verification_successful": "Your account has been verified"
+  },
+  "password": {
+    "reset_password": "Reset your password",
+    "description": "Enter your email address and we'll send you a link to reset your password.",
+    "enter_new_password": "Enter your new password",
+    "password_reset_success": "Your password has been successfully changed",
+    "email_sent": "An email has been sent to your address",
+    "send": "Send",
+    "password_required": "Password need to be at least 8 characters long and match the confirmation",
+    "password": "Password",
+    "confirm_password": "Confirm Password"
+  },
+  "contact": {
+    "title": "Contact us",
+    "description": "A bug? A question? A suggestion? We are here to help you.",
+    "fullname": "Fullname",
+    "email": "Email",
+    "phone": "Phone",
+    "ticket_type": "Request type",
+    "ticket_type_bug": "Report a bug",
+    "ticket_type_question": "Ask a question",
+    "ticket_type_suggestion": "Propose a suggestion",
+    "ticket_type_feature": "Request a feature",
+    "message": "Message",
+    "submit": "Send",
+    "success": "Your message to the team has been sent successfully",
+    "error": "Oups, an error occurred while sending your message"
+  },
+  "profile": {
+    "title": "Profil",
+    "description": "Be careful, this information will be visible to all users in the final version of the application.",
+    "username": "Username",
+    "bio": "Bio",
+    "avatar": "Avatar",
+    "delete_my_account": "Delete my account",
+    "delete_my_account_description": "Once your account is deleted, all of your data will be permanently removed. This action cannot be undone.",
+    "logout": "See you soon",
+    "profile_update_confirmation": "Are you sure you want to update your profile ?",
+    "profile_delete_confirmation": "Are you sure you want to delete your account ?",
+    "update_profile": "Update profile",
+    "profile_update_success": "Your profile has been updated",
+    "profile_delete_success": "Your account has been deleted",
+    "username_or_email_already_exists": "Username already exists",
+    "personal_information": "Personal information",
+    "personal_information_description": "Here you can change your personal information.",
+    "firstname": "Firstname",
+    "lastname": "Lastname",
+    "save": "Save",
+    "upload": "Upload",
+    "cover": "Cover",
+    "avatar_upload_success": "Your avatar has been uploaded",
+    "avatar_upload_error": "An error occurred while uploading your avatar",
+    "cover_upload_success": "Your cover has been uploaded",
+    "cover_upload_error": "An error occurred while uploading your cover",
+    "uploaded": "Uploaded",
+    "none": "None",
+    "avatar_save": "Save avatar",
+    "copy_link": "Copy link to profile",
+    "public_flows": "Public flows",
+    "public_flows_description": "List of public flows created by this user",
+    "no_public_flows": "No public flows yet"
+  },
+  "subscription": {
+    "manage_subscription": "Manage subscription",
+    "description": "You can manage your subscription here. If you cancel your subscription, you will lose access to all premium features.",
+    "subscribe": "Subscribe",
+    "manage": "Manage my subscription",
+    "no_subscription": "No subscription"
+  },
+  "settings": {
+    "title": "Settings",
+    "description": "Here you can change your application settings.",
+    "language": "Language",
+    "theme": "Theme",
+    "theme_description": "Choose the theme you want to use."
+  },
+  "community": {
+    "title": "Our community",
+    "description": "Join our community of doctors, dentists, and other health care professionals",
+    "search_members": "Search members",
+    "no_members_found": "No members found",
+    "search": "Search",
+    "try_other_search": "Try another search"
+  },
+  "landing": {
+    "hero": "Cooperantis is coming soon!",
+    "description": "We are working hard to bring you the best experience possible. We will be launching soon!"
   }
 }

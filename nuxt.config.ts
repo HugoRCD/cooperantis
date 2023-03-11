@@ -3,6 +3,10 @@ import fr from "./locales/fr.json";
 
 export default defineNuxtConfig({
   app: {
+    layoutTransition: {
+      name: "fade",
+      mode: "out-in",
+    },
     pageTransition: {
       name: "fade",
       mode: "out-in",
@@ -37,6 +41,8 @@ export default defineNuxtConfig({
     private: {
       stripeSecretKey: process.env.STRIPE_SECRET_KEY,
       authSecret: process.env.AUTH_TOKEN_SECRET,
+      linearApiKey: process.env.LINEAR_API_KEY,
+      openAIKey: process.env.OPENAI_API_KEY,
     },
     public: {
       appDomain: process.env.FRONTEND_URL,
