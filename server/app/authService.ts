@@ -48,7 +48,7 @@ export async function generateEmailVerificationToken(userId: number) {
 }
 
 export async function updatePassword(userId: number, password: string) {
-  const user = (await getUserById(userId)) as User;
+  const user = await getUserById(userId);
   const hashedPassword = await bcrypt.hash(password, 10);
   const updatedUser = await prisma.user.update({
     where: {
@@ -87,7 +87,7 @@ export async function getEmailVerificationByToken(token: string) {
 }
 
 export async function verifyEmail(userId: number) {
-  const user = (await getUserById(userId)) as User;
+  const user = await getUserById(userId);
   const updatedUser = await prisma.user.update({
     where: {
       id: user.id,
